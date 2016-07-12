@@ -1,0 +1,26 @@
+<resources>>
+    <style name="AppTheme.NoActionBar" >
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/primaryText</item>
+        <item name="android:icon">@color/iconColor</item>
+        <!--<item name="android:windowLightStatusBar">@color/ligthPrimaryColor</item>-->
+        <item name="android:textColorSecondary">@color/secondaryText</item>
+        <item name="android:colorActivatedHighlight">@color/ligthPrimaryColor</item>
+
+    </style>
+    <style name="ButtonNormal">
+        <item name="android:textColor">@color/iconColor</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+
+        <item name="android:paddingTop">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+
+</resources>

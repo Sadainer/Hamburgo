@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_inicio"
+            android:icon="@drawable/building"
+            android:title="Inicio" />
+        <item android:id="@+id/nav_clientes"
+            android:icon="@drawable/team"
+            android:title="Clientes" />
+        <item android:id="@+id/nav_vender"
+            android:icon="@drawable/commerce"
+            android:title="Vender" />
+        <item android:id="@+id/nav_cartera"
+            android:icon="@drawable/profit"
+            android:title="Cartera" />
+        <item android:id="@+id/nav_herramientas"
+            android:icon="@drawable/cogwhee"
+            android:title="Herramientas" />
+        <item android:id="@+id/nav_ayuda"
+            android:icon="@drawable/round"
+            android:title="Acerca de" />
+    </group>
+
+
+
+</menu>
