@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,22 +14,27 @@ import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.itemLista;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by YOLIMA on 26/04/2016.
  */
-public class AdaptadorListview extends ArrayAdapter<ClienteDTO> {
+public class AdaptadorListview extends ArrayAdapter<ClienteDTO> implements Filterable {
 
-    ArrayList<ClienteDTO> datos;
+    List<ClienteDTO> datos;
+    ArrayList<ClienteDTO> datosBackup;
     Context cnt;
     int layout_list;
-    public AdaptadorListview(Context context, int resource, ArrayList<ClienteDTO> objects) {
+    public AdaptadorListview(Context context, int resource, List<ClienteDTO> objects) {
         super(context, resource, objects);
         datos=objects;
         cnt=context;
         layout_list=resource;
+        datosBackup = new ArrayList<>();
+        datosBackup.addAll(datos);
     }
 
     /*private view holder class*/
@@ -66,22 +72,25 @@ public class AdaptadorListview extends ArrayAdapter<ClienteDTO> {
             return convertView;
         }
 
-//
-//
-//        View item = inflater.inflate(layout_list, null);
-//
-//        TextView lblTitulo = (TextView)item.findViewById(R.id.textTitulo);
-//        lblTitulo.setText(datos[position].getTitulo());
-//
-//        TextView lblSubtitulo = (TextView)item.findViewById(R.id.textSubTitulo);
-//        lblSubtitulo.setText(datos[position].getSubtitulo());
-//
-//        ImageView imageItem = (ImageView)item.findViewById(R.id.imageView);
-//        imageItem.setImageResource(datos[position].getImagen());
-//
-//        return(item);
-
-
+//// Filter Class
+        public void filter(String charText) {
+            charText = charText.toLowerCase(Locale.getDefault());
+            datos.clear();
+            if (charText.length() == 0) {
+                datos.addAll(datosBackup);
+            }
+            else
+            {
+                for (ClienteDTO client : datosBackup)
+                {
+                    if (client.getNombres().toLowerCase(Locale.getDefault()).contains(charText))
+                    {
+                        datos.add(client);
+                    }
+                }
+            }
+            notifyDataSetChanged();
+        }
 
 }
 

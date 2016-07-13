@@ -23,8 +23,7 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment {
 
 
     EditText edtCedula, edtNombres, edtApellidos, edtCelular, edtDireccion, edtEmpleo, edtEmpresa;
-    ListView listItemClientes;
-    Context cnt;
+
 
     public interface ClienteReturn {
         void processFinish(ClienteDTO output);
