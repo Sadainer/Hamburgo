@@ -1,43 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="5dp"
     android:paddingTop="5dp"
+    android:padding="@dimen/activity_vertical_margin"
     android:weightSum="1">
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/itemImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:civ_border_width="2dp"
-        app:civ_border_color="@color/colorAccent"/>
-
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_horizontal_margin"
-        android:layout_height="100dp">
+        android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/iconColor"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/textTitulo" />
+            android:text="Nombre"
+            android:id="@+id/txtNombre" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/iconColor"
+
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Apellido"
+            android:id="@+id/txtApellido" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textColor="@color/iconColor"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
+            android:text="CC: "
             android:id="@+id/textSubTitulo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/iconColor"
+            android:text="Cedula"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/txtCedula" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/iconColor"
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Celular: "
+            android:id="@+id/textView11" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/iconColor"
+            android:text="Celular"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/txtCelular" />
     </LinearLayout>
 
 </LinearLayout>

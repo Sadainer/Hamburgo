@@ -9,19 +9,22 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.itemLista;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by YOLIMA on 26/04/2016.
  */
-public class AdaptadorListview extends ArrayAdapter<itemLista> {
+public class AdaptadorListview extends ArrayAdapter<ClienteDTO> {
 
-    itemLista[] datos;
+    ArrayList<ClienteDTO> datos;
     Context cnt;
     int layout_list;
-    public AdaptadorListview(Context context, int resource, itemLista[] objects) {
+    public AdaptadorListview(Context context, int resource, ArrayList<ClienteDTO> objects) {
         super(context, resource, objects);
         datos=objects;
         cnt=context;
@@ -30,16 +33,17 @@ public class AdaptadorListview extends ArrayAdapter<itemLista> {
 
     /*private view holder class*/
     private class ViewHolder {
-        CircleImageView imageView;
-        TextView txtTitle;
-        TextView txtSubTitle;
+        TextView txtNombre;
+        TextView txtApellido;
+        TextView txtCedula;
+        TextView txtCelular;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder = null;
-        itemLista rowItem = getItem(position);
+        ClienteDTO rowItem = getItem(position);
 
         LayoutInflater inflater = LayoutInflater.from(getContext());
 
@@ -47,16 +51,17 @@ public class AdaptadorListview extends ArrayAdapter<itemLista> {
         if (convertView == null) {
             convertView = inflater.inflate(layout_list, null);
             holder = new ViewHolder();
-            holder.txtTitle = (TextView) convertView.findViewById(R.id.textTitulo);
-            holder.txtSubTitle = (TextView) convertView.findViewById(R.id.textSubTitulo);
-            holder.imageView = (CircleImageView) convertView.findViewById(R.id.itemImage);
+            holder.txtNombre = (TextView) convertView.findViewById(R.id.txtNombre);
+            holder.txtApellido = (TextView) convertView.findViewById(R.id.txtApellido);
+            holder.txtCedula = (TextView) convertView.findViewById(R.id.txtCedula);
+            holder.txtCelular = (TextView) convertView.findViewById(R.id.txtCelular);
             convertView.setTag(holder);
         } else
             holder = (ViewHolder) convertView.getTag();
-
-            holder.txtTitle.setText(rowItem.getTitulo());
-            holder.txtSubTitle.setText(rowItem.getSubtitulo());
-            holder.imageView.setImageResource(rowItem.getImagen());
+            holder.txtNombre.setText(rowItem.getNombres());
+            holder.txtApellido.setText(rowItem.getApellidos());
+            holder.txtCedula.setText(String.valueOf(rowItem.getCedula()));
+            holder.txtCelular.setText(String.valueOf(rowItem.getCelular()));
 
             return convertView;
         }

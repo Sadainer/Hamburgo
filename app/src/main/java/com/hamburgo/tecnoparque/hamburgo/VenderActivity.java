@@ -15,6 +15,8 @@ public class VenderActivity extends AppCompatActivity {
     ListView listItemConstruir;
     Context cnt;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,12 +32,12 @@ public class VenderActivity extends AppCompatActivity {
                         new itemLista("Luminaria", "Todo tipo de luminarias", R.drawable.luminaria),
                 };
 
-        AdaptadorListview adaptador =
-                new AdaptadorListview(this,R.layout.layout_adaptador_listview,datos);
-
-        listItemConstruir = (ListView)findViewById(R.id.listViewConstruir);
-
-        listItemConstruir.setAdapter(adaptador);
+//        AdaptadorListview adaptador =
+//                new AdaptadorListview(this,R.layout.layout_adaptador_listview,datos);
+//
+//        listItemConstruir = (ListView)findViewById(R.id.listViewConstruir);
+//
+//        listItemConstruir.setAdapter(adaptador);
 
         listItemConstruir.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

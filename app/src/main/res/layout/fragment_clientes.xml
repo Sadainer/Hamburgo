@@ -23,16 +23,7 @@
         android:id="@+id/listView"
         android:layout_gravity="center" />
 
-    <TextView
-        android:layout_width="223dp"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Presione el botón para agregar un cliente"
-        android:id="@+id/textView"
-        android:textColor="@color/iconColor"
 
-        android:layout_gravity="center"
-        android:gravity="center_horizontal" />
 
 
 </FrameLayout>

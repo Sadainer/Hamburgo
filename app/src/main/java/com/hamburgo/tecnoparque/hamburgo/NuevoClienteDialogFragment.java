@@ -3,6 +3,7 @@ package com.hamburgo.tecnoparque.hamburgo;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 
@@ -21,15 +23,17 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment {
 
 
     EditText edtCedula, edtNombres, edtApellidos, edtCelular, edtDireccion, edtEmpleo, edtEmpresa;
+    ListView listItemClientes;
+    Context cnt;
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View rootView = inflater.inflate(R.layout.fragment_nuevo_cliente, container,
-//                false);
-//        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-//        // Do something else
-//        return rootView;
-//    }
+    public interface ClienteReturn {
+        void processFinish(ClienteDTO output);
+    }
+    public ClienteReturn delegate = null;
+
+    public NuevoClienteDialogFragment(ClienteReturn delegate) {
+        this.delegate = delegate;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -58,8 +62,7 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment {
                 cliente.setEmpresa(edtEmpresa.getText().toString());
                 cliente.setEmpleo(edtEmpleo.getText().toString());
 
-                Principal PrincipalActivity = (Principal) getActivity();
-                PrincipalActivity.addClienteLista(cliente);
+                delegate.processFinish(cliente);
             }
         });
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
