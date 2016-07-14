@@ -25,7 +25,9 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Busqueda"
+            android:hint="Buscar"
+            android:textColor="@color/iconColor"
+            android:textColorHint="@color/iconColor"
             android:id="@+id/editText" />
 
         <ListView

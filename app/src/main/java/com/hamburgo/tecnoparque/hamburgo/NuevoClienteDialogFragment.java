@@ -11,18 +11,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
+import java.util.List;
 
 /**
  * Created by Admin_Sena on 12/07/2016.
  */
-public class NuevoClienteDialogFragment extends android.app.DialogFragment {
+public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
 
 
-    EditText edtCedula, edtNombres, edtApellidos, edtCelular, edtDireccion, edtEmpleo, edtEmpresa;
+    private EditText edtCedula;
+    private EditText edtNombres;
+    private EditText edtApellidos;
+    private EditText edtCelular;
+    private EditText edtDireccion;
+    private EditText edtEmpleo;
+    private EditText edtEmpresa;
+
+//
 
 
     public interface ClienteReturn {
@@ -40,6 +51,9 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment {
         LayoutInflater i = getActivity().getLayoutInflater();
         View v = i.inflate(R.layout.fragment_nuevo_cliente,null);
 
+//        validator = new Validator(getActivity());
+//        validator.setValidationListener(this);
+
         edtCedula = (EditText)v.findViewById(R.id.edtCedula);
         edtNombres = (EditText)v.findViewById(R.id.edtNombres);
         edtApellidos = (EditText)v.findViewById(R.id.edtApellido);
@@ -52,16 +66,23 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment {
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ClienteDTO cliente = new ClienteDTO();
-                cliente.setCedula(Long.valueOf(edtCedula.getText().toString()));
-                cliente.setCelular(Long.valueOf(edtCelular.getText().toString()));
-                cliente.setNombres(edtNombres.getText().toString());
-                cliente.setApellidos(edtApellidos.getText().toString());
-                cliente.setDireccion(edtDireccion.getText().toString());
-                cliente.setEmpresa(edtEmpresa.getText().toString());
-                cliente.setEmpleo(edtEmpleo.getText().toString());
-
-                delegate.processFinish(cliente);
+//                validator.validate();
+                if (edtCedula.getText().toString().matches(""))  {
+                    edtCedula.setError("Campo obligatorio");
+                    dialog.dismiss();
+//                    ClienteDTO cliente = new ClienteDTO();
+//                    cliente.setCedula(Long.valueOf(edtCedula.getText().toString()));
+//                    cliente.setCelular(Long.valueOf(edtCelular.getText().toString()));
+//                    cliente.setNombres(edtNombres.getText().toString());
+//                    cliente.setApellidos(edtApellidos.getText().toString());
+//                    cliente.setDireccion(edtDireccion.getText().toString());
+//                    cliente.setEmpresa(edtEmpresa.getText().toString());
+//                    cliente.setEmpleo(edtEmpleo.getText().toString());
+//
+//                    delegate.processFinish(cliente);
+                }else{
+                    Toast.makeText(getActivity().getApplicationContext(),"Complete los campos obligatorios",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -73,5 +94,27 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment {
 
         builder.setView(v);
         return builder.create();
+    }
+    @Override
+    public void onStart()
+    {
+        super.onStart();    //super.onStart() is where dialog.show() is actually called on the underlying dialog, so we have to do it after this point
+        AlertDialog d = (AlertDialog)getDialog();
+        if(d != null)
+        {
+            Button positiveButton = (Button) d.getButton(Dialog.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    Boolean wantToCloseDialog = false;
+                    //Do stuff, possibly set wantToCloseDialog to true then...
+                    if(wantToCloseDialog)
+                        dismiss();
+                    //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
+                }
+            });
+        }
     }
 }

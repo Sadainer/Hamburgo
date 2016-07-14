@@ -83,7 +83,9 @@ public class AdaptadorListview extends ArrayAdapter<ClienteDTO> implements Filte
             {
                 for (ClienteDTO client : datosBackup)
                 {
-                    if (client.getNombres().toLowerCase(Locale.getDefault()).contains(charText))
+                    if (client.getNombres().toLowerCase(Locale.getDefault()).contains(charText)
+                            || client.getApellidos().toLowerCase(Locale.getDefault()).contains(charText)
+                            || String.valueOf(client.getCedula()).contains(charText))
                     {
                         datos.add(client);
                     }

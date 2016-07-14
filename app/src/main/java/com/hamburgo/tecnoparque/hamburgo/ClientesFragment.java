@@ -9,6 +9,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -68,12 +69,10 @@ public class ClientesFragment extends Fragment {
                             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
                             }
-
                             @Override
                             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                             }
-
                             @Override
                             public void afterTextChanged(Editable s) {
                                 String text = edtBusqueda.getText().toString();
@@ -92,4 +91,28 @@ public class ClientesFragment extends Fragment {
     }
 
 
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        menu.clear();
+//        inflater.inflate(R.menu.principal, menu);
+//        final MenuItem searchItem = menu.findItem(R.id.action_search);
+//        final SearchView searchView = new SearchView(((Principal) cnt).getSupportActionBar().getThemedContext());
+//        //*** setOnQueryTextFocusChangeListener ***
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                Log.e("Sadainer",query);
+//                //se oculta el EditText
+//                searchView.setQuery("", false);
+//                searchView.setIconified(true);
+//                return true;
+//            }
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                edtBusqueda.setText(newText);
+//                return true;
+//            }
+//        });
+//    }
 }
