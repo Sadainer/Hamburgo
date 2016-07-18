@@ -6,7 +6,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+
 import java.util.List;
 
 /**
@@ -32,8 +39,6 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
     private EditText edtDireccion;
     private EditText edtEmpleo;
     private EditText edtEmpresa;
-
-//
 
 
     public interface ClienteReturn {
@@ -51,8 +56,7 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
         LayoutInflater i = getActivity().getLayoutInflater();
         View v = i.inflate(R.layout.fragment_nuevo_cliente,null);
 
-//        validator = new Validator(getActivity());
-//        validator.setValidationListener(this);
+
 
         edtCedula = (EditText)v.findViewById(R.id.edtCedula);
         edtNombres = (EditText)v.findViewById(R.id.edtNombres);
@@ -66,23 +70,6 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                validator.validate();
-                if (edtCedula.getText().toString().matches(""))  {
-                    edtCedula.setError("Campo obligatorio");
-                    dialog.dismiss();
-//                    ClienteDTO cliente = new ClienteDTO();
-//                    cliente.setCedula(Long.valueOf(edtCedula.getText().toString()));
-//                    cliente.setCelular(Long.valueOf(edtCelular.getText().toString()));
-//                    cliente.setNombres(edtNombres.getText().toString());
-//                    cliente.setApellidos(edtApellidos.getText().toString());
-//                    cliente.setDireccion(edtDireccion.getText().toString());
-//                    cliente.setEmpresa(edtEmpresa.getText().toString());
-//                    cliente.setEmpleo(edtEmpleo.getText().toString());
-//
-//                    delegate.processFinish(cliente);
-                }else{
-                    Toast.makeText(getActivity().getApplicationContext(),"Complete los campos obligatorios",Toast.LENGTH_SHORT).show();
-                }
             }
         });
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -99,20 +86,37 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
     public void onStart()
     {
         super.onStart();    //super.onStart() is where dialog.show() is actually called on the underlying dialog, so we have to do it after this point
-        AlertDialog d = (AlertDialog)getDialog();
-        if(d != null)
+        AlertDialog dialog = (AlertDialog)getDialog();
+        if(dialog != null)
         {
-            Button positiveButton = (Button) d.getButton(Dialog.BUTTON_POSITIVE);
+            Button positiveButton = (Button) dialog.getButton(Dialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View v)
                 {
-                    Boolean wantToCloseDialog = false;
-                    //Do stuff, possibly set wantToCloseDialog to true then...
-                    if(wantToCloseDialog)
+                    Boolean BanderaGuardar=false;
+                    if (!TextUtils.isEmpty(edtCedula.getText().toString())
+                            && !TextUtils.isEmpty(edtNombres.getText().toString())
+                            && !TextUtils.isEmpty(edtApellidos.getText().toString())
+                            && !TextUtils.isEmpty(edtCelular.getText().toString()))  {
+
+                        BanderaGuardar = true;
+                        ClienteDTO cliente = new ClienteDTO();
+                        cliente.setCedula(Long.valueOf(edtCedula.getText().toString()));
+                        cliente.setCelular(Long.valueOf(edtCelular.getText().toString()));
+                        cliente.setNombres(edtNombres.getText().toString());
+                        cliente.setApellidos(edtApellidos.getText().toString());
+                        cliente.setDireccion(edtDireccion.getText().toString());
+                        cliente.setEmpresa(edtEmpresa.getText().toString());
+                        cliente.setEmpleo(edtEmpleo.getText().toString());
+
+                        delegate.processFinish(cliente);
+                }else{
+                    Toast.makeText(getActivity().getApplicationContext(),"Complete los campos obligatorios",Toast.LENGTH_SHORT).show();
+                }
+                    if(BanderaGuardar)
                         dismiss();
-                    //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
                 }
             });
         }

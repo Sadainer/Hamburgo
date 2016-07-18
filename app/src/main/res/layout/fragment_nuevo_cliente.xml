@@ -22,7 +22,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cédula"
+                    android:text="Cédula *"
                     android:id="@+id/textView2" />
 
                 <EditText
@@ -35,7 +35,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nombres"
+                    android:text="Nombres *"
                     android:id="@+id/textView3" />
 
                 <EditText
@@ -46,7 +46,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Apellidos"
+                    android:text="Apellidos *"
                     android:id="@+id/textView4" />
 
                 <EditText
@@ -57,7 +57,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Celular"
+                    android:text="Celular *"
                     android:id="@+id/textView5" />
 
                 <EditText
