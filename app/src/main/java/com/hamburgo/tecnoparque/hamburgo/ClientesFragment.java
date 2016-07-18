@@ -20,25 +20,54 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 
+import java.sql.SQLClientInfoException;
+import java.sql.SQLDataException;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ClientesFragment extends Fragment {
+public class ClientesFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     ListView listItemClientes;
     EditText edtBusqueda;
     Context cnt;
     ArrayList<ClienteDTO> datos;
     AdaptadorListview adaptador;
+    private DataBaseManager manager;
 
     public ClientesFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        setHasOptionsMenu(true);
+        Log.e("Sadainer","onCreateOptionsMenu");
+        inflater.inflate(R.menu.principal, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.e("Sadainer", "1");
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.e("Sadainer", "2");
+                return false;
+            }
+        });
     }
 
     @Override
@@ -49,8 +78,11 @@ public class ClientesFragment extends Fragment {
 
         datos= new ArrayList<ClienteDTO>();
         cnt= getActivity().getApplicationContext();
+        manager = new DataBaseManager(cnt);
         listItemClientes = (ListView)Vista.findViewById(R.id.listView);
         edtBusqueda = (EditText)Vista.findViewById(R.id.editText);
+
+        LlenarLista();
 
         FloatingActionButton fab = (FloatingActionButton) Vista.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -60,10 +92,9 @@ public class ClientesFragment extends Fragment {
                 FragmentManager fm = getFragmentManager();
                 NuevoClienteDialogFragment dialogFragment = new NuevoClienteDialogFragment(new NuevoClienteDialogFragment.ClienteReturn() {
                     @Override
-                    public void processFinish(ClienteDTO output) {
-                        datos.add(output);
-                        adaptador = new AdaptadorListview(cnt,R.layout.layout_adaptador_listview,datos);
-                        listItemClientes.setAdapter(adaptador);
+                    public void processFinish(ClienteDTO cliente) {
+                        manager.Insertar(cliente);
+                        LlenarLista();
                         edtBusqueda.addTextChangedListener(new TextWatcher() {
                             @Override
                             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -90,5 +121,23 @@ public class ClientesFragment extends Fragment {
         return Vista;
     }
 
+    private void LlenarLista () {
+        datos.clear();
+        datos = manager.getListaClientes();
+        if (datos.size() > 0) {
+            adaptador = new AdaptadorListview(cnt, R.layout.layout_adaptador_listview, datos);
+            listItemClientes.setAdapter(adaptador);
+        }
+    }
 
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
 }

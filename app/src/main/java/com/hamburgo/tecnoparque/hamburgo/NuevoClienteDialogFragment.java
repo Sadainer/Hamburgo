@@ -19,10 +19,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
-import com.mobsandgeeks.saripaar.ValidationError;
-import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
 import java.util.List;
 
@@ -39,6 +37,7 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
     private EditText edtDireccion;
     private EditText edtEmpleo;
     private EditText edtEmpresa;
+
 
 
     public interface ClienteReturn {

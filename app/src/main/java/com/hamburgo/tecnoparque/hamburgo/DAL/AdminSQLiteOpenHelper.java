@@ -15,15 +15,12 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-            db.execSQL(DataBaseManager.CREATE_TABLE_INSUMOS);
-            db.execSQL(DataBaseManager.CREATE_TABLE_FINCA);
+            db.execSQL(DataBaseManager.CREATE_TABLE_1);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL("DROP TABLE IF EXISTS "+ DataBaseManager.TABLE_INSUMOS);
-            db.execSQL("DROP TABLE IF EXISTS "+ DataBaseManager.TABLE_FINCA);
-            db.execSQL(DataBaseManager.CREATE_TABLE_INSUMOS);
-            db.execSQL(DataBaseManager.CREATE_TABLE_FINCA);
+            db.execSQL("DROP TABLE IF EXISTS "+ DataBaseManager.TABLA_1);
+            db.execSQL(DataBaseManager.CREATE_TABLE_1);
     }
 }
