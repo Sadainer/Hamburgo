@@ -66,6 +66,7 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
         edtEmpresa = (EditText)v.findViewById(R.id.edtEmpresa);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Nuevo Cliente");
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

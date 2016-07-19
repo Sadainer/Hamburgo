@@ -49,25 +49,6 @@ public class ClientesFragment extends Fragment implements SearchView.OnQueryText
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-
-        setHasOptionsMenu(true);
-        Log.e("Sadainer","onCreateOptionsMenu");
-        inflater.inflate(R.menu.principal, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Log.e("Sadainer", "1");
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                Log.e("Sadainer", "2");
-                return false;
-            }
-        });
     }
 
     @Override
