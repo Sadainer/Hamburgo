@@ -5,19 +5,19 @@ package com.hamburgo.tecnoparque.hamburgo.DTO;
  */
 public class ClienteDTO {
 
-    private long Cedula;
+    private String Cedula;
     private String Nombres;
     private String Apellidos;
     private String Direccion;
     private String Empleo;
     private String Empresa;
-    private long Celular;
+    private String Celular;
 
-    public long getCedula() {
+    public String getCedula() {
         return Cedula;
     }
 
-    public void setCedula(long cedula) {
+    public void setCedula(String cedula) {
         Cedula = cedula;
     }
 
@@ -61,11 +61,11 @@ public class ClienteDTO {
         Empresa = empresa;
     }
 
-    public long getCelular() {
+    public String getCelular() {
         return Celular;
     }
 
-    public void setCelular(long celular) {
+    public void setCelular(String celular) {
         Celular = celular;
     }
 }

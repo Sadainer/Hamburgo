@@ -40,6 +40,7 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
 
 
 
+
     public interface ClienteReturn {
         void processFinish(ClienteDTO output);
     }
@@ -103,14 +104,15 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
 
                         BanderaGuardar = true;
                         ClienteDTO cliente = new ClienteDTO();
-                        cliente.setCedula(Long.valueOf(edtCedula.getText().toString()));
-                        cliente.setCelular(Long.valueOf(edtCelular.getText().toString()));
+                        cliente.setCedula(edtCedula.getText().toString());
+                        cliente.setCelular(edtCelular.getText().toString());
                         cliente.setNombres(edtNombres.getText().toString());
                         cliente.setApellidos(edtApellidos.getText().toString());
                         cliente.setDireccion(edtDireccion.getText().toString());
                         cliente.setEmpresa(edtEmpresa.getText().toString());
                         cliente.setEmpleo(edtEmpleo.getText().toString());
-
+                        Log.e("Sadainer",edtCelular.getText().toString());
+                        Log.e("Sadainer",String.valueOf(cliente.getCelular()));
                         delegate.processFinish(cliente);
                 }else{
                     Toast.makeText(getActivity().getApplicationContext(),"Complete los campos obligatorios",Toast.LENGTH_SHORT).show();

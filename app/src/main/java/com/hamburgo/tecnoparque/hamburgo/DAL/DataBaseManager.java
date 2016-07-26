@@ -27,13 +27,13 @@ public class DataBaseManager {
     public static  final String CAMPO_7="Celular";
 
     public static  final String CREATE_TABLE_1 = "create table " + TABLA_1 + " ("
-            + CAMPO_1 + " integer primary key not null, "
+            + CAMPO_1 + " text primary key not null, "
             + CAMPO_2 + " text not null, "
             + CAMPO_3 + " text not null, "
             + CAMPO_4 + " text,"
             + CAMPO_5 + " text,"
             + CAMPO_6 + " text,"
-            + CAMPO_7 + " integer not null);" ; //integer
+            + CAMPO_7 + " text not null);" ; //integer
 //------------------------------------Tabla 2---------------------------------------------
 
     public DataBaseManager(Context context) {
@@ -65,13 +65,13 @@ public class DataBaseManager {
         Cursor c = db.rawQuery(" SELECT " + CAMPO_1 + " , "  + CAMPO_2 + " , "+ CAMPO_3 + " , "+ CAMPO_4 + " , " + CAMPO_5 + " , "
                 + CAMPO_6 + " , "+ CAMPO_7 + " FROM " + TABLA_1, null);
         if (c.moveToFirst()) {
-            m.setCedula(c.getInt(0));
+            m.setCedula(c.getString(0));
             m.setNombres(c.getString(1));
             m.setApellidos(c.getString(2));
             m.setDireccion(c.getString(3));
             m.setEmpleo(c.getString(4));
             m.setEmpresa(c.getString(5));
-            m.setCelular(c.getInt(6));
+            m.setCelular(c.getString(6));
         }
         return m;
     }
@@ -82,13 +82,13 @@ public class DataBaseManager {
         ArrayList<ClienteDTO> Lista = new ArrayList<ClienteDTO>();
         while (c.moveToNext()){
             ClienteDTO m = new ClienteDTO();
-            m.setCedula(c.getInt(0));
+            m.setCedula(c.getString(0));
             m.setNombres(c.getString(1));
             m.setApellidos(c.getString(2));
             m.setDireccion(c.getString(3));
             m.setEmpleo(c.getString(4));
             m.setEmpresa(c.getString(5));
-            m.setCelular(c.getInt(6));
+            m.setCelular(c.getString(6));
             Lista.add(m);
         }
         return Lista;

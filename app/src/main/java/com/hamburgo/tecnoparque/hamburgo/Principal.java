@@ -3,21 +3,23 @@ package com.hamburgo.tecnoparque.hamburgo;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class Principal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +27,6 @@ public class Principal extends AppCompatActivity
         setContentView(R.layout.activity_principal);
         Toolbar toolbar = (Toolbar) findViewById(R.id.appbar);
         setSupportActionBar(toolbar);
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -37,8 +38,6 @@ public class Principal extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-
         Fragment fragmento= new InicioFragment();
         FragmentManager fragmentManager = getFragmentManager();
 
@@ -48,10 +47,8 @@ public class Principal extends AppCompatActivity
 
         drawer.closeDrawer(GravityCompat.START);
 
-
-
-
     }
+
 
     @Override
     public void onBackPressed() {
@@ -66,7 +63,6 @@ public class Principal extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.principal, menu);
         return true;
     }
 
@@ -94,23 +90,19 @@ public class Principal extends AppCompatActivity
         Fragment fragmento= null;
         FragmentManager fragmentManager = getFragmentManager();
 
-        if (id == R.id.nav_vender) {
+        if (id == R.id.nav_inicio) {
+            fragmento = new InicioFragment();
+            fragmentTransaction=true;
+        } else if (id == R.id.nav_clientes) {
             fragmento = new ClientesFragment();
             fragmentTransaction=true;
-        } else if (id == R.id.nav_cartera) {
-            fragmento = new CotizacionFragment();
-            fragmentTransaction=true;
-        } else if (id == R.id.nav_inicio) {
-            fragmento = new InicioFragment();
+        } else if (id == R.id.nav_vender) {
+            fragmento = new VenderFragment();
             fragmentTransaction=true;
         } else if (id == R.id.nav_herramientas) {
 
         } else if (id == R.id.nav_ayuda) {
 
-        } else if (id == R.id.nav_clientes) {
-            fragmento = new ClientesFragment();
-
-            fragmentTransaction=true;
         }
 
         if(fragmentTransaction) {

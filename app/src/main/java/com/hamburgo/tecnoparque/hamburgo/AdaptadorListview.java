@@ -2,10 +2,12 @@ package com.hamburgo.tecnoparque.hamburgo;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,7 +24,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by YOLIMA on 26/04/2016.
  */
-public class AdaptadorListview extends ArrayAdapter<ClienteDTO> implements Filterable {
+public class AdaptadorListview extends ArrayAdapter<ClienteDTO> {
 
     List<ClienteDTO> datos;
     ArrayList<ClienteDTO> datosBackup;
@@ -72,8 +74,42 @@ public class AdaptadorListview extends ArrayAdapter<ClienteDTO> implements Filte
             return convertView;
         }
 
-//// Filter Class
-        public void filter(String charText) {
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+//
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                if(constraint != null) {
+                    Log.e("performFiltering",constraint.toString());
+                    datos.clear();
+                    for (ClienteDTO client : datosBackup)
+                    {
+                        if (client.getNombres().toLowerCase(Locale.getDefault()).contains(constraint)
+                                || client.getApellidos().toLowerCase(Locale.getDefault()).contains(constraint)
+                                || String.valueOf(client.getCedula()).contains(constraint))
+                        {
+                            datos.add(client);
+                        }
+                    }
+                    FilterResults filterResults = new FilterResults();
+                    filterResults.values = datos;
+                    filterResults.count = datos.size();
+                    Log.e("filterResults",String.valueOf(filterResults.count));
+                    return filterResults;
+                } else {
+                    return new FilterResults();
+                }
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                   notifyDataSetChanged();
+            }
+        };
+    }
+
+    public void filter(String charText) {
             charText = charText.toLowerCase(Locale.getDefault());
             datos.clear();
             if (charText.length() == 0) {

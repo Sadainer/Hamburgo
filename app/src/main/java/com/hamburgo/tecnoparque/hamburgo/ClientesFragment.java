@@ -33,7 +33,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ClientesFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class ClientesFragment extends Fragment {
 
     ListView listItemClientes;
     EditText edtBusqueda;
@@ -46,10 +46,7 @@ public class ClientesFragment extends Fragment implements SearchView.OnQueryText
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +62,22 @@ public class ClientesFragment extends Fragment implements SearchView.OnQueryText
 
         LlenarLista();
 
+        edtBusqueda.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = edtBusqueda.getText().toString();
+                adaptador.filter(text);
+            }
+        });
+
         FloatingActionButton fab = (FloatingActionButton) Vista.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,21 +89,7 @@ public class ClientesFragment extends Fragment implements SearchView.OnQueryText
                     public void processFinish(ClienteDTO cliente) {
                         manager.Insertar(cliente);
                         LlenarLista();
-                        edtBusqueda.addTextChangedListener(new TextWatcher() {
-                            @Override
-                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                            }
-                            @Override
-                            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                            }
-                            @Override
-                            public void afterTextChanged(Editable s) {
-                                String text = edtBusqueda.getText().toString();
-                                adaptador.filter(text);
-                            }
-                        });
                     }
                 });
                 dialogFragment.show(fm, "Sample Fragment");
@@ -112,13 +111,5 @@ public class ClientesFragment extends Fragment implements SearchView.OnQueryText
     }
 
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
-    }
 }
