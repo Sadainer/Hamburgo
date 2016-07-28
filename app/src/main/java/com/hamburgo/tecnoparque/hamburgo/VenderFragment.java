@@ -75,7 +75,7 @@ public class VenderFragment extends Fragment {
         datosBackup.addAll(datos);
         if (datos.size() > 0) {
             adaptador = new AdaptadorListview(cnt, R.layout.layout_adaptador_listview, datos);
-            textView.setThreshold(1);
+            textView.setThreshold(3);
             textView.setAdapter(adaptador);
         }
     }

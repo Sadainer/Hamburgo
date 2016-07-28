@@ -16,8 +16,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
@@ -36,7 +38,6 @@ import java.util.concurrent.ExecutionException;
 public class ClientesFragment extends Fragment {
 
     ListView listItemClientes;
-    EditText edtBusqueda;
     Context cnt;
     ArrayList<ClienteDTO> datos;
     AdaptadorListview adaptador;
@@ -46,7 +47,31 @@ public class ClientesFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.principal, menu);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adaptador.filter(newText);
+                return false;
+            }
+        });
+        super.onCreateOptionsMenu(menu,inflater);
+
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,41 +83,22 @@ public class ClientesFragment extends Fragment {
         cnt= getActivity().getApplicationContext();
         manager = new DataBaseManager(cnt);
         listItemClientes = (ListView)Vista.findViewById(R.id.listView);
-        edtBusqueda = (EditText)Vista.findViewById(R.id.editText);
-
-        LlenarLista();
-
-        edtBusqueda.addTextChangedListener(new TextWatcher() {
+        listItemClientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                String text = edtBusqueda.getText().toString();
-                adaptador.filter(text);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView cedula = (TextView)view.findViewById(R.id.txtCedula);
+                Log.e("Sadainer", cedula.getText().toString());
+                ClienteDTO cliente = manager.getUsuario(cedula.getText().toString());
+                MostrarDialog(cliente);
             }
         });
 
+        ActualizarListaClientes();
         FloatingActionButton fab = (FloatingActionButton) Vista.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                FragmentManager fm = getFragmentManager();
-                NuevoClienteDialogFragment dialogFragment = new NuevoClienteDialogFragment(new NuevoClienteDialogFragment.ClienteReturn() {
-                    @Override
-                    public void processFinish(ClienteDTO cliente) {
-                        manager.Insertar(cliente);
-                        LlenarLista();
-
-                    }
-                });
-                dialogFragment.show(fm, "Sample Fragment");
+               MostrarDialog(null);
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
             }
@@ -101,7 +107,7 @@ public class ClientesFragment extends Fragment {
         return Vista;
     }
 
-    private void LlenarLista () {
+    private void ActualizarListaClientes () {
         datos.clear();
         datos = manager.getListaClientes();
         if (datos.size() > 0) {
@@ -110,6 +116,16 @@ public class ClientesFragment extends Fragment {
         }
     }
 
+    private void MostrarDialog(ClienteDTO cliente){
+        FragmentManager fm = getFragmentManager();
+        NuevoClienteDialogFragment dialogFragment = new NuevoClienteDialogFragment(cnt,cliente,new NuevoClienteDialogFragment.ClienteReturn() {
+            @Override
+            public void processFinish() {
+                ActualizarListaClientes();
+            }
+        });
+        dialogFragment.show(fm, "Sample Fragment");
+    }
 
 
 }

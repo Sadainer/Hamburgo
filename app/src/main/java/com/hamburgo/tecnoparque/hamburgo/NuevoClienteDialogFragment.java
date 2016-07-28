@@ -38,16 +38,21 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
     private EditText edtEmpleo;
     private EditText edtEmpresa;
 
-
+    private ClienteReturn delegate = null;
+    private ClienteDTO Cliente;
+    private Context cnt;
+    private DataBaseManager manager;
 
 
     public interface ClienteReturn {
-        void processFinish(ClienteDTO output);
+        void processFinish();
     }
-    public ClienteReturn delegate = null;
 
-    public NuevoClienteDialogFragment(ClienteReturn delegate) {
+
+    public NuevoClienteDialogFragment(Context cnt, ClienteDTO cliente, ClienteReturn delegate) {
         this.delegate = delegate;
+        this.Cliente = cliente;
+        manager = new DataBaseManager(cnt);
     }
 
     @Override
@@ -55,8 +60,6 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
 
         LayoutInflater i = getActivity().getLayoutInflater();
         View v = i.inflate(R.layout.fragment_nuevo_cliente,null);
-
-
 
         edtCedula = (EditText)v.findViewById(R.id.edtCedula);
         edtNombres = (EditText)v.findViewById(R.id.edtNombres);
@@ -66,6 +69,17 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
         edtEmpleo = (EditText)v.findViewById(R.id.edtEmpleo);
         edtEmpresa = (EditText)v.findViewById(R.id.edtEmpresa);
 
+
+        if (Cliente!= null){
+            edtNombres.setText(Cliente.getNombres());
+            edtApellidos.setText(Cliente.getApellidos());
+            edtCelular.setText(Cliente.getCelular());
+            edtCedula.setText(Cliente.getCedula());
+            edtDireccion.setText(Cliente.getDireccion());
+            edtEmpleo.setText(Cliente.getEmpleo());
+            edtEmpresa.setText(Cliente.getEmpresa());
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Nuevo Cliente");
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
@@ -73,16 +87,19 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
             public void onClick(DialogInterface dialog, int which) {
             }
         });
+
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dismiss();
             }
         });
-
         builder.setView(v);
         return builder.create();
     }
+
+
+
     @Override
     public void onStart()
     {
@@ -113,7 +130,14 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
                         cliente.setEmpleo(edtEmpleo.getText().toString());
                         Log.e("Sadainer",edtCelular.getText().toString());
                         Log.e("Sadainer",String.valueOf(cliente.getCelular()));
-                        delegate.processFinish(cliente);
+
+                        if (Cliente==null){
+                            manager.Insertar(cliente);
+                        }else{
+                            manager.Actualizar(cliente, Cliente.getCedula().toString());
+                        }
+
+                        delegate.processFinish();
                 }else{
                     Toast.makeText(getActivity().getApplicationContext(),"Complete los campos obligatorios",Toast.LENGTH_SHORT).show();
                 }

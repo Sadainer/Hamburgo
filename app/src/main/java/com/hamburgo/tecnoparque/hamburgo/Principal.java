@@ -16,6 +16,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 public class Principal extends AppCompatActivity
@@ -63,6 +64,8 @@ public class Principal extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.principal, menu);
         return true;
     }
 
@@ -95,6 +98,9 @@ public class Principal extends AppCompatActivity
             fragmentTransaction=true;
         } else if (id == R.id.nav_clientes) {
             fragmento = new ClientesFragment();
+            fragmentTransaction=true;
+        } else if (id == R.id.nav_productos) {
+            fragmento = new ProductosFragment();
             fragmentTransaction=true;
         } else if (id == R.id.nav_vender) {
             fragmento = new VenderFragment();

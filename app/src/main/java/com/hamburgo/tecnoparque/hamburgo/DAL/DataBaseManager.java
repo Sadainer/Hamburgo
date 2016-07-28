@@ -55,16 +55,31 @@ public class DataBaseManager {
     }
 
     public void Insertar(ClienteDTO m) {
-
-        db.insert(TABLA_1, null, GenerarContentValues(m));
+            db.insert(TABLA_1, null, GenerarContentValues(m));
+    }
+    public void Actualizar (ClienteDTO c, String cedula){
+        ContentValues valores = new ContentValues();
+        valores.put(CAMPO_1,c.getCedula());
+        valores.put(CAMPO_2,c.getNombres());
+        valores.put(CAMPO_3,c.getApellidos());
+        valores.put(CAMPO_4,c.getDireccion());
+        valores.put(CAMPO_5,c.getEmpleo());
+        valores.put(CAMPO_6,c.getEmpresa());
+        valores.put(CAMPO_7,c.getCelular());
+        db.update(TABLA_1, valores,CAMPO_1 +  " = " + cedula, null);
     }
 
-    public ClienteDTO getUsuario(){
+    public void Eliminar (String cedula){
+        db.delete(TABLA_1,CAMPO_1 +  " = " + cedula, null);
+    }
 
-        ClienteDTO m = new ClienteDTO();
+    public ClienteDTO getUsuario(String cedula){
+
+        ClienteDTO m = null;
         Cursor c = db.rawQuery(" SELECT " + CAMPO_1 + " , "  + CAMPO_2 + " , "+ CAMPO_3 + " , "+ CAMPO_4 + " , " + CAMPO_5 + " , "
-                + CAMPO_6 + " , "+ CAMPO_7 + " FROM " + TABLA_1, null);
+                + CAMPO_6 + " , "+ CAMPO_7 + " FROM " + TABLA_1 + " where " + CAMPO_1 + " = " + cedula, null);
         if (c.moveToFirst()) {
+            m = new ClienteDTO();
             m.setCedula(c.getString(0));
             m.setNombres(c.getString(1));
             m.setApellidos(c.getString(2));

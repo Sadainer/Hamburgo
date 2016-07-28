@@ -8,6 +8,9 @@
         <item android:id="@+id/nav_clientes"
             android:icon="@drawable/team"
             android:title="Clientes" />
+        <item android:id="@+id/nav_productos"
+            android:icon="@drawable/shopping"
+            android:title="Productos" />
         <item android:id="@+id/nav_vender"
             android:icon="@drawable/commerce"
             android:title="Vender" />
