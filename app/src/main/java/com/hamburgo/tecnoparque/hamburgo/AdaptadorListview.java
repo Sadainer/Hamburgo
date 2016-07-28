@@ -77,7 +77,8 @@ public class AdaptadorListview extends ArrayAdapter<ClienteDTO> {
     @Override
     public Filter getFilter() {
         return new Filter() {
-//
+
+
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 if(constraint != null) {
