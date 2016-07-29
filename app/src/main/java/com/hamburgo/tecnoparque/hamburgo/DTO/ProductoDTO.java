@@ -9,6 +9,15 @@ public class ProductoDTO {
     private int Precio;
     private String Tipo;
     private String Descripcion;
+    private int imagen;
+
+    public int getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(int imagen) {
+        this.imagen = imagen;
+    }
 
     public String getNombre() {
         return Nombre;

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
+import com.hamburgo.tecnoparque.hamburgo.DTO.ProductoDTO;
 
 import java.util.ArrayList;
 
@@ -129,4 +130,68 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         db.execSQL("DELETE FROM " + TABLA_1);
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////
+
+
+    private ContentValues GenerarContentValuesProductos(ProductoDTO m) {
+        ContentValues valores = new ContentValues();
+        valores.put(TABLA_2_CAMPO_1, m.getNombre());
+        valores.put(TABLA_2_CAMPO_2, m.getTipo());
+        valores.put(TABLA_2_CAMPO_3, m.getPrecio());
+        valores.put(TABLA_2_CAMPO_4, m.getDescripcion());
+        return valores;
+    }
+
+    public void InsertarProductos(ProductoDTO m) {
+        db.insert(TABLA_2, null, GenerarContentValuesProductos(m));
+    }
+    public void ActualizarProductos (ProductoDTO m, String nombre){
+        ContentValues valores = new ContentValues();
+        valores.put(TABLA_2_CAMPO_1, m.getNombre());
+        valores.put(TABLA_2_CAMPO_2, m.getTipo());
+        valores.put(TABLA_2_CAMPO_3, m.getPrecio());
+        valores.put(TABLA_2_CAMPO_4, m.getDescripcion());
+        db.update(TABLA_2, valores,TABLA_2_CAMPO_1 +  " = " + nombre, null);
+    }
+
+    public void EliminarProductos (String nombre){
+        db.delete(TABLA_2,TABLA_2_CAMPO_1 +  " = " + nombre, null);
+    }
+
+    public ProductoDTO getProducto(String nombre){
+
+        ProductoDTO m = null;
+        Cursor c = db.rawQuery(" SELECT " + TABLA_2_CAMPO_1 + " , "  + TABLA_2_CAMPO_2 + " , "+ TABLA_2_CAMPO_3 + " , "
+                + TABLA_2_CAMPO_4
+                + " FROM " + TABLA_2 + " where " + TABLA_2_CAMPO_1 + " = '" + nombre + "'" , null);
+        if (c.moveToFirst()) {
+            m = new ProductoDTO();
+            m.setNombre(c.getString(0));
+            m.setTipo(c.getString(1));
+            m.setPrecio(c.getInt(2));
+            m.setDescripcion(c.getString(3));
+        }
+        return m;
+    }
+
+    public ArrayList<ProductoDTO> getListaProductos(){
+        Cursor c = db.rawQuery(" SELECT " + TABLA_2_CAMPO_1 + " , "  + TABLA_2_CAMPO_2 + " , "+ TABLA_2_CAMPO_3 + " , "
+                + TABLA_2_CAMPO_4
+                + " FROM " + TABLA_2, null);
+        ArrayList<ProductoDTO> Lista = new ArrayList<ProductoDTO>();
+        while (c.moveToNext()){
+            ProductoDTO m = new ProductoDTO();
+            m = new ProductoDTO();
+            m.setNombre(c.getString(0));
+            m.setTipo(c.getString(1));
+            m.setPrecio(c.getInt(2));
+            m.setDescripcion(c.getString(3));
+            Lista.add(m);
+        }
+        return Lista;
+    }
+
+    public void deleteTodoProductos() {
+        db.execSQL("DELETE FROM " + TABLA_2);
+    }
 }

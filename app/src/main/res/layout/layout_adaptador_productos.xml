@@ -29,7 +29,7 @@
             android:textColor="@color/iconColor"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
-            android:id="@+id/textTitulo" />
+            android:id="@+id/txtNombre" />
 
         <TextView
             android:layout_width="match_parent"
@@ -37,14 +37,14 @@
             android:textColor="@color/iconColor"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
-            android:id="@+id/textSubTitulo" />
+            android:id="@+id/txtTipo" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
-            android:id="@+id/textView9" />
+            android:id="@+id/txtPrecio" />
     </LinearLayout>
 
 </LinearLayout>

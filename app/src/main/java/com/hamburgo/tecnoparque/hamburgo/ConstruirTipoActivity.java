@@ -28,8 +28,8 @@ public class ConstruirTipoActivity extends AppCompatActivity {
                         new itemLista("Piso", "Todo tipo de pisos", R.drawable.piso)
                 };
 
-//        AdaptadorListview adaptador =
-//                new AdaptadorListview(this,R.layout.layout_adaptador_listview,piso);
+//        AdaptadorListviewClientes adaptador =
+//                new AdaptadorListviewClientes(this,R.layout.layout_adaptador_listview,piso);
 
         listItemConstruirTipo = (ListView)findViewById(R.id.listViewConstruirTipo);
 

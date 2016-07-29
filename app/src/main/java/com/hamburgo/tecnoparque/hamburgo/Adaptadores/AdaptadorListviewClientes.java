@@ -1,4 +1,4 @@
-package com.hamburgo.tecnoparque.hamburgo;
+package com.hamburgo.tecnoparque.hamburgo.Adaptadores;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.itemLista;
+import com.hamburgo.tecnoparque.hamburgo.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +25,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by YOLIMA on 26/04/2016.
  */
-public class AdaptadorListview extends ArrayAdapter<ClienteDTO> {
+public class AdaptadorListviewClientes extends ArrayAdapter<ClienteDTO> {
 
     List<ClienteDTO> datos;
     ArrayList<ClienteDTO> datosBackup;
     Context cnt;
     int layout_list;
-    public AdaptadorListview(Context context, int resource, List<ClienteDTO> objects) {
+    public AdaptadorListviewClientes(Context context, int resource, List<ClienteDTO> objects) {
         super(context, resource, objects);
         datos=objects;
         cnt=context;
@@ -77,12 +78,10 @@ public class AdaptadorListview extends ArrayAdapter<ClienteDTO> {
     @Override
     public Filter getFilter() {
         return new Filter() {
-
-
+//
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 if(constraint != null) {
-                    constraint = constraint.toString().toLowerCase(Locale.getDefault());
                     Log.e("performFiltering",constraint.toString());
                     datos.clear();
                     for (ClienteDTO client : datosBackup)

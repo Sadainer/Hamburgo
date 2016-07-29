@@ -40,7 +40,6 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
 
     private ClienteReturn delegate = null;
     private ClienteDTO Cliente;
-    private Context cnt;
     private DataBaseManager manager;
 
 

@@ -7,29 +7,21 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewClientes;
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 
-import java.sql.SQLClientInfoException;
-import java.sql.SQLDataException;
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -40,7 +32,7 @@ public class ClientesFragment extends Fragment {
     ListView listItemClientes;
     Context cnt;
     ArrayList<ClienteDTO> datos;
-    AdaptadorListview adaptador;
+    AdaptadorListviewClientes adaptador;
     private DataBaseManager manager;
 
     public ClientesFragment() {
@@ -111,7 +103,7 @@ public class ClientesFragment extends Fragment {
         datos.clear();
         datos = manager.getListaClientes();
         if (datos.size() > 0) {
-            adaptador = new AdaptadorListview(cnt, R.layout.layout_adaptador_listview, datos);
+            adaptador = new AdaptadorListviewClientes(cnt, R.layout.layout_adaptador_listview, datos);
             listItemClientes.setAdapter(adaptador);
         }
     }

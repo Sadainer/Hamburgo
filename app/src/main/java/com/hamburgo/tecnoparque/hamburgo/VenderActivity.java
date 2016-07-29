@@ -32,8 +32,8 @@ public class VenderActivity extends AppCompatActivity {
                         new itemLista("Luminaria", "Todo tipo de luminarias", R.drawable.luminaria),
                 };
 
-//        AdaptadorListview adaptador =
-//                new AdaptadorListview(this,R.layout.layout_adaptador_listview,datos);
+//        AdaptadorListviewClientes adaptador =
+//                new AdaptadorListviewClientes(this,R.layout.layout_adaptador_listview,datos);
 //
 //        listItemConstruir = (ListView)findViewById(R.id.listViewConstruir);
 //

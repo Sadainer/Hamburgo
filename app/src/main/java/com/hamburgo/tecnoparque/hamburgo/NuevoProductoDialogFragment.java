@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
+import com.hamburgo.tecnoparque.hamburgo.DTO.ProductoDTO;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ public class NuevoProductoDialogFragment extends android.app.DialogFragment  {
     private EditText edtDescripcion;
 
     private ProductoReturn delegate = null;
-
+    private ProductoDTO Producto;
     private Context cnt;
     private DataBaseManager manager;
 
@@ -45,8 +46,9 @@ public class NuevoProductoDialogFragment extends android.app.DialogFragment  {
     }
 
 
-    public NuevoProductoDialogFragment(Context cnt, ProductoReturn delegate) {
+    public NuevoProductoDialogFragment(Context cnt, ProductoDTO producto, ProductoReturn delegate) {
         this.delegate = delegate;
+        this.Producto = producto;
         manager = new DataBaseManager(cnt);
     }
 
@@ -68,21 +70,18 @@ public class NuevoProductoDialogFragment extends android.app.DialogFragment  {
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(cnt,R.layout.layout_adaptador_spinner,R.id.textItem, datos);
         spiTipo.setAdapter(adaptador);
 
-//        if (Cliente!= null){
-//            edtNombres.setText(Cliente.getNombres());
-//            edtApellidos.setText(Cliente.getApellidos());
-//            edtCelular.setText(Cliente.getCelular());
-//            edtCedula.setText(Cliente.getCedula());
-//            edtDireccion.setText(Cliente.getDireccion());
-//            edtEmpleo.setText(Cliente.getEmpleo());
-//            edtEmpresa.setText(Cliente.getEmpresa());
-//        }
+        if (Producto!= null){
+            edtNombre.setText(Producto.getNombre().toString());
+            edtPrecio.setText(String.valueOf(Producto.getPrecio()));
+            edtDescripcion.setText(Producto.getDescripcion().toString());
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Nuevo Cliente");
+        builder.setTitle("Nuevo Producto");
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Log.e("Sadainer","No funciona");
             }
         });
 
@@ -97,51 +96,46 @@ public class NuevoProductoDialogFragment extends android.app.DialogFragment  {
     }
 
 
-//    @Override
-//    public void onStart()
-//    {
-//        super.onStart();    //super.onStart() is where dialog.show() is actually called on the underlying dialog, so we have to do it after this point
-//        AlertDialog dialog = (AlertDialog)getDialog();
-//        if(dialog != null)
-//        {
-//            Button positiveButton = (Button) dialog.getButton(Dialog.BUTTON_POSITIVE);
-//            positiveButton.setOnClickListener(new View.OnClickListener()
-//            {
-//                @Override
-//                public void onClick(View v)
-//                {
-//                    Boolean BanderaGuardar=false;
-//                    if (!TextUtils.isEmpty(edtCedula.getText().toString())
-//                            && !TextUtils.isEmpty(edtNombres.getText().toString())
-//                            && !TextUtils.isEmpty(edtApellidos.getText().toString())
-//                            && !TextUtils.isEmpty(edtCelular.getText().toString()))  {
-//
-//                        BanderaGuardar = true;
-//                        ClienteDTO cliente = new ClienteDTO();
-//                        cliente.setCedula(edtCedula.getText().toString());
-//                        cliente.setCelular(edtCelular.getText().toString());
-//                        cliente.setNombres(edtNombres.getText().toString());
-//                        cliente.setApellidos(edtApellidos.getText().toString());
-//                        cliente.setDireccion(edtDireccion.getText().toString());
-//                        cliente.setEmpresa(edtEmpresa.getText().toString());
-//                        cliente.setEmpleo(edtEmpleo.getText().toString());
-//                        Log.e("Sadainer",edtCelular.getText().toString());
-//                        Log.e("Sadainer",String.valueOf(cliente.getCelular()));
-//
-//                        if (Cliente==null){
-//                            manager.Insertar(cliente);
-//                        }else{
-//                            manager.Actualizar(cliente, Cliente.getCedula().toString());
-//                        }
-//
-//                        delegate.processFinish();
-//                }else{
-//                    Toast.makeText(getActivity().getApplicationContext(),"Complete los campos obligatorios",Toast.LENGTH_SHORT).show();
-//                }
-//                    if(BanderaGuardar)
-//                        dismiss();
-//                }
-//            });
-//        }
-//    }
+    @Override
+    public void onStart()
+    {
+        super.onStart();    //super.onStart() is where dialog.show() is actually called on the underlying dialog, so we have to do it after this point
+        AlertDialog dialog = (AlertDialog)getDialog();
+        if(dialog != null)
+        {
+            Button positiveButton = (Button) dialog.getButton(Dialog.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    Log.e("Sadainer","Funciona");
+                    Boolean BanderaGuardar=false;
+                    if (!TextUtils.isEmpty(edtNombre.getText().toString())
+                            && !TextUtils.isEmpty(spiTipo.getSelectedItem().toString())
+                            && !TextUtils.isEmpty(edtPrecio.getText().toString()))  {
+
+                        BanderaGuardar = true;
+                        ProductoDTO producto = new ProductoDTO();
+                        producto.setNombre(edtNombre.getText().toString());
+                        producto.setDescripcion(edtDescripcion.getText().toString());
+                        producto.setTipo(spiTipo.getSelectedItem().toString());
+                        producto.setPrecio(Integer.valueOf(edtPrecio.getText().toString()));
+
+                        if (Producto==null){
+                            manager.InsertarProductos(producto);
+                        }else{
+                            manager.ActualizarProductos(producto, Producto.getNombre().toString());
+                        }
+
+                        delegate.processFinish();
+                }else{
+                    Toast.makeText(getActivity().getApplicationContext(),"Complete los campos obligatorios",Toast.LENGTH_SHORT).show();
+                }
+                    if(BanderaGuardar)
+                        dismiss();
+                }
+            });
+        }
+    }
 }

@@ -2,28 +2,21 @@ package com.hamburgo.tecnoparque.hamburgo;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewClientes;
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 
 /**
@@ -35,7 +28,7 @@ public class VenderFragment extends Fragment {
     Context cnt;
     List<ClienteDTO> datos;
     ArrayList<ClienteDTO> datosBackup;
-    AdaptadorListview adaptador;
+    AdaptadorListviewClientes adaptador;
     private DataBaseManager manager;
 
     public VenderFragment() {
@@ -74,7 +67,7 @@ public class VenderFragment extends Fragment {
         datos = manager.getListaClientes();
         datosBackup.addAll(datos);
         if (datos.size() > 0) {
-            adaptador = new AdaptadorListview(cnt, R.layout.layout_adaptador_listview, datos);
+            adaptador = new AdaptadorListviewClientes(cnt, R.layout.layout_adaptador_listview, datos);
             textView.setThreshold(3);
             textView.setAdapter(adaptador);
         }
