@@ -37,8 +37,6 @@ public class NuevoProductoDialogFragment extends android.app.DialogFragment  {
 
     private Context cnt;
     private DataBaseManager manager;
-    private ArrayList<String> parentItems = new ArrayList<String>();
-    private ArrayList<Object> childItems = new ArrayList<Object>();
 
 
 
@@ -65,7 +63,7 @@ public class NuevoProductoDialogFragment extends android.app.DialogFragment  {
         spiTipo = (Spinner) v.findViewById(R.id.spiTipo);
         edtDescripcion = (EditText)v.findViewById(R.id.edtDescripcion);
 
-        final String[] datos =new String[]{"Relojes","Bolsos","Collares","Televisores","Celulares"};
+        final String[] datos =new String[]{"Relojes","Bolsos","Collares","Televisores","Celulares","Crédito"};
 
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(cnt,R.layout.layout_adaptador_spinner,R.id.textItem, datos);
         spiTipo.setAdapter(adaptador);
