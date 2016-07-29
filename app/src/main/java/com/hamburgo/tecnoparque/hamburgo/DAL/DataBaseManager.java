@@ -16,25 +16,39 @@ public class DataBaseManager {
     //----------------------------------TABLA 1----------------------------------------------
     public static  final String TABLA_1="Clientes"; // Nombre de la tabla
 
-
-
-    public static  final String CAMPO_1="Cedula";
-    public static  final String CAMPO_2="Nombres";
-    public static  final String CAMPO_3="Apellidos";
-    public static  final String CAMPO_4="Direccion";
-    public static  final String CAMPO_5="Empleo";
-    public static  final String CAMPO_6="Empresa";
-    public static  final String CAMPO_7="Celular";
+    public static  final String TABLA_1_CAMPO_1="Cedula";
+    public static  final String TABLA_1_CAMPO_2="Nombres";
+    public static  final String TABLA_1_CAMPO_3="Apellidos";
+    public static  final String TABLA_1_CAMPO_4="Direccion";
+    public static  final String TABLA_1_CAMPO_5="Empleo";
+    public static  final String TABLA_1_CAMPO_6="Empresa";
+    public static  final String TABLA_1_CAMPO_7="Celular";
 
     public static  final String CREATE_TABLE_1 = "create table " + TABLA_1 + " ("
-            + CAMPO_1 + " text primary key not null, "
-            + CAMPO_2 + " text not null, "
-            + CAMPO_3 + " text not null, "
-            + CAMPO_4 + " text,"
-            + CAMPO_5 + " text,"
-            + CAMPO_6 + " text,"
-            + CAMPO_7 + " text not null);" ; //integer
+            + TABLA_1_CAMPO_1 + " text primary key not null, "
+            + TABLA_1_CAMPO_2 + " text not null, "
+            + TABLA_1_CAMPO_3 + " text not null, "
+            + TABLA_1_CAMPO_4 + " text,"
+            + TABLA_1_CAMPO_5 + " text,"
+            + TABLA_1_CAMPO_6 + " text,"
+            + TABLA_1_CAMPO_7 + " text not null);" ; //integer
 //------------------------------------Tabla 2---------------------------------------------
+public static  final String TABLA_2="Productos"; // Nombre de la tabla
+
+    public static  final String TABLA_2_CAMPO_1="Nombre";
+    public static  final String TABLA_2_CAMPO_2="Tipo";
+    public static  final String TABLA_2_CAMPO_3="Precio";
+    public static  final String TABLA_2_CAMPO_4="Descripcion";
+
+    public static  final String CREATE_TABLE_2 = "create table " + TABLA_2 + " ("
+            + TABLA_2_CAMPO_1 + " text not null, "
+            + TABLA_2_CAMPO_2 + " text not null, "
+            + TABLA_2_CAMPO_3 + " text, "
+            + TABLA_2_CAMPO_4 + " text);" ; //integer
+
+
+
+
 
     public DataBaseManager(Context context) {
          helper = new AdminSQLiteOpenHelper(context);
@@ -44,13 +58,13 @@ public class DataBaseManager {
 
     private ContentValues GenerarContentValues(ClienteDTO m) {
         ContentValues valores = new ContentValues();
-        valores.put(CAMPO_1, m.getCedula());
-        valores.put(CAMPO_2, m.getNombres());
-        valores.put(CAMPO_3, m.getApellidos());
-        valores.put(CAMPO_4, m.getDireccion());
-        valores.put(CAMPO_5, m.getEmpleo());
-        valores.put(CAMPO_6, m.getEmpresa());
-        valores.put(CAMPO_7, m.getCelular());
+        valores.put(TABLA_1_CAMPO_1, m.getCedula());
+        valores.put(TABLA_1_CAMPO_2, m.getNombres());
+        valores.put(TABLA_1_CAMPO_3, m.getApellidos());
+        valores.put(TABLA_1_CAMPO_4, m.getDireccion());
+        valores.put(TABLA_1_CAMPO_5, m.getEmpleo());
+        valores.put(TABLA_1_CAMPO_6, m.getEmpresa());
+        valores.put(TABLA_1_CAMPO_7, m.getCelular());
         return valores;
     }
 
@@ -59,25 +73,26 @@ public class DataBaseManager {
     }
     public void Actualizar (ClienteDTO c, String cedula){
         ContentValues valores = new ContentValues();
-        valores.put(CAMPO_1,c.getCedula());
-        valores.put(CAMPO_2,c.getNombres());
-        valores.put(CAMPO_3,c.getApellidos());
-        valores.put(CAMPO_4,c.getDireccion());
-        valores.put(CAMPO_5,c.getEmpleo());
-        valores.put(CAMPO_6,c.getEmpresa());
-        valores.put(CAMPO_7,c.getCelular());
-        db.update(TABLA_1, valores,CAMPO_1 +  " = " + cedula, null);
+        valores.put(TABLA_1_CAMPO_1,c.getCedula());
+        valores.put(TABLA_1_CAMPO_2,c.getNombres());
+        valores.put(TABLA_1_CAMPO_3,c.getApellidos());
+        valores.put(TABLA_1_CAMPO_4,c.getDireccion());
+        valores.put(TABLA_1_CAMPO_5,c.getEmpleo());
+        valores.put(TABLA_1_CAMPO_6,c.getEmpresa());
+        valores.put(TABLA_1_CAMPO_7,c.getCelular());
+        db.update(TABLA_1, valores,TABLA_1_CAMPO_1 +  " = " + cedula, null);
     }
 
     public void Eliminar (String cedula){
-        db.delete(TABLA_1,CAMPO_1 +  " = " + cedula, null);
+        db.delete(TABLA_1,TABLA_1_CAMPO_1 +  " = " + cedula, null);
     }
 
     public ClienteDTO getUsuario(String cedula){
 
         ClienteDTO m = null;
-        Cursor c = db.rawQuery(" SELECT " + CAMPO_1 + " , "  + CAMPO_2 + " , "+ CAMPO_3 + " , "+ CAMPO_4 + " , " + CAMPO_5 + " , "
-                + CAMPO_6 + " , "+ CAMPO_7 + " FROM " + TABLA_1 + " where " + CAMPO_1 + " = " + cedula, null);
+        Cursor c = db.rawQuery(" SELECT " + TABLA_1_CAMPO_1 + " , "  + TABLA_1_CAMPO_2 + " , "+ TABLA_1_CAMPO_3 + " , "
+                + TABLA_1_CAMPO_4 + " , " + TABLA_1_CAMPO_5 + " , " + TABLA_1_CAMPO_6 + " , "+ TABLA_1_CAMPO_7
+                + " FROM " + TABLA_1 + " where " + TABLA_1_CAMPO_1 + " = " + cedula, null);
         if (c.moveToFirst()) {
             m = new ClienteDTO();
             m.setCedula(c.getString(0));
@@ -92,8 +107,9 @@ public class DataBaseManager {
     }
 
     public ArrayList<ClienteDTO> getListaClientes(){
-        Cursor c = db.rawQuery(" SELECT " + CAMPO_1 + " , "  + CAMPO_2 + " , "+ CAMPO_3 + " , "+ CAMPO_4 + " , " + CAMPO_5 + " , "
-                + CAMPO_6 + " , "+ CAMPO_7 + " FROM " + TABLA_1, null);
+        Cursor c = db.rawQuery(" SELECT " + TABLA_1_CAMPO_1 + " , "  + TABLA_1_CAMPO_2 + " , "+ TABLA_1_CAMPO_3 + " , "
+                + TABLA_1_CAMPO_4 + " , " + TABLA_1_CAMPO_5 + " , " + TABLA_1_CAMPO_6 + " , "+ TABLA_1_CAMPO_7
+                + " FROM " + TABLA_1, null);
         ArrayList<ClienteDTO> Lista = new ArrayList<ClienteDTO>();
         while (c.moveToNext()){
             ClienteDTO m = new ClienteDTO();

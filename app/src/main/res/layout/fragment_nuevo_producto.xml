@@ -28,77 +28,48 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
                     android:ems="10"
-                    android:id="@+id/edtCedula" />
+                    android:id="@+id/edtNombre" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nombres *"
+                    android:text="Precio *"
                     android:id="@+id/textView3" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/edtNombres" />
+                    android:inputType="number"
+                    android:id="@+id/edtPrecio" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Apellidos *"
+                    android:text="Tipo *"
                     android:id="@+id/textView4" />
 
-                <EditText
+
+                <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/edtApellido" />
+                    android:id="@+id/spiTipo"
+                    android:layout_gravity="center_horizontal" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Celular *"
+                    android:text="Descripción *"
                     android:id="@+id/textView5" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
                     android:ems="10"
-                    android:id="@+id/edtCelular" />
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:id="@+id/edtDescripcion" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Dirección"
-                    android:id="@+id/textView6" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/edtDireccion" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Empleo"
-                    android:id="@+id/textView7" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/edtEmpleo" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Empresa"
-                    android:id="@+id/textView8" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/edtEmpresa" />
 
             </LinearLayout>
         </ScrollView>
