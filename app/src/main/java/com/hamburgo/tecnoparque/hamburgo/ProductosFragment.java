@@ -77,6 +77,8 @@ public class ProductosFragment extends Fragment {
         datos= new ArrayList<ProductoDTO>();
         cnt= getActivity().getApplicationContext();
         manager = new DataBaseManager(cnt);
+        adaptador = new AdaptadorListviewProductos(cnt, R.layout.layout_adaptador_productos, datos);
+
         listItemProductos = (ListView)Vista.findViewById(R.id.listView);
         listItemProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
