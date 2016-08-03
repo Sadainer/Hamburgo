@@ -2,6 +2,7 @@ package com.hamburgo.tecnoparque.hamburgo;
 
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -15,6 +16,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.hamburgo.tecnoparque.hamburgo.ClasesAsincronas.GetAsyncrona;
 
 
 /**
@@ -22,6 +27,9 @@ import android.view.ViewGroup;
  */
 public class InicioFragment extends Fragment {
 
+    Button boton ;
+    Context cnt;
+    String URI = "http://190.109.185.138:8024/api/arboles";
 
     public InicioFragment() {
         // Required empty public constructor
@@ -37,7 +45,29 @@ public class InicioFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_inicio, container, false);
+        View vista = inflater.inflate(R.layout.fragment_inicio, container, false);
+
+        cnt = getActivity();
+        boton = (Button)vista.findViewById(R.id.button);
+        boton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GetAsyncrona getAsyncrona = (GetAsyncrona) new GetAsyncrona(cnt, new GetAsyncrona.AsyncResponse() {
+                    @Override
+                    public void processFinish(String output) {
+
+                        if (!output.equals("")){
+                            Toast.makeText(cnt,output.toString(),Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(cnt,"Respuesta no contiene datos",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).execute(URI);
+
+            }
+        });
+
+        return vista;
     }
 
 

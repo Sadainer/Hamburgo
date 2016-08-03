@@ -82,6 +82,7 @@ public class AdaptadorListviewClientes extends ArrayAdapter<ClienteDTO> {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 if(constraint != null) {
+                    constraint = constraint.toString().toLowerCase(Locale.getDefault());
                     Log.e("performFiltering",constraint.toString());
                     datos.clear();
                     for (ClienteDTO client : datosBackup)

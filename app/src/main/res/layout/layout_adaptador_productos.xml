@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:paddingBottom="5dp"
     android:paddingTop="5dp"
+    android:background="@drawable/fondo_degradado"
     android:weightSum="1">
 
 
