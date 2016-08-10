@@ -1,9 +1,13 @@
 package com.hamburgo.tecnoparque.hamburgo;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,13 +28,13 @@ public class ProductoDetalleFragment extends DialogFragment {
 
     private ProductoReturn delegate = null;
     ProductoDTO Producto;
-    TextView txtNombre, txtPrecio, txtTipo;
-    EditText edtCantidad;
+    TextView txtNombre, txtTipo;
+    EditText edtCantidad,edtPrecio;
     CircleImageView Imagen;
 
 
     public interface ProductoReturn{
-        void processFinish();
+        void processFinish(ProductoDTO p);
     }
 
     public ProductoDetalleFragment(ProductoDTO producto, ProductoReturn delegate) {
@@ -39,19 +43,41 @@ public class ProductoDetalleFragment extends DialogFragment {
     }
 
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View vista = inflater.inflate(R.layout.fragment_producto_detalle, container, false);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        LayoutInflater i = getActivity().getLayoutInflater();
+        View vista = i.inflate(R.layout.fragment_producto_detalle,null);
 
         txtNombre = (TextView)vista.findViewById(R.id.txtNombre);
-        txtPrecio = (TextView)vista.findViewById(R.id.txtPrecio);
-        txtNombre = (TextView)vista.findViewById(R.id.txtNombre);
-        txtNombre = (TextView)vista.findViewById(R.id.txtNombre);
+        txtTipo = (TextView)vista.findViewById(R.id.txtTipo);
+        edtPrecio = (EditText) vista.findViewById(R.id.edtPrecio);
+        edtCantidad = (EditText) vista.findViewById(R.id.edtCantidad);
 
+        txtNombre.setText(Producto.getNombre());
+        txtTipo.setText(Producto.getTipo());
+        edtPrecio.setText(String.valueOf(Producto.getPrecio()));
 
-        return vista;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//        builder.setTitle("Detalle Producto");
+        builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                Producto.setPrecio(Integer.valueOf(edtPrecio.getText().toString()));
+                Producto.setTipo(edtCantidad.getText().toString());
+                delegate.processFinish(Producto);
+            }
+        });
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dismiss();
+            }
+        });
+        builder.setView(vista);
+
+        return builder.create();
     }
-
 }

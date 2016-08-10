@@ -1,6 +1,7 @@
 package com.hamburgo.tecnoparque.hamburgo;
 
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -97,14 +98,30 @@ public class VenderFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                datosProductosFinal.add(datosProductos.get(position));
+                ProductoDTO p = datosProductos.get(position);
+                if (!datosProductosFinal.contains(p)){
+                    MostrarDialog(p);
+                }
                 AutCompleteProductos.setText("");
-                adaptadorProductosFinal.notifyDataSetChanged();
+
             }
         });
 
         return vista;
     }
+
+    private void MostrarDialog(ProductoDTO producto){
+        FragmentManager fm = getFragmentManager();
+        ProductoDetalleFragment dialogFragment = new ProductoDetalleFragment(producto, new ProductoDetalleFragment.ProductoReturn() {
+            @Override
+            public void processFinish(ProductoDTO p) {
+                datosProductosFinal.add(p);
+                adaptadorProductosFinal.notifyDataSetChanged();
+            }
+        });
+        dialogFragment.show(fm, "Sample Fragment");
+    }
+
 
     private void LlenarListaClientes () {
         datos.clear();

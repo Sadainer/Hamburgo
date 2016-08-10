@@ -121,6 +121,7 @@ public class NuevoProductoDialogFragment extends android.app.DialogFragment  {
                         producto.setDescripcion(edtDescripcion.getText().toString());
                         producto.setTipo(spiTipo.getSelectedItem().toString());
                         producto.setPrecio(Integer.valueOf(edtPrecio.getText().toString()));
+                        producto.setImagen(R.drawable.commerce);
 
                         if (Producto==null){
                             manager.InsertarProductos(producto);

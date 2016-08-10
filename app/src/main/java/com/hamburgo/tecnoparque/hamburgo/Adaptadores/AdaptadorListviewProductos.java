@@ -67,7 +67,7 @@ public class AdaptadorListviewProductos extends ArrayAdapter<ProductoDTO> {
             holder.txtNombre.setText(rowItem.getNombre());
             holder.txtPrecio.setText(String.valueOf(rowItem.getPrecio()));
             holder.txtTipo.setText(rowItem.getTipo());
-            holder.Imagen.setImageResource(rowItem.getImagen());
+            holder.Imagen.setImageResource(R.drawable.commerce);
 
             return convertView;
         }

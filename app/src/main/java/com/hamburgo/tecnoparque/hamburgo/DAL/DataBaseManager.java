@@ -32,7 +32,7 @@ public class DataBaseManager {
             + TABLA_1_CAMPO_4 + " text,"
             + TABLA_1_CAMPO_5 + " text,"
             + TABLA_1_CAMPO_6 + " text,"
-            + TABLA_1_CAMPO_7 + " text not null);" ; //integer
+            + TABLA_1_CAMPO_7 + " text not null);" ;
 //------------------------------------Tabla 2---------------------------------------------
 public static  final String TABLA_2="Productos"; // Nombre de la tabla
 
