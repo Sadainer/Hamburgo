@@ -23,6 +23,17 @@ public class ProductoDTO {
         return Nombre;
     }
 
+    public ProductoDTO() {
+    }
+
+    public ProductoDTO(ProductoDTO p) {
+        this.setNombre(p.getNombre());
+        this.setTipo(p.getTipo());
+        this.setPrecio(p.getPrecio());
+        this.setDescripcion(p.getDescripcion());
+        this.setImagen(p.getImagen());
+    }
+
     public void setNombre(String nombre) {
         Nombre = nombre;
     }

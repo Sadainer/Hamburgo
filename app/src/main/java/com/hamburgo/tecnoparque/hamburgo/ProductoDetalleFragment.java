@@ -39,7 +39,7 @@ public class ProductoDetalleFragment extends DialogFragment {
 
     public ProductoDetalleFragment(ProductoDTO producto, ProductoReturn delegate) {
         this.delegate = delegate;
-        this.Producto = producto;
+        this.Producto = new ProductoDTO(producto);
     }
 
 
@@ -65,7 +65,7 @@ public class ProductoDetalleFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
 
                 Producto.setPrecio(Integer.valueOf(edtPrecio.getText().toString()));
-                Producto.setTipo(edtCantidad.getText().toString());
+                Producto.setTipo("Cantidad: " + edtCantidad.getText().toString());
                 delegate.processFinish(Producto);
             }
         });

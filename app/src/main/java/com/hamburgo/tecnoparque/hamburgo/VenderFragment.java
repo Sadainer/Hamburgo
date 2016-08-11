@@ -40,16 +40,19 @@ public class VenderFragment extends Fragment {
 
     AutoCompleteTextView AutCompleteClientes,AutCompleteProductos ;
     ListView ListProductos;
+    TextView txtTotal;
+    Long Total = (long)0;
+
+
     Context cnt;
     List<ClienteDTO> datos;
-    ArrayList<ClienteDTO> datosBackup;
     AdaptadorListviewClientes adaptador;
 
-    List<ProductoDTO> datosProductos;
-    ArrayList<ProductoDTO> datosBackupProductos;
+
     AdaptadorListviewProductos adaptadorProductos;
     AdaptadorListviewProductos adaptadorProductosFinal;
 
+    List<ProductoDTO> datosProductos;
     List<ProductoDTO> datosProductosFinal;
 
     private DataBaseManager manager;
@@ -72,19 +75,20 @@ public class VenderFragment extends Fragment {
 
         cnt= getActivity().getApplicationContext();
         manager = new DataBaseManager(cnt);
-        datosBackup = new ArrayList<>();
-        datosBackupProductos = new ArrayList<>();
 
 
+        txtTotal = (TextView)vista.findViewById(R.id.txtTotal);
         AutCompleteClientes = (AutoCompleteTextView)vista.findViewById(R.id.autoCompleteClientes);
         AutCompleteProductos = (AutoCompleteTextView)vista.findViewById(R.id.autoCompleteproductos);
         ListProductos = (ListView)vista.findViewById(R.id.listViewProductos);
 
+        adaptadorProductosFinal = new AdaptadorListviewProductos(cnt, R.layout.layout_adaptador_productos, datosProductosFinal);
+        ListProductos.setAdapter(adaptadorProductosFinal);
+
         LlenarListaClientes();
         LlenarListaProductos();
 
-        adaptadorProductosFinal = new AdaptadorListviewProductos(cnt, R.layout.layout_adaptador_productos, datosProductosFinal);
-        ListProductos.setAdapter(adaptadorProductosFinal);
+
 
         AutCompleteClientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -99,7 +103,7 @@ public class VenderFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 ProductoDTO p = datosProductos.get(position);
-                if (!datosProductosFinal.contains(p)){
+                if (!ProductoContains(p.getNombre())){
                     MostrarDialog(p);
                 }
                 AutCompleteProductos.setText("");
@@ -116,17 +120,18 @@ public class VenderFragment extends Fragment {
             @Override
             public void processFinish(ProductoDTO p) {
                 datosProductosFinal.add(p);
+                Total += p.getPrecio();
+                txtTotal.setText("Total = " + String.valueOf(Total));
                 adaptadorProductosFinal.notifyDataSetChanged();
             }
         });
-        dialogFragment.show(fm, "Sample Fragment");
+        dialogFragment.show(fm, null);
     }
 
 
     private void LlenarListaClientes () {
         datos.clear();
         datos = manager.getListaClientes();
-        datosBackup.addAll(datos);
         if (datos.size() > 0) {
             adaptador = new AdaptadorListviewClientes(cnt, R.layout.layout_adaptador_listview, datos);
             AutCompleteClientes.setThreshold(3);
@@ -136,12 +141,20 @@ public class VenderFragment extends Fragment {
     private void LlenarListaProductos() {
         datosProductos.clear();
         datosProductos = manager.getListaProductos();
-        datosBackupProductos.addAll(datosProductos);
         if (datosProductos.size() > 0) {
             adaptadorProductos = new AdaptadorListviewProductos(cnt, R.layout.layout_adaptador_productos, datosProductos);
             AutCompleteProductos.setThreshold(3);
             AutCompleteProductos.setAdapter(adaptadorProductos);
         }
+    }
+    private Boolean ProductoContains(String Nombre){
+
+        for (ProductoDTO p :datosProductosFinal) {
+            if (p.getNombre().equals(Nombre)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
