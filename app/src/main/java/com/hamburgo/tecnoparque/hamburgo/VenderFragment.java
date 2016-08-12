@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ListView;
@@ -41,6 +42,8 @@ public class VenderFragment extends Fragment {
     AutoCompleteTextView AutCompleteClientes,AutCompleteProductos ;
     ListView ListProductos;
     TextView txtTotal;
+    EditText edtCuotas;
+
     Long Total = (long)0;
 
 
@@ -78,6 +81,7 @@ public class VenderFragment extends Fragment {
 
 
         txtTotal = (TextView)vista.findViewById(R.id.txtTotal);
+        edtCuotas = (EditText) vista.findViewById(R.id.edtCuota);
         AutCompleteClientes = (AutoCompleteTextView)vista.findViewById(R.id.autoCompleteClientes);
         AutCompleteProductos = (AutoCompleteTextView)vista.findViewById(R.id.autoCompleteproductos);
         ListProductos = (ListView)vista.findViewById(R.id.listViewProductos);
@@ -120,8 +124,13 @@ public class VenderFragment extends Fragment {
             @Override
             public void processFinish(ProductoDTO p) {
                 datosProductosFinal.add(p);
-                Total += p.getPrecio();
+                Total += p.getPrecio() * Integer.valueOf(p.getTipo());
                 txtTotal.setText("Total = " + String.valueOf(Total));
+                if (Total>=700000){
+                    edtCuotas.setText("3");
+                }else{
+                    edtCuotas.setText("2");
+                }
                 adaptadorProductosFinal.notifyDataSetChanged();
             }
         });
