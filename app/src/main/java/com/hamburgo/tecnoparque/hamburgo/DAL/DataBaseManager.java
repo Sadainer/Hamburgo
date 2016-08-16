@@ -33,6 +33,7 @@ public class DataBaseManager {
             + TABLA_1_CAMPO_5 + " text,"
             + TABLA_1_CAMPO_6 + " text,"
             + TABLA_1_CAMPO_7 + " text not null);" ;
+
 //------------------------------------Tabla 2---------------------------------------------
 public static  final String TABLA_2="Productos"; // Nombre de la tabla
 
@@ -47,7 +48,82 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
             + TABLA_2_CAMPO_3 + " text, "
             + TABLA_2_CAMPO_4 + " text);" ; //integer
 
+    //----------------------------------TABLA 3----------------------------------------------
+    public static  final String TABLA_3="Ventas"; // Nombre de la tabla
 
+    public static  final String TABLA_3_CAMPO_1="Fecha";
+    public static  final String TABLA_3_CAMPO_2="IdCliente";
+    public static  final String TABLA_3_CAMPO_3="IdVenderor";
+    public static  final String TABLA_3_CAMPO_4="Direccion";
+    public static  final String TABLA_3_CAMPO_5="Empleo";
+    public static  final String TABLA_3_CAMPO_6="Empresa";
+    public static  final String TABLA_3_CAMPO_7="Celular";
+
+    public static  final String CREATE_TABLE_1 = "create table " + TABLA_1 + " ("
+            + TABLA_1_CAMPO_1 + " text primary key not null, "
+            + TABLA_1_CAMPO_2 + " text not null, "
+            + TABLA_1_CAMPO_3 + " text not null, "
+            + TABLA_1_CAMPO_4 + " text,"
+            + TABLA_1_CAMPO_5 + " text,"
+            + TABLA_1_CAMPO_6 + " text,"
+            + TABLA_1_CAMPO_7 + " text not null);" ;
+    //----------------------------------TABLA 1----------------------------------------------
+    public static  final String TABLA_1="Clientes"; // Nombre de la tabla
+
+    public static  final String TABLA_1_CAMPO_1="Cedula";
+    public static  final String TABLA_1_CAMPO_2="Nombres";
+    public static  final String TABLA_1_CAMPO_3="Apellidos";
+    public static  final String TABLA_1_CAMPO_4="Direccion";
+    public static  final String TABLA_1_CAMPO_5="Empleo";
+    public static  final String TABLA_1_CAMPO_6="Empresa";
+    public static  final String TABLA_1_CAMPO_7="Celular";
+
+    public static  final String CREATE_TABLE_1 = "create table " + TABLA_1 + " ("
+            + TABLA_1_CAMPO_1 + " text primary key not null, "
+            + TABLA_1_CAMPO_2 + " text not null, "
+            + TABLA_1_CAMPO_3 + " text not null, "
+            + TABLA_1_CAMPO_4 + " text,"
+            + TABLA_1_CAMPO_5 + " text,"
+            + TABLA_1_CAMPO_6 + " text,"
+            + TABLA_1_CAMPO_7 + " text not null);" ;
+    //----------------------------------TABLA 1----------------------------------------------
+    public static  final String TABLA_1="Clientes"; // Nombre de la tabla
+
+    public static  final String TABLA_1_CAMPO_1="Cedula";
+    public static  final String TABLA_1_CAMPO_2="Nombres";
+    public static  final String TABLA_1_CAMPO_3="Apellidos";
+    public static  final String TABLA_1_CAMPO_4="Direccion";
+    public static  final String TABLA_1_CAMPO_5="Empleo";
+    public static  final String TABLA_1_CAMPO_6="Empresa";
+    public static  final String TABLA_1_CAMPO_7="Celular";
+
+    public static  final String CREATE_TABLE_1 = "create table " + TABLA_1 + " ("
+            + TABLA_1_CAMPO_1 + " text primary key not null, "
+            + TABLA_1_CAMPO_2 + " text not null, "
+            + TABLA_1_CAMPO_3 + " text not null, "
+            + TABLA_1_CAMPO_4 + " text,"
+            + TABLA_1_CAMPO_5 + " text,"
+            + TABLA_1_CAMPO_6 + " text,"
+            + TABLA_1_CAMPO_7 + " text not null);" ;
+    //----------------------------------TABLA 1----------------------------------------------
+    public static  final String TABLA_1="Clientes"; // Nombre de la tabla
+
+    public static  final String TABLA_1_CAMPO_1="Cedula";
+    public static  final String TABLA_1_CAMPO_2="Nombres";
+    public static  final String TABLA_1_CAMPO_3="Apellidos";
+    public static  final String TABLA_1_CAMPO_4="Direccion";
+    public static  final String TABLA_1_CAMPO_5="Empleo";
+    public static  final String TABLA_1_CAMPO_6="Empresa";
+    public static  final String TABLA_1_CAMPO_7="Celular";
+
+    public static  final String CREATE_TABLE_1 = "create table " + TABLA_1 + " ("
+            + TABLA_1_CAMPO_1 + " text primary key not null, "
+            + TABLA_1_CAMPO_2 + " text not null, "
+            + TABLA_1_CAMPO_3 + " text not null, "
+            + TABLA_1_CAMPO_4 + " text,"
+            + TABLA_1_CAMPO_5 + " text,"
+            + TABLA_1_CAMPO_6 + " text,"
+            + TABLA_1_CAMPO_7 + " text not null);" ;
 
 
 
