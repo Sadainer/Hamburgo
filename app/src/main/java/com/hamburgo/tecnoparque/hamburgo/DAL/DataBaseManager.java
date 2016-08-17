@@ -3,13 +3,17 @@ package com.hamburgo.tecnoparque.hamburgo.DAL;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteAbortException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
+import com.hamburgo.tecnoparque.hamburgo.DTO.DetalleVentaDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ProductoDTO;
+import com.hamburgo.tecnoparque.hamburgo.DTO.VentaDTO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DataBaseManager {
     private AdminSQLiteOpenHelper helper;
@@ -245,5 +249,51 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
 
     public void deleteTodoProductos() {
         db.execSQL("DELETE FROM " + TABLA_2);
+    }
+    ////////////////////////////////////////////////////////////////
+
+    private ContentValues GenerarContentValuesVenta(VentaDTO m) {
+        ContentValues valores = new ContentValues();
+        valores.put(TABLA_3_CAMPO_1, m.getNumeroVenta());
+        valores.put(TABLA_3_CAMPO_2, m.getFecha());
+        valores.put(TABLA_3_CAMPO_3, m.getIdCliente());
+        valores.put(TABLA_3_CAMPO_4, m.getIdVenderor());
+        valores.put(TABLA_3_CAMPO_5, m.getValorVenta());
+        valores.put(TABLA_3_CAMPO_6, m.getNumeroCuotas());
+        valores.put(TABLA_3_CAMPO_7, m.getObservacion());
+        return valores;
+    }
+    private ContentValues GenerarContentValuesDetalleVenta(DetalleVentaDTO m) {
+        ContentValues valores = new ContentValues();
+        valores.put(TABLA_4_CAMPO_1, m.getNumeroDetalleVenta());
+        valores.put(TABLA_4_CAMPO_2, m.getNumeroVenta());
+        valores.put(TABLA_4_CAMPO_3, m.getNombre());
+        valores.put(TABLA_4_CAMPO_4, m.getValor());
+        return valores;
+    }
+
+    public void InsertarDetalleVenta(DetalleVentaDTO m) {
+            db.insert(TABLA_4, null, GenerarContentValuesDetalleVenta(m));
+    }
+
+    public boolean InsertarVenta(VentaDTO m) {
+        try {
+            db.insert(TABLA_3, null, GenerarContentValuesVenta(m));
+            return true;
+        }catch (SQLiteAbortException e){
+            return false;
+        }
+    }
+
+
+    public VentaDTO RegistrarVenta (VentaDTO venta, List<DetalleVentaDTO> detalle){
+        if (InsertarVenta(venta)){
+            for (DetalleVentaDTO d:detalle){
+                InsertarDetalleVenta(d);
+            }
+            return venta;
+        }else{
+            return null;
+        }
     }
 }

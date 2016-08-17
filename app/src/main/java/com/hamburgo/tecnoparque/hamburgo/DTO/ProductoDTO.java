@@ -6,16 +6,16 @@ package com.hamburgo.tecnoparque.hamburgo.DTO;
 public class ProductoDTO {
 
     private String Nombre;
-    private int Precio;
+    private Integer Precio;
     private String Tipo;
     private String Descripcion;
-    private int imagen;
+    private Integer imagen;
 
-    public int getImagen() {
+    public Integer getImagen() {
         return imagen;
     }
 
-    public void setImagen(int imagen) {
+    public void setImagen(Integer imagen) {
         this.imagen = imagen;
     }
 
@@ -38,11 +38,11 @@ public class ProductoDTO {
         Nombre = nombre;
     }
 
-    public int getPrecio() {
+    public Integer getPrecio() {
         return Precio;
     }
 
-    public void setPrecio(int precio) {
+    public void setPrecio(Integer precio) {
         Precio = precio;
     }
 

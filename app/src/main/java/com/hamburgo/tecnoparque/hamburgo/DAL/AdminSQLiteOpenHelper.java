@@ -17,13 +17,22 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DataBaseManager.CREATE_TABLE_1);
         db.execSQL(DataBaseManager.CREATE_TABLE_2);
+        db.execSQL(DataBaseManager.CREATE_TABLE_3);
+        db.execSQL(DataBaseManager.CREATE_TABLE_4);
+        db.execSQL(DataBaseManager.CREATE_TABLE_5);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+ DataBaseManager.TABLA_1);
         db.execSQL("DROP TABLE IF EXISTS "+ DataBaseManager.TABLA_2);
+        db.execSQL("DROP TABLE IF EXISTS "+ DataBaseManager.TABLA_3);
+        db.execSQL("DROP TABLE IF EXISTS "+ DataBaseManager.TABLA_4);
+        db.execSQL("DROP TABLE IF EXISTS "+ DataBaseManager.TABLA_5);
         db.execSQL(DataBaseManager.CREATE_TABLE_1);
         db.execSQL(DataBaseManager.CREATE_TABLE_2);
+        db.execSQL(DataBaseManager.CREATE_TABLE_3);
+        db.execSQL(DataBaseManager.CREATE_TABLE_4);
+        db.execSQL(DataBaseManager.CREATE_TABLE_5);
     }
 }
