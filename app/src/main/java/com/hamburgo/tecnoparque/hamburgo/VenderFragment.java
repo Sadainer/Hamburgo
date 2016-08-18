@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -26,8 +27,11 @@ import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewProductos;
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ProductoDTO;
+import com.hamburgo.tecnoparque.hamburgo.DTO.VentaDTO;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,6 +47,7 @@ public class VenderFragment extends Fragment {
     ListView ListProductos;
     TextView txtTotal;
     EditText edtCuotas;
+    Button btnRegistrar;
 
     Long Total = (long)0;
 
@@ -85,6 +90,7 @@ public class VenderFragment extends Fragment {
         AutCompleteClientes = (AutoCompleteTextView)vista.findViewById(R.id.autoCompleteClientes);
         AutCompleteProductos = (AutoCompleteTextView)vista.findViewById(R.id.autoCompleteproductos);
         ListProductos = (ListView)vista.findViewById(R.id.listViewProductos);
+        btnRegistrar = (Button)vista.findViewById(R.id.btnRegistrar);
 
         adaptadorProductosFinal = new AdaptadorListviewProductos(cnt, R.layout.layout_adaptador_productos, datosProductosFinal);
         ListProductos.setAdapter(adaptadorProductosFinal);
@@ -112,6 +118,23 @@ public class VenderFragment extends Fragment {
                 }
                 AutCompleteProductos.setText("");
 
+            }
+        });
+
+        btnRegistrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VentaDTO venta = new VentaDTO();
+
+                venta.setNumeroVenta(0);
+                venta.setIdVenderor("1065582510");
+                venta.setIdCliente(AutCompleteClientes.getText().toString());
+                venta.setNumeroCuotas(Integer.valueOf(edtCuotas.getText().toString()));
+                venta.setObservacion("Ninguna");
+
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                venta.setFecha(df.format(c.getTime()));
             }
         });
 
