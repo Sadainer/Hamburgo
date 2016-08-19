@@ -70,7 +70,8 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
             + TABLA_3_CAMPO_4 + " text not null,"
             + TABLA_3_CAMPO_5 + " text not null,"
             + TABLA_3_CAMPO_6 + " integer not null,"
-            + TABLA_3_CAMPO_7 + " text)" ;
+            + TABLA_3_CAMPO_7 + " text,"
+            + "FOREIGN KEY(" + TABLA_3_CAMPO_3 + ") REFERENCES " + TABLA_1 + "(" + TABLA_1_CAMPO_1 + "))" ;
     //----------------------------------TABLA 1----------------------------------------------
     public static  final String TABLA_4="DetalleVenta"; // Nombre de la tabla
 
@@ -272,23 +273,30 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         return valores;
     }
 
-    public void InsertarDetalleVenta(DetalleVentaDTO m) {
+    private void InsertarDetalleVenta(DetalleVentaDTO m) {
             db.insert(TABLA_4, null, GenerarContentValuesDetalleVenta(m));
     }
 
-    public boolean InsertarVenta(VentaDTO m) {
+    private Integer InsertarVenta(VentaDTO m) {
+        Integer max = null;
         try {
             db.insert(TABLA_3, null, GenerarContentValuesVenta(m));
-            return true;
+            Cursor c = db.rawQuery(" SELECT Max(" + TABLA_3_CAMPO_1 + ") FROM " + TABLA_3, null);
+            if (c.moveToFirst()) {
+                max = c.getInt(0);
+            }
         }catch (SQLiteAbortException e){
-            return false;
+            return null;
         }
+        return max;
     }
 
 
-    public VentaDTO RegistrarVenta (VentaDTO venta, List<DetalleVentaDTO> detalle){
-        if (InsertarVenta(venta)){
+    public VentaDTO RegistrarVenta (VentaDTO venta, ArrayList<DetalleVentaDTO> detalle){
+        Integer max = InsertarVenta(venta);
+        if (max!= null){
             for (DetalleVentaDTO d:detalle){
+                d.setNumeroVenta(max);
                 InsertarDetalleVenta(d);
             }
             return venta;

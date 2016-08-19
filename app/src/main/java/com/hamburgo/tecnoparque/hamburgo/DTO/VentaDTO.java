@@ -9,7 +9,7 @@ public class VentaDTO {
     private String Fecha;
     private String IdCliente;
     private String IdVenderor;
-    private String ValorVenta;
+    private Integer ValorVenta;
     private Integer NumeroCuotas;
     private String Observacion;
 
@@ -45,11 +45,11 @@ public class VentaDTO {
         IdVenderor = idVenderor;
     }
 
-    public String getValorVenta() {
+    public Integer getValorVenta() {
         return ValorVenta;
     }
 
-    public void setValorVenta(String valorVenta) {
+    public void setValorVenta(Integer valorVenta) {
         ValorVenta = valorVenta;
     }
 

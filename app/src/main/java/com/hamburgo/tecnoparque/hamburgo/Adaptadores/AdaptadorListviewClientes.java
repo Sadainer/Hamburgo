@@ -1,26 +1,20 @@
 package com.hamburgo.tecnoparque.hamburgo.Adaptadores;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
-import com.hamburgo.tecnoparque.hamburgo.DTO.itemLista;
 import com.hamburgo.tecnoparque.hamburgo.R;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by YOLIMA on 26/04/2016.

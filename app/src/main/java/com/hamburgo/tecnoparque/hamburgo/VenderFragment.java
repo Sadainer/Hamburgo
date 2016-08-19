@@ -26,6 +26,7 @@ import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewClientes;
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewProductos;
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
+import com.hamburgo.tecnoparque.hamburgo.DTO.DetalleVentaDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ProductoDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.VentaDTO;
 
@@ -126,15 +127,26 @@ public class VenderFragment extends Fragment {
             public void onClick(View v) {
                 VentaDTO venta = new VentaDTO();
 
-                venta.setNumeroVenta(0);
                 venta.setIdVenderor("1065582510");
                 venta.setIdCliente(AutCompleteClientes.getText().toString());
                 venta.setNumeroCuotas(Integer.valueOf(edtCuotas.getText().toString()));
                 venta.setObservacion("Ninguna");
+                venta.setValorVenta(Total.intValue());
 
                 Calendar c = Calendar.getInstance();
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 venta.setFecha(df.format(c.getTime()));
+
+                ArrayList<DetalleVentaDTO> detalle = new ArrayList<DetalleVentaDTO>();
+                for (ProductoDTO p : datosProductosFinal){
+                    DetalleVentaDTO d = new DetalleVentaDTO();
+                    d.setNombre(p.getNombre());
+                    d.setValor(p.getPrecio());
+                    d.setCantidad(Integer.valueOf(p.getTipo()));
+                    d.setValorTotal(p.getPrecio());
+                    detalle.add(d);
+                }
+                manager.RegistrarVenta(venta,detalle);
             }
         });
 

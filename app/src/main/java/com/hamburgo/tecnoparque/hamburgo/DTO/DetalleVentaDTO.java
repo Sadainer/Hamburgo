@@ -10,7 +10,25 @@ public class DetalleVentaDTO {
     private Integer NumeroDetalleVenta;
     private Integer NumeroVenta;
     private String Nombre;
-    private String Valor;
+    private Integer Valor;
+    private Integer Cantidad;
+    private Integer ValorTotal;
+
+    public Integer getCantidad() {
+        return Cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        Cantidad = cantidad;
+    }
+
+    public Integer getValorTotal() {
+        return ValorTotal;
+    }
+
+    public void setValorTotal(Integer valorTotal) {
+        ValorTotal = valorTotal;
+    }
 
     public Integer getNumeroDetalleVenta() {
         return NumeroDetalleVenta;
@@ -36,11 +54,11 @@ public class DetalleVentaDTO {
         Nombre = nombre;
     }
 
-    public String getValor() {
+    public Integer getValor() {
         return Valor;
     }
 
-    public void setValor(String valor) {
+    public void setValor(Integer valor) {
         Valor = valor;
     }
 }
