@@ -277,29 +277,51 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
             db.insert(TABLA_4, null, GenerarContentValuesDetalleVenta(m));
     }
 
-    private Integer InsertarVenta(VentaDTO m) {
-        Integer max = null;
+    private Integer MaxVenta(){
+        Cursor c = db.rawQuery(" SELECT Max(" + TABLA_3_CAMPO_1 + ") FROM " + TABLA_3, null);
+        if (c.moveToFirst()) {
+            return c.getInt(0);
+        }
+        return null;
+    }
+    private boolean InsertarVenta(VentaDTO m) {
+
         try {
             db.insert(TABLA_3, null, GenerarContentValuesVenta(m));
-            Cursor c = db.rawQuery(" SELECT Max(" + TABLA_3_CAMPO_1 + ") FROM " + TABLA_3, null);
-            if (c.moveToFirst()) {
-                max = c.getInt(0);
-            }
+            return true;
         }catch (SQLiteAbortException e){
-            return null;
+            return false;
         }
-        return max;
     }
 
 
+    public VentaDTO UltimaVenta(){
+        VentaDTO m = null;
+        Cursor c = db.rawQuery(" SELECT " + TABLA_3_CAMPO_1 + " , "  + TABLA_3_CAMPO_2 + " , "+ TABLA_3_CAMPO_3 + " , "
+                + TABLA_3_CAMPO_4 + " , "+ TABLA_3_CAMPO_5 + " , " + " , "+ TABLA_3_CAMPO_6 + " , " + " , "+ TABLA_3_CAMPO_7
+                + " FROM " + TABLA_3 + " order by " + TABLA_3_CAMPO_1 + " desc limit 1" , null);
+        if (c.moveToFirst()) {
+            m = new VentaDTO();
+            m.setNumeroVenta(c.getInt(0));
+            m.setFecha(c.getString(1));
+            m.setIdCliente(c.getString(2));
+            m.setIdVenderor(c.getString(3));
+            m.setValorVenta(c.getInt(4));
+            m.setNumeroCuotas(c.getInt(5));
+            m.setObservacion(c.getString(6));
+        }
+        return m;
+    }
+
     public VentaDTO RegistrarVenta (VentaDTO venta, ArrayList<DetalleVentaDTO> detalle){
-        Integer max = InsertarVenta(venta);
-        if (max!= null){
+
+        if (InsertarVenta(venta)){
+            Integer max = MaxVenta();
             for (DetalleVentaDTO d:detalle){
                 d.setNumeroVenta(max);
                 InsertarDetalleVenta(d);
             }
-            return venta;
+            return UltimaVenta();
         }else{
             return null;
         }

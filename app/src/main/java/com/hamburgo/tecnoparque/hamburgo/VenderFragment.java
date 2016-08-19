@@ -21,6 +21,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewClientes;
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewProductos;
@@ -146,7 +147,8 @@ public class VenderFragment extends Fragment {
                     d.setValorTotal(p.getPrecio());
                     detalle.add(d);
                 }
-                manager.RegistrarVenta(venta,detalle);
+                VentaDTO vent =manager.RegistrarVenta(venta,detalle);
+                Toast.makeText(cnt,String.valueOf(vent.getNumeroVenta()),Toast.LENGTH_SHORT).show();
             }
         });
 
