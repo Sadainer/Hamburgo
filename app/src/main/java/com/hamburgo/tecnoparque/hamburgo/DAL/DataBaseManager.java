@@ -298,7 +298,7 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
     public VentaDTO UltimaVenta(){
         VentaDTO m = null;
         Cursor c = db.rawQuery(" SELECT " + TABLA_3_CAMPO_1 + " , "  + TABLA_3_CAMPO_2 + " , "+ TABLA_3_CAMPO_3 + " , "
-                + TABLA_3_CAMPO_4 + " , "+ TABLA_3_CAMPO_5 + " , " + " , "+ TABLA_3_CAMPO_6 + " , " + " , "+ TABLA_3_CAMPO_7
+                + TABLA_3_CAMPO_4 + " , "+ TABLA_3_CAMPO_5 + " , "+ TABLA_3_CAMPO_6 + " , "+ TABLA_3_CAMPO_7
                 + " FROM " + TABLA_3 + " order by " + TABLA_3_CAMPO_1 + " desc limit 1" , null);
         if (c.moveToFirst()) {
             m = new VentaDTO();

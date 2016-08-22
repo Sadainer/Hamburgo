@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -147,8 +149,19 @@ public class VenderFragment extends Fragment {
                     d.setValorTotal(p.getPrecio());
                     detalle.add(d);
                 }
-                VentaDTO vent =manager.RegistrarVenta(venta,detalle);
-                Toast.makeText(cnt,String.valueOf(vent.getNumeroVenta()),Toast.LENGTH_SHORT).show();
+                VentaDTO vta = manager.RegistrarVenta(venta,detalle);
+                if (vta!= null){
+                    Toast.makeText(cnt,"Venta N° " + vta.getNumeroVenta().toString()+ " Registrada",Toast.LENGTH_SHORT).show();
+                    Fragment fragmento= new CarteraFragment();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.content_frame, fragmento)
+                            .commit();
+
+                }else{
+                    Toast.makeText(cnt,"Error al registrar venta",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -189,7 +202,7 @@ public class VenderFragment extends Fragment {
         datosProductos = manager.getListaProductos();
         if (datosProductos.size() > 0) {
             adaptadorProductos = new AdaptadorListviewProductos(cnt, R.layout.layout_adaptador_productos, datosProductos);
-            AutCompleteProductos.setThreshold(3);
+            AutCompleteProductos.setThreshold(2);
             AutCompleteProductos.setAdapter(adaptadorProductos);
         }
     }
