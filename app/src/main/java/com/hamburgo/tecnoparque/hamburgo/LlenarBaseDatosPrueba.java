@@ -3,6 +3,7 @@ package com.hamburgo.tecnoparque.hamburgo;
 import android.content.Context;
 
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
+import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ProductoDTO;
 
 import java.util.ArrayList;
@@ -52,6 +53,34 @@ public class LlenarBaseDatosPrueba {
         e.setDescripcion("Bolsos");
         manager.InsertarProductos(e);
 
+
+        ClienteDTO f = new ClienteDTO();
+        f.setNombres("Sadainer");
+        f.setApellidos("Hernández Chacón");
+        f.setCedula("1065582510");
+        f.setCelular("3002598071");
+        manager.Insertar(f);
+
+        ClienteDTO g = new ClienteDTO();
+        g.setNombres("Diana");
+        g.setApellidos("Chinchi Vence");
+        g.setCedula("1065629942");
+        g.setCelular("3126262888");
+        manager.Insertar(g);
+
+        ClienteDTO h = new ClienteDTO();
+        h.setNombres("Pedro");
+        h.setApellidos("Perez Pineda");
+        h.setCedula("12345");
+        h.setCelular("12345");
+        manager.Insertar(h);
+
+        ClienteDTO i = new ClienteDTO();
+        i.setNombres("Perensejo");
+        i.setApellidos("Sutanito Lopez");
+        i.setCedula("54321");
+        i.setCelular("54321");
+        manager.Insertar(i);
 
 
 
