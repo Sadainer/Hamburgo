@@ -31,9 +31,9 @@ public class Principal extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.appbar);
         setSupportActionBar(toolbar);
 
-        cnt = this;
-        llenar = new LlenarBaseDatosPrueba();
-        llenar.Llenar(cnt);
+//        cnt = this;
+//        llenar = new LlenarBaseDatosPrueba();
+//        llenar.Llenar(cnt);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

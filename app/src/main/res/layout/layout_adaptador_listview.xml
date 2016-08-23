@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <TextView
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/iconColor"
 
-            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingLeft="5dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Apellido"
             android:id="@+id/txtApellido" />
@@ -35,7 +35,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <TextView
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/iconColor"
-            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingLeft="5dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Celular: "
             android:id="@+id/textView11" />
