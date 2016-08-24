@@ -238,7 +238,6 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         ArrayList<ProductoDTO> Lista = new ArrayList<ProductoDTO>();
         while (c.moveToNext()){
             ProductoDTO m = new ProductoDTO();
-            m = new ProductoDTO();
             m.setNombre(c.getString(0));
             m.setTipo(c.getString(1));
             m.setPrecio(c.getInt(2));
@@ -325,5 +324,24 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         }else{
             return null;
         }
+    }
+    public ArrayList<VentaDTO> getListadoVentas (){
+        Cursor c = db.rawQuery(" SELECT " + TABLA_3_CAMPO_1 + " , "  + TABLA_3_CAMPO_2 + " , "+ TABLA_3_CAMPO_3 + " , "
+                + TABLA_3_CAMPO_4 + " , "+ TABLA_3_CAMPO_5 + " , "+ TABLA_3_CAMPO_6 + " , "+ TABLA_3_CAMPO_7
+                + " FROM " + TABLA_3 + " order by " + TABLA_3_CAMPO_1 + " desc" , null);
+        ArrayList<VentaDTO> Lista = new ArrayList<VentaDTO>();
+        while (c.moveToNext()){
+            VentaDTO m = new VentaDTO();
+            m.setNumeroVenta(c.getInt(0));
+            m.setFecha(c.getString(1));
+            m.setIdCliente(c.getString(2));
+            m.setIdVenderor(c.getString(3));
+            m.setValorVenta(c.getInt(4));
+            m.setNumeroCuotas(c.getInt(5));
+            m.setObservacion(c.getString(6));
+
+            Lista.add(m);
+        }
+        return Lista;
     }
 }

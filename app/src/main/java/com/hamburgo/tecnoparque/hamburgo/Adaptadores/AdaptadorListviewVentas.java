@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
 
+import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
+import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ProductoDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.VentaDTO;
 import com.hamburgo.tecnoparque.hamburgo.R;
@@ -26,8 +28,11 @@ public class AdaptadorListviewVentas extends ArrayAdapter<VentaDTO> {
 
     List<VentaDTO> datos;
     ArrayList<VentaDTO> datosBackup;
+    DataBaseManager manager;
     Context cnt;
     int layout_list;
+    ClienteDTO c = new ClienteDTO();
+
     public AdaptadorListviewVentas(Context context, int resource, List<VentaDTO> objects) {
         super(context, resource, objects);
         datos=objects;
@@ -35,6 +40,7 @@ public class AdaptadorListviewVentas extends ArrayAdapter<VentaDTO> {
         layout_list=resource;
         datosBackup = new ArrayList<>();
         datosBackup.addAll(datos);
+        manager = new DataBaseManager(cnt);
     }
 
     /*private view holder class*/
@@ -54,7 +60,7 @@ public class AdaptadorListviewVentas extends ArrayAdapter<VentaDTO> {
 
         ViewHolder holder = null;
         VentaDTO rowItem = getItem(position);
-
+        c = manager.getUsuario(rowItem.getIdCliente().toString());
         LayoutInflater inflater = LayoutInflater.from(getContext());
 
 
@@ -71,15 +77,19 @@ public class AdaptadorListviewVentas extends ArrayAdapter<VentaDTO> {
             holder.txtCPagar = (TextView) convertView.findViewById(R.id.txtCPagar);
             convertView.setTag(holder);
         } else
+            Log.e("Sadainer",rowItem.getIdCliente());
+        if (c!=null){
+            Log.e("Sadainer",c.getNombres().toString());
+        }
             holder = (ViewHolder) convertView.getTag();
             holder.txtCedula.setText(rowItem.getIdCliente());
-            holder.txtNombre .setText(rowItem.getIdCliente());
-            holder.txtApellido.setText(rowItem.getIdCliente());
-            holder.txtVenta.setText(rowItem.getNumeroVenta());
+            holder.txtNombre .setText(c.getNombres().toString());
+            holder.txtApellido.setText(c.getApellidos().toString());
+            holder.txtVenta.setText(String.valueOf(rowItem.getNumeroVenta()));
             holder.txtFecha .setText(rowItem.getFecha());
-            holder.txtValor .setText(rowItem.getValorVenta());
-            holder.txtCuotas .setText(rowItem.getNumeroCuotas());
-            holder.txtCPagar .setText(rowItem.getNumeroCuotas());
+            holder.txtValor .setText(String.valueOf(rowItem.getValorVenta()));
+            holder.txtCuotas .setText(String.valueOf(rowItem.getNumeroCuotas()));
+            holder.txtCPagar .setText(String.valueOf(rowItem.getNumeroCuotas()));
 
             return convertView;
         }

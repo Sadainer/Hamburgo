@@ -110,6 +110,9 @@ public class Principal extends AppCompatActivity
         } else if (id == R.id.nav_vender) {
             fragmento = new VenderFragment();
             fragmentTransaction=true;
+        } else if (id == R.id.nav_cartera) {
+            fragmento = new CarteraFragment();
+            fragmentTransaction=true;
         } else if (id == R.id.nav_herramientas) {
 
         } else if (id == R.id.nav_ayuda) {
