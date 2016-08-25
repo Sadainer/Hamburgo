@@ -10,6 +10,7 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
+import com.hamburgo.tecnoparque.hamburgo.Formatos;
 import com.hamburgo.tecnoparque.hamburgo.R;
 
 import java.util.ArrayList;
@@ -25,11 +26,14 @@ public class AdaptadorListviewCartera extends ArrayAdapter<ClienteDTO> {
     ArrayList<ClienteDTO> datosBackup;
     Context cnt;
     int layout_list;
+    Formatos format;
+
     public AdaptadorListviewCartera(Context context, int resource, List<ClienteDTO> objects) {
         super(context, resource, objects);
         datos=objects;
         cnt=context;
         layout_list=resource;
+        format = new Formatos();
         datosBackup = new ArrayList<>();
         datosBackup.addAll(datos);
     }
@@ -64,7 +68,7 @@ public class AdaptadorListviewCartera extends ArrayAdapter<ClienteDTO> {
             holder.txtNombre.setText(rowItem.getNombres());
             holder.txtApellido.setText(rowItem.getApellidos());
             holder.txtCedula.setText(String.valueOf(rowItem.getCedula()));
-            holder.txtDeuda.setText(String.valueOf(rowItem.getCelular()));
+            holder.txtDeuda.setText(format.ConvertirMoneda(rowItem.getCelular()));
 
             return convertView;
         }

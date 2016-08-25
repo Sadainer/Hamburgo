@@ -9,7 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
 
-import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
+
+import com.hamburgo.tecnoparque.hamburgo.Formatos;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ProductoDTO;
 import com.hamburgo.tecnoparque.hamburgo.R;
 
@@ -27,11 +28,13 @@ public class AdaptadorListviewProductos extends ArrayAdapter<ProductoDTO> {
     List<ProductoDTO> datos;
     ArrayList<ProductoDTO> datosBackup;
     Context cnt;
+    Formatos format;
     int layout_list;
     public AdaptadorListviewProductos(Context context, int resource, List<ProductoDTO> objects) {
         super(context, resource, objects);
         datos=objects;
         cnt=context;
+        format = new Formatos();
         layout_list=resource;
         datosBackup = new ArrayList<>();
         datosBackup.addAll(datos);
@@ -65,7 +68,8 @@ public class AdaptadorListviewProductos extends ArrayAdapter<ProductoDTO> {
         } else
             holder = (ViewHolder) convertView.getTag();
             holder.txtNombre.setText(rowItem.getNombre());
-            holder.txtPrecio.setText(String.valueOf(rowItem.getPrecio()));
+
+            holder.txtPrecio.setText(format.ConvertirMoneda(rowItem.getPrecio()));
             holder.txtTipo.setText(rowItem.getTipo());
             holder.Imagen.setImageResource(R.drawable.commerce);
 

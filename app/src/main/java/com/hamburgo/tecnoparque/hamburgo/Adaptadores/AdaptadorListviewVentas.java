@@ -13,6 +13,7 @@ import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ProductoDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.VentaDTO;
+import com.hamburgo.tecnoparque.hamburgo.Formatos;
 import com.hamburgo.tecnoparque.hamburgo.R;
 
 import java.util.ArrayList;
@@ -32,12 +33,14 @@ public class AdaptadorListviewVentas extends ArrayAdapter<VentaDTO> {
     Context cnt;
     int layout_list;
     ClienteDTO c = new ClienteDTO();
+    Formatos format;
 
     public AdaptadorListviewVentas(Context context, int resource, List<VentaDTO> objects) {
         super(context, resource, objects);
         datos=objects;
         cnt=context;
         layout_list=resource;
+        format = new Formatos();
         datosBackup = new ArrayList<>();
         datosBackup.addAll(datos);
         manager = new DataBaseManager(cnt);
@@ -82,7 +85,8 @@ public class AdaptadorListviewVentas extends ArrayAdapter<VentaDTO> {
             holder.txtApellido.setText(c.getApellidos().toString());
             holder.txtVenta.setText(String.valueOf(rowItem.getNumeroVenta()));
             holder.txtFecha .setText(rowItem.getFecha());
-            holder.txtValor .setText(String.valueOf(rowItem.getValorVenta()));
+
+            holder.txtValor .setText(format.ConvertirMoneda(rowItem.getValorVenta()));
             holder.txtCuotas .setText("Cuotas: " + String.valueOf(rowItem.getNumeroCuotas()));
 
             return convertView;
