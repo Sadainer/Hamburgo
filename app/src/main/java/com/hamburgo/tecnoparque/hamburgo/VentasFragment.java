@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class VentasFragment extends Fragment {
 
-    ListView listViewCartera;
+    ListView listViewVentas;
     DataBaseManager manager;
     AdaptadorListviewVentas adaptador;
     ArrayList<VentaDTO> datos;
@@ -53,11 +53,11 @@ public class VentasFragment extends Fragment {
 
         cnt = getActivity().getApplicationContext();
         manager = new DataBaseManager(cnt);
-        listViewCartera = (ListView)vista.findViewById(R.id.listView);
+        listViewVentas = (ListView)vista.findViewById(R.id.listView);
         datos = manager.getListadoVentas();
         adaptador = new AdaptadorListviewVentas(cnt,R.layout.layout_adaptador_ventas,datos);
-        listViewCartera.setAdapter(adaptador);
-        registerForContextMenu(listViewCartera);
+        listViewVentas.setAdapter(adaptador);
+        registerForContextMenu(listViewVentas);
 
 
         FloatingActionButton fab = (FloatingActionButton) vista.findViewById(R.id.fab);

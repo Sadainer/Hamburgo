@@ -346,12 +346,11 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
     }
     public ArrayList<ClienteDTO> getCartera() {
         Cursor c = db.rawQuery(" SELECT " + TABLA_3_CAMPO_3 + " , sum(" + TABLA_3_CAMPO_5
-                + ") FROM " + TABLA_3 + " order by " + TABLA_3_CAMPO_1  + "group by " + TABLA_3_CAMPO_3 , null);
+                + ") FROM " + TABLA_3 + " group by " + TABLA_3_CAMPO_3 , null);
         ArrayList<ClienteDTO> Lista = new ArrayList<ClienteDTO>();
         while (c.moveToNext()) {
             ClienteDTO m = getUsuario(c.getString(0));
             m.setCelular(c.getString(1));
-
             Lista.add(m);
         }
         return Lista;

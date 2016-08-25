@@ -83,7 +83,7 @@ public class AdaptadorListviewVentas extends ArrayAdapter<VentaDTO> {
             holder.txtVenta.setText(String.valueOf(rowItem.getNumeroVenta()));
             holder.txtFecha .setText(rowItem.getFecha());
             holder.txtValor .setText(String.valueOf(rowItem.getValorVenta()));
-            holder.txtCuotas .setText(String.valueOf(rowItem.getNumeroCuotas()));
+            holder.txtCuotas .setText("Cuotas: " + String.valueOf(rowItem.getNumeroCuotas()));
 
             return convertView;
         }

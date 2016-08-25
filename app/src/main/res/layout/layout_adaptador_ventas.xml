@@ -71,9 +71,10 @@
             android:layout_height="wrap_content"
             android:textColor="@color/iconColor"
             android:gravity="right"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="0"
-            android:id="@+id/txtValor" />
+            android:text="3"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/txtCuotas" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -98,21 +99,13 @@
             android:id="@+id/txtCedula" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/iconColor"
-            android:paddingLeft="@dimen/activity_vertical_margin"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="N° Cuotas: "
-            android:id="@+id/textView17" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/iconColor"
-            android:text="3"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/txtCuotas" />
+            android:gravity="right"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="0"
+            android:id="@+id/txtValor" />
 
     </LinearLayout>
 
