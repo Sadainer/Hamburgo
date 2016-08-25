@@ -1,18 +1,16 @@
 package com.hamburgo.tecnoparque.hamburgo;
 
 
-import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
+import android.support.design.widget.FloatingActionButton;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewVentas;
@@ -25,7 +23,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CarteraFragment extends Fragment {
+public class VentasFragment extends Fragment {
 
     ListView listViewCartera;
     DataBaseManager manager;
@@ -33,7 +31,7 @@ public class CarteraFragment extends Fragment {
     ArrayList<VentaDTO> datos;
     Context cnt;
 
-    public CarteraFragment() {
+    public VentasFragment() {
         // Required empty public constructor
     }
 
@@ -51,15 +49,28 @@ public class CarteraFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View vista = inflater.inflate(R.layout.fragment_cartera, container, false);
+        View vista = inflater.inflate(R.layout.fragment_ventas, container, false);
 
         cnt = getActivity().getApplicationContext();
         manager = new DataBaseManager(cnt);
         listViewCartera = (ListView)vista.findViewById(R.id.listView);
         datos = manager.getListadoVentas();
-        adaptador = new AdaptadorListviewVentas(cnt,R.layout.layout_adaptador_cartera,datos);
+        adaptador = new AdaptadorListviewVentas(cnt,R.layout.layout_adaptador_ventas,datos);
         listViewCartera.setAdapter(adaptador);
         registerForContextMenu(listViewCartera);
+
+
+        FloatingActionButton fab = (FloatingActionButton) vista.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragmento= new NuevaVentaFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragmento)
+                        .commit();
+            }
+        });
 
         return vista;
     }

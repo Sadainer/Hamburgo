@@ -3,15 +3,8 @@ package com.hamburgo.tecnoparque.hamburgo;
 
 import android.app.FragmentManager;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.os.Handler;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +12,6 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,15 +28,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class VenderFragment extends Fragment {
+public class NuevaVentaFragment extends Fragment {
 
     AutoCompleteTextView AutCompleteClientes,AutCompleteProductos ;
     ListView ListProductos;
@@ -69,7 +57,7 @@ public class VenderFragment extends Fragment {
 
     private DataBaseManager manager;
 
-    public VenderFragment() {
+    public NuevaVentaFragment() {
         // Required empty public constructor
     }
 
@@ -79,7 +67,7 @@ public class VenderFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View vista =  inflater.inflate(R.layout.fragment_vender, container, false);
+        View vista =  inflater.inflate(R.layout.fragment_nueva_venta, container, false);
 
         datos= new ArrayList<ClienteDTO>();
         datosProductos= new ArrayList<ProductoDTO>();
@@ -152,7 +140,7 @@ public class VenderFragment extends Fragment {
                 VentaDTO vta = manager.RegistrarVenta(venta,detalle);
                 if (vta!= null){
                     Toast.makeText(cnt,"Venta N° " + vta.getNumeroVenta().toString()+ " Registrada",Toast.LENGTH_SHORT).show();
-                    Fragment fragmento= new CarteraFragment();
+                    Fragment fragmento= new VentasFragment();
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction()
                             .replace(R.id.content_frame, fragmento)

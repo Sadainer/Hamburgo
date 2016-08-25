@@ -13,7 +13,7 @@
             android:title="Productos" />
         <item android:id="@+id/nav_vender"
             android:icon="@drawable/commerce"
-            android:title="Vender" />
+            android:title="Ventas" />
         <item android:id="@+id/nav_cartera"
             android:icon="@drawable/profit"
             android:title="Cartera" />

@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:weightSum="5"
     android:layout_height="match_parent"
-    tools:context="com.hamburgo.tecnoparque.hamburgo.VenderFragment">
+    tools:context=".NuevaVentaFragment">
 
     <LinearLayout
         android:orientation="horizontal"

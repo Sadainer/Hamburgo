@@ -11,41 +11,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/iconColor"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Venta N°: "
-            android:id="@+id/textView21" />
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/iconColor"
-            android:text="3"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/txtVenta" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:textColor="@color/iconColor"
-            android:text="3"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/txtFecha" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <TextView
@@ -65,15 +31,6 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Apellido"
             android:id="@+id/txtApellido" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/iconColor"
-            android:gravity="right"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="0"
-            android:id="@+id/txtValor" />
     </LinearLayout>
 
     <LinearLayout
@@ -98,38 +55,14 @@
             android:id="@+id/txtCedula" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/iconColor"
-            android:paddingLeft="@dimen/activity_vertical_margin"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="N° Cuotas: "
-            android:id="@+id/textView17" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/iconColor"
-            android:text="3"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/txtCuotas" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/iconColor"
-            android:paddingLeft="@dimen/activity_vertical_margin"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="por pagar: "
-            android:id="@+id/textView19" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/iconColor"
-            android:text="3"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/txtCPagar" />
+            android:gravity="right"
+            android:paddingLeft="5dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="0"
+            android:id="@+id/txtDeuda" />
 
     </LinearLayout>
 
