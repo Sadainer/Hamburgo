@@ -1,16 +1,20 @@
 package com.hamburgo.tecnoparque.hamburgo;
 
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,6 +43,8 @@ public class NuevaVentaFragment extends Fragment {
     ListView ListProductos;
     TextView txtTotal;
     EditText edtCuotas;
+    EditText edtCInicial;
+
     Button btnRegistrar;
 
     Long Total = (long)0;
@@ -83,6 +89,8 @@ public class NuevaVentaFragment extends Fragment {
         AutCompleteProductos = (AutoCompleteTextView)vista.findViewById(R.id.autoCompleteproductos);
         ListProductos = (ListView)vista.findViewById(R.id.listViewProductos);
         btnRegistrar = (Button)vista.findViewById(R.id.btnRegistrar);
+        edtCInicial = new EditText(getActivity());
+
 
         adaptadorProductosFinal = new AdaptadorListviewProductos(cnt, R.layout.layout_adaptador_productos, datosProductosFinal);
         ListProductos.setAdapter(adaptadorProductosFinal);
@@ -117,44 +125,70 @@ public class NuevaVentaFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (AutCompleteClientes.getText() != null && edtCuotas.getText() != null && ListProductos.getCount() > 0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-                    VentaDTO venta = new VentaDTO();
 
-                    venta.setIdVenderor("1065582510");
-                    venta.setIdCliente(AutCompleteClientes.getText().toString());
-                    venta.setNumeroCuotas(Integer.valueOf(edtCuotas.getText().toString()));
-                    venta.setObservacion("Ninguna");
-                    venta.setValorVenta(Total.intValue());
 
-                    Calendar c = Calendar.getInstance();
-                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    venta.setFecha(df.format(c.getTime()));
+                builder.setMessage("Cuota Inicial");
+                builder.setTitle("Desea guardar la venta");
+                edtCInicial.setText("0");
+                edtCInicial.setGravity(Gravity.RIGHT);
+                builder.setView(edtCInicial);
 
-                    ArrayList<DetalleVentaDTO> detalle = new ArrayList<DetalleVentaDTO>();
-                    for (ProductoDTO p : datosProductosFinal) {
-                        DetalleVentaDTO d = new DetalleVentaDTO();
-                        d.setNombre(p.getNombre());
-                        d.setValor(p.getPrecio());
-                        d.setCantidad(Integer.valueOf(p.getTipo()));
-                        d.setValorTotal(p.getPrecio());
-                        detalle.add(d);
+
+                builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(cnt,edtCInicial.getText().toString(),Toast.LENGTH_SHORT).show();
                     }
-                    VentaDTO vta = manager.RegistrarVenta(venta, detalle);
-                    if (vta != null) {
-                        Toast.makeText(cnt, "Venta N° " + vta.getNumeroVenta().toString() + " Registrada", Toast.LENGTH_SHORT).show();
-                        Fragment fragmento = new VentasFragment();
-                        FragmentManager fragmentManager = getFragmentManager();
-                        fragmentManager.beginTransaction()
-                                .replace(R.id.content_frame, fragmento)
-                                .commit();
+                });
 
-                    } else {
-                        Toast.makeText(cnt, "Error al registrar venta", Toast.LENGTH_SHORT).show();
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(cnt,"Cancel",Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(cnt,"Registre Campos necesarios",Toast.LENGTH_SHORT).show();
-                }
+                });
+                builder.show();
+
+//                if (AutCompleteClientes.getText() != null && edtCuotas.getText() != null && ListProductos.getCount() > 0) {
+//
+//                    VentaDTO venta = new VentaDTO();
+//
+//                    venta.setIdVenderor("1065582510");
+//                    venta.setIdCliente(AutCompleteClientes.getText().toString());
+//                    venta.setNumeroCuotas(Integer.valueOf(edtCuotas.getText().toString()));
+//                    venta.setObservacion("Ninguna");
+//                    venta.setValorVenta(Total.intValue());
+//
+//                    Calendar c = Calendar.getInstance();
+//                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                    venta.setFecha(df.format(c.getTime()));
+//
+//                    ArrayList<DetalleVentaDTO> detalle = new ArrayList<DetalleVentaDTO>();
+//                    for (ProductoDTO p : datosProductosFinal) {
+//                        DetalleVentaDTO d = new DetalleVentaDTO();
+//                        d.setNombre(p.getNombre());
+//                        d.setValor(p.getPrecio());
+//                        d.setCantidad(Integer.valueOf(p.getTipo()));
+//                        d.setValorTotal(p.getPrecio());
+//                        detalle.add(d);
+//                    }
+//                    VentaDTO vta = manager.RegistrarVenta(venta, detalle);
+//                    if (vta != null) {
+//                        Toast.makeText(cnt, "Venta N° " + vta.getNumeroVenta().toString() + " Registrada", Toast.LENGTH_SHORT).show();
+//                        Fragment fragmento = new VentasFragment();
+//                        FragmentManager fragmentManager = getFragmentManager();
+//                        fragmentManager.beginTransaction()
+//                                .replace(R.id.content_frame, fragmento)
+//                                .commit();
+//
+//                    } else {
+//                        Toast.makeText(cnt, "Error al registrar venta", Toast.LENGTH_SHORT).show();
+//                    }
+//                }else{
+//                    Toast.makeText(cnt,"Registre Campos necesarios",Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 
