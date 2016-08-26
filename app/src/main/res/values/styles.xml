@@ -19,10 +19,8 @@
 
     <style name="ButtonNormal">
         <item name="android:textColor">@color/iconColor</item>
-        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
-        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
-
+        <item name="android:layout_width">match_parent</item>
         <item name="android:paddingTop">@dimen/activity_horizontal_margin</item>
-        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingBottom">@dimen/activity_horizontal_margin</item>
     </style>
 </resources>

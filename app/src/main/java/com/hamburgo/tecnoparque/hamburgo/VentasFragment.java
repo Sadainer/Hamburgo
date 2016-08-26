@@ -35,14 +35,7 @@ public class VentasFragment extends Fragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        if (v.getId()==R.id.listView) {
-            MenuInflater inflater = getActivity().getMenuInflater();
-            inflater.inflate(R.menu.menu_cartera, menu);
-        }
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,7 +50,7 @@ public class VentasFragment extends Fragment {
         datos = manager.getListadoVentas();
         adaptador = new AdaptadorListviewVentas(cnt,R.layout.layout_adaptador_ventas,datos);
         listViewVentas.setAdapter(adaptador);
-        registerForContextMenu(listViewVentas);
+
 
 
         FloatingActionButton fab = (FloatingActionButton) vista.findViewById(R.id.fab);

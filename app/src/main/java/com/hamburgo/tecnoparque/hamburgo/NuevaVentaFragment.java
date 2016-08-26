@@ -116,40 +116,45 @@ public class NuevaVentaFragment extends Fragment {
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VentaDTO venta = new VentaDTO();
 
-                venta.setIdVenderor("1065582510");
-                venta.setIdCliente(AutCompleteClientes.getText().toString());
-                venta.setNumeroCuotas(Integer.valueOf(edtCuotas.getText().toString()));
-                venta.setObservacion("Ninguna");
-                venta.setValorVenta(Total.intValue());
+                if (AutCompleteClientes.getText() != null && edtCuotas.getText() != null && ListProductos.getCount() > 0) {
 
-                Calendar c = Calendar.getInstance();
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                venta.setFecha(df.format(c.getTime()));
+                    VentaDTO venta = new VentaDTO();
 
-                ArrayList<DetalleVentaDTO> detalle = new ArrayList<DetalleVentaDTO>();
-                for (ProductoDTO p : datosProductosFinal){
-                    DetalleVentaDTO d = new DetalleVentaDTO();
-                    d.setNombre(p.getNombre());
-                    d.setValor(p.getPrecio());
-                    d.setCantidad(Integer.valueOf(p.getTipo()));
-                    d.setValorTotal(p.getPrecio());
-                    detalle.add(d);
-                }
-                VentaDTO vta = manager.RegistrarVenta(venta,detalle);
-                if (vta!= null){
-                    Toast.makeText(cnt,"Venta N° " + vta.getNumeroVenta().toString()+ " Registrada",Toast.LENGTH_SHORT).show();
-                    Fragment fragmento= new VentasFragment();
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.content_frame, fragmento)
-                            .commit();
+                    venta.setIdVenderor("1065582510");
+                    venta.setIdCliente(AutCompleteClientes.getText().toString());
+                    venta.setNumeroCuotas(Integer.valueOf(edtCuotas.getText().toString()));
+                    venta.setObservacion("Ninguna");
+                    venta.setValorVenta(Total.intValue());
 
+                    Calendar c = Calendar.getInstance();
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    venta.setFecha(df.format(c.getTime()));
+
+                    ArrayList<DetalleVentaDTO> detalle = new ArrayList<DetalleVentaDTO>();
+                    for (ProductoDTO p : datosProductosFinal) {
+                        DetalleVentaDTO d = new DetalleVentaDTO();
+                        d.setNombre(p.getNombre());
+                        d.setValor(p.getPrecio());
+                        d.setCantidad(Integer.valueOf(p.getTipo()));
+                        d.setValorTotal(p.getPrecio());
+                        detalle.add(d);
+                    }
+                    VentaDTO vta = manager.RegistrarVenta(venta, detalle);
+                    if (vta != null) {
+                        Toast.makeText(cnt, "Venta N° " + vta.getNumeroVenta().toString() + " Registrada", Toast.LENGTH_SHORT).show();
+                        Fragment fragmento = new VentasFragment();
+                        FragmentManager fragmentManager = getFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.content_frame, fragmento)
+                                .commit();
+
+                    } else {
+                        Toast.makeText(cnt, "Error al registrar venta", Toast.LENGTH_SHORT).show();
+                    }
                 }else{
-                    Toast.makeText(cnt,"Error al registrar venta",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(cnt,"Registre Campos necesarios",Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 
