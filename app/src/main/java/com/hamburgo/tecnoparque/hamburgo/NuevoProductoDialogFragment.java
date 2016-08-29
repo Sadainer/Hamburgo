@@ -23,6 +23,8 @@ import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ProductoDTO;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 
 /**
@@ -80,7 +82,10 @@ public class NuevoProductoDialogFragment extends android.app.DialogFragment  {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                Log.e("Sadainer",s.toString());
+//                DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+//                DecimalFormat decimalFormat = new DecimalFormat("$ #,###", symbols);
+//                decimalFormat.format(Integer.valueOf(s.toString()));
             }
         });
 

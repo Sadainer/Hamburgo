@@ -7,10 +7,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -47,9 +50,9 @@ public class NuevaVentaFragment extends Fragment {
 
     Button btnRegistrar;
 
-    Long Total = (long)0;
+    Integer Total = 0;
 
-
+    Formatos formato;
     Context cnt;
     List<ClienteDTO> datos;
     AdaptadorListviewClientes adaptador;
@@ -81,7 +84,7 @@ public class NuevaVentaFragment extends Fragment {
 
         cnt= getActivity().getApplicationContext();
         manager = new DataBaseManager(cnt);
-
+        formato = new Formatos();
 
         txtTotal = (TextView)vista.findViewById(R.id.txtTotal);
         edtCuotas = (EditText) vista.findViewById(R.id.edtCuota);
@@ -126,15 +129,16 @@ public class NuevaVentaFragment extends Fragment {
             public void onClick(View v) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-
-
                 builder.setMessage("Cuota Inicial");
                 builder.setTitle("Desea guardar la venta");
                 edtCInicial.setText("0");
                 edtCInicial.setGravity(Gravity.RIGHT);
+                edtCInicial.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+                edtCInicial.requestFocus();
                 builder.setView(edtCInicial);
 
+                getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
                 builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
                     @Override
@@ -202,7 +206,7 @@ public class NuevaVentaFragment extends Fragment {
             public void processFinish(ProductoDTO p) {
                 datosProductosFinal.add(p);
                 Total += p.getPrecio() * Integer.valueOf(p.getTipo());
-                txtTotal.setText("Total = " + String.valueOf(Total));
+                txtTotal.setText("Total = " + formato.ConvertirMoneda(Total));
                 if (Total>=700000){
                     edtCuotas.setText("3");
                 }else{
