@@ -128,75 +128,78 @@ public class NuevaVentaFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setMessage("Cuota Inicial");
-                builder.setTitle("Desea guardar la venta");
-                edtCInicial.setText("0");
-                edtCInicial.setGravity(Gravity.RIGHT);
-                edtCInicial.setInputType(InputType.TYPE_CLASS_NUMBER);
+                if (!AutCompleteClientes.getText().toString().equals("") && edtCuotas.getText() != null && ListProductos.getCount() > 0) {
 
-                edtCInicial.requestFocus();
-                builder.setView(edtCInicial);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Cuota Inicial");
+                    builder.setTitle("Desea guardar la venta");
+                    edtCInicial.setText(String.valueOf((int)Total * 0.2));
+                    edtCInicial.setGravity(Gravity.RIGHT);
+                    edtCInicial.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-                getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                    edtCInicial.requestFocus();
+                    builder.setView(edtCInicial);
 
-                builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(cnt,edtCInicial.getText().toString(),Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
-                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(cnt,"Cancel",Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.show();
+                    builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(cnt,edtCInicial.getText().toString(),Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-//                if (AutCompleteClientes.getText() != null && edtCuotas.getText() != null && ListProductos.getCount() > 0) {
-//
-//                    VentaDTO venta = new VentaDTO();
-//
-//                    venta.setIdVenderor("1065582510");
-//                    venta.setIdCliente(AutCompleteClientes.getText().toString());
-//                    venta.setNumeroCuotas(Integer.valueOf(edtCuotas.getText().toString()));
-//                    venta.setObservacion("Ninguna");
-//                    venta.setValorVenta(Total.intValue());
-//
-//                    Calendar c = Calendar.getInstance();
-//                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//                    venta.setFecha(df.format(c.getTime()));
-//
-//                    ArrayList<DetalleVentaDTO> detalle = new ArrayList<DetalleVentaDTO>();
-//                    for (ProductoDTO p : datosProductosFinal) {
-//                        DetalleVentaDTO d = new DetalleVentaDTO();
-//                        d.setNombre(p.getNombre());
-//                        d.setValor(p.getPrecio());
-//                        d.setCantidad(Integer.valueOf(p.getTipo()));
-//                        d.setValorTotal(p.getPrecio());
-//                        detalle.add(d);
-//                    }
-//                    VentaDTO vta = manager.RegistrarVenta(venta, detalle);
-//                    if (vta != null) {
-//                        Toast.makeText(cnt, "Venta N° " + vta.getNumeroVenta().toString() + " Registrada", Toast.LENGTH_SHORT).show();
-//                        Fragment fragmento = new VentasFragment();
-//                        FragmentManager fragmentManager = getFragmentManager();
-//                        fragmentManager.beginTransaction()
-//                                .replace(R.id.content_frame, fragmento)
-//                                .commit();
-//
-//                    } else {
-//                        Toast.makeText(cnt, "Error al registrar venta", Toast.LENGTH_SHORT).show();
-//                    }
-//                }else{
-//                    Toast.makeText(cnt,"Registre Campos necesarios",Toast.LENGTH_SHORT).show();
-//                }
+                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(cnt,"Cancel",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    builder.show();
+
+                }else{
+                    Toast.makeText(cnt,"Registre Campos necesarios",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         return vista;
+    }
+
+    private void GuardarVenta(){
+        VentaDTO venta = new VentaDTO();
+
+        venta.setIdVenderor("1065582510");
+        venta.setIdCliente(AutCompleteClientes.getText().toString());
+        venta.setNumeroCuotas(Integer.valueOf(edtCuotas.getText().toString()));
+        venta.setObservacion("Ninguna");
+        venta.setValorVenta(Total);
+
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        venta.setFecha(df.format(c.getTime()));
+
+        ArrayList<DetalleVentaDTO> detalle = new ArrayList<DetalleVentaDTO>();
+        for (ProductoDTO p : datosProductosFinal) {
+            DetalleVentaDTO d = new DetalleVentaDTO();
+            d.setNombre(p.getNombre());
+            d.setValor(p.getPrecio());
+            d.setCantidad(Integer.valueOf(p.getTipo()));
+            d.setValorTotal(p.getPrecio());
+            detalle.add(d);
+        }
+        VentaDTO vta = manager.RegistrarVenta(venta, detalle);
+        if (vta != null) {
+            Toast.makeText(cnt, "Venta N° " + vta.getNumeroVenta().toString() + " Registrada", Toast.LENGTH_SHORT).show();
+            Fragment fragmento = new VentasFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragmento)
+                    .commit();
+
+        } else {
+            Toast.makeText(cnt, "Error al registrar venta", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void MostrarDialog(ProductoDTO producto){

@@ -17,6 +17,11 @@ public class Formatos {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         DecimalFormat decimalFormat = new DecimalFormat("$ #,###", symbols);
         return decimalFormat.format(Integer.valueOf(valor));
+
+    }public String ConvertirMoneda (Double valor){
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        DecimalFormat decimalFormat = new DecimalFormat("$ #,###", symbols);
+        return decimalFormat.format(valor);
     }
 
 
