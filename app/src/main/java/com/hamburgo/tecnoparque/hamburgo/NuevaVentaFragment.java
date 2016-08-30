@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewClientes;
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewProductos;
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
+import com.hamburgo.tecnoparque.hamburgo.DTO.CarteraDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.DetalleVentaDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ProductoDTO;
@@ -45,8 +46,7 @@ public class NuevaVentaFragment extends Fragment {
     AutoCompleteTextView AutCompleteClientes,AutCompleteProductos ;
     ListView ListProductos;
     TextView txtTotal;
-    EditText edtCuotas;
-    EditText edtCInicial;
+    EditText edtCuotas,edtCInicial,edtObservacion;
 
     Button btnRegistrar;
 
@@ -88,6 +88,7 @@ public class NuevaVentaFragment extends Fragment {
 
         txtTotal = (TextView)vista.findViewById(R.id.txtTotal);
         edtCuotas = (EditText) vista.findViewById(R.id.edtCuota);
+        edtObservacion = (EditText) vista.findViewById(R.id.edtObservacion);
         AutCompleteClientes = (AutoCompleteTextView)vista.findViewById(R.id.autoCompleteClientes);
         AutCompleteProductos = (AutoCompleteTextView)vista.findViewById(R.id.autoCompleteproductos);
         ListProductos = (ListView)vista.findViewById(R.id.listViewProductos);
@@ -133,7 +134,7 @@ public class NuevaVentaFragment extends Fragment {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage("Cuota Inicial");
                     builder.setTitle("Desea guardar la venta");
-                    edtCInicial.setText(String.valueOf((int)Total * 0.2));
+                    edtCInicial.setText(formato.RedondearDouble(Total * 0.2));
                     edtCInicial.setGravity(Gravity.RIGHT);
                     edtCInicial.setInputType(InputType.TYPE_CLASS_NUMBER);
 
@@ -145,7 +146,11 @@ public class NuevaVentaFragment extends Fragment {
                     builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(cnt,edtCInicial.getText().toString(),Toast.LENGTH_SHORT).show();
+
+                            Integer CInicial = Integer.valueOf(edtCInicial.getText().toString());
+                            if(CInicial>0){
+                                GuardarVenta();
+                            }
                         }
                     });
 
@@ -172,12 +177,20 @@ public class NuevaVentaFragment extends Fragment {
         venta.setIdVenderor("1065582510");
         venta.setIdCliente(AutCompleteClientes.getText().toString());
         venta.setNumeroCuotas(Integer.valueOf(edtCuotas.getText().toString()));
-        venta.setObservacion("Ninguna");
+        venta.setObservacion(edtObservacion.getText().toString());
         venta.setValorVenta(Total);
 
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         venta.setFecha(df.format(c.getTime()));
+
+        CarteraDTO cartera = new CarteraDTO();
+        cartera.setFecha(venta.getFecha());
+        cartera.setIdCliente(venta.getIdCliente());
+        cartera.setIdVendedor(venta.getIdVenderor());
+        cartera.setValor(Integer.valueOf(edtCInicial.getText().toString()));
+        cartera.setObservacion("Cuota Inicial");
+
 
         ArrayList<DetalleVentaDTO> detalle = new ArrayList<DetalleVentaDTO>();
         for (ProductoDTO p : datosProductosFinal) {
@@ -188,7 +201,7 @@ public class NuevaVentaFragment extends Fragment {
             d.setValorTotal(p.getPrecio());
             detalle.add(d);
         }
-        VentaDTO vta = manager.RegistrarVenta(venta, detalle);
+        VentaDTO vta = manager.RegistrarVenta(venta, detalle, cartera);
         if (vta != null) {
             Toast.makeText(cnt, "Venta N° " + vta.getNumeroVenta().toString() + " Registrada", Toast.LENGTH_SHORT).show();
             Fragment fragmento = new VentasFragment();

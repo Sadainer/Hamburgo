@@ -48,7 +48,7 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
     public static  final String TABLA_2_CAMPO_4="Descripcion";
 
     public static  final String CREATE_TABLE_2 = "create table " + TABLA_2 + " ("
-            + TABLA_2_CAMPO_1 + " text not null, "
+            + TABLA_2_CAMPO_1 + " text primary key not null, "
             + TABLA_2_CAMPO_2 + " text not null, "
             + TABLA_2_CAMPO_3 + " text, "
             + TABLA_2_CAMPO_4 + " text);" ; //integer
@@ -85,7 +85,8 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
             + TABLA_4_CAMPO_1 + " integer primary key autoincrement, "
             + TABLA_4_CAMPO_2 + " integer not null, "
             + TABLA_4_CAMPO_3 + " text not null, "
-            + TABLA_4_CAMPO_4 + " text);" ;
+            + TABLA_4_CAMPO_4 + " text);"
+            + "FOREIGN KEY(" + TABLA_4_CAMPO_2 + ") REFERENCES " + TABLA_3 + "(" + TABLA_3_CAMPO_1 + "))" ;
     //----------------------------------TABLA 1----------------------------------------------
     public static  final String TABLA_5="Cartera"; // Nombre de la tabla
 
@@ -311,7 +312,7 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         return m;
     }
 
-    public VentaDTO RegistrarVenta (VentaDTO venta, ArrayList<DetalleVentaDTO> detalle){
+    public VentaDTO RegistrarVenta (VentaDTO venta, ArrayList<DetalleVentaDTO> detalle, CarteraDTO cartera){
 
         if (InsertarVenta(venta)){
             Integer max = MaxVenta();
@@ -319,6 +320,7 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
                 d.setNumeroVenta(max);
                 InsertarDetalleVenta(d);
             }
+            InsertarCartera(cartera);
             return UltimaVenta();
         }else{
             return null;
@@ -347,6 +349,17 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
     public ArrayList<ClienteDTO> getCartera() {
         Cursor c = db.rawQuery(" SELECT " + TABLA_3_CAMPO_3 + " , sum(" + TABLA_3_CAMPO_5
                 + ") FROM " + TABLA_3 + " group by " + TABLA_3_CAMPO_3 , null);
+        ArrayList<ClienteDTO> Lista = new ArrayList<ClienteDTO>();
+        while (c.moveToNext()) {
+            ClienteDTO m = getUsuario(c.getString(0));
+            m.setCelular(c.getString(1));
+            Lista.add(m);
+        }
+        return Lista;
+    }
+    public ArrayList<ClienteDTO> getPagosCartera() {
+        Cursor c = db.rawQuery(" SELECT " + TABLA_5_CAMPO_3 + " , sum(" + TABLA_5_CAMPO_5
+                + ") FROM " + TABLA_5 + " group by " + TABLA_5_CAMPO_3 , null);
         ArrayList<ClienteDTO> Lista = new ArrayList<ClienteDTO>();
         while (c.moveToNext()) {
             ClienteDTO m = getUsuario(c.getString(0));

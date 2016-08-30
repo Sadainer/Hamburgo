@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -75,6 +76,23 @@ public class CarteraFragment extends Fragment {
         manager = new DataBaseManager(cnt);
         listViewCartera = (ListView)vista.findViewById(R.id.listView);
         datos = manager.getCartera();
+        ArrayList<ClienteDTO> pagos = manager.getPagosCartera();
+
+
+        for(ClienteDTO c : pagos){
+            for(ClienteDTO ct : datos){
+                if (c.getCedula().toString().equals(ct.getCedula().toString())){
+                    Integer Saldo = Integer.valueOf(ct.getCelular()) - Integer.valueOf(c.getCelular());
+                    if (Saldo==0){
+                        datos.remove(ct);
+                    }else{
+                        ct.setCelular(String.valueOf(Saldo));
+                    }
+                }
+                break;
+            }
+        }
+
         adaptador = new AdaptadorListviewCartera(cnt,R.layout.layout_adaptador_cartera,datos);
         listViewCartera.setAdapter(adaptador);
         registerForContextMenu(listViewCartera);
