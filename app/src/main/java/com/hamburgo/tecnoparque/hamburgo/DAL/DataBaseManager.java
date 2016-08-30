@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteAbortException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.hamburgo.tecnoparque.hamburgo.DTO.CarteraDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.DetalleVentaDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ProductoDTO;
@@ -89,12 +90,11 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
     public static  final String TABLA_5="Cartera"; // Nombre de la tabla
 
     public static  final String TABLA_5_CAMPO_1="NumeroCartera";
-    public static  final String TABLA_5_CAMPO_2="NumeroVenta";
-    public static  final String TABLA_5_CAMPO_3="Fecha";
-    public static  final String TABLA_5_CAMPO_4="IdCliente";
-    public static  final String TABLA_5_CAMPO_5="IdVendedor";
-    public static  final String TABLA_5_CAMPO_6="Valor";
-    public static  final String TABLA_5_CAMPO_7="Observacion";
+    public static  final String TABLA_5_CAMPO_2="Fecha";
+    public static  final String TABLA_5_CAMPO_3="IdCliente";
+    public static  final String TABLA_5_CAMPO_4="IdVendedor";
+    public static  final String TABLA_5_CAMPO_5="Valor";
+    public static  final String TABLA_5_CAMPO_6="Observacion";
 
     public static  final String CREATE_TABLE_5 = "create table " + TABLA_5 + " ("
             + TABLA_5_CAMPO_1 + " integer primary key autoincrement, "
@@ -102,8 +102,7 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
             + TABLA_5_CAMPO_3 + " text not null, "
             + TABLA_5_CAMPO_4 + " text not null,"
             + TABLA_5_CAMPO_5 + " text not null,"
-            + TABLA_5_CAMPO_6 + " text not null,"
-            + TABLA_5_CAMPO_7 + " text);" ;
+            + TABLA_5_CAMPO_6 + " text);" ;
     //----------------------------------TABLA 1----------------------------------------------
 
 
@@ -344,6 +343,7 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         }
         return Lista;
     }
+    //////////////////////////////////////////////////////////////////////////////////////////
     public ArrayList<ClienteDTO> getCartera() {
         Cursor c = db.rawQuery(" SELECT " + TABLA_3_CAMPO_3 + " , sum(" + TABLA_3_CAMPO_5
                 + ") FROM " + TABLA_3 + " group by " + TABLA_3_CAMPO_3 , null);
@@ -354,5 +354,20 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
             Lista.add(m);
         }
         return Lista;
+    }
+
+    public void InsertarCartera(CarteraDTO m) {
+        db.insert(TABLA_5, null, GenerarContentValuesCartera(m));
+    }
+
+    private ContentValues GenerarContentValuesCartera(CarteraDTO m) {
+        ContentValues valores = new ContentValues();
+        valores.put(TABLA_5_CAMPO_1, m.getNumeroCartera());
+        valores.put(TABLA_5_CAMPO_2, m.getFecha());
+        valores.put(TABLA_5_CAMPO_3, m.getIdCliente());
+        valores.put(TABLA_5_CAMPO_4, m.getIdVendedor());
+        valores.put(TABLA_5_CAMPO_5, m.getValor());
+        valores.put(TABLA_5_CAMPO_6, m.getObservacion());
+        return valores;
     }
 }
