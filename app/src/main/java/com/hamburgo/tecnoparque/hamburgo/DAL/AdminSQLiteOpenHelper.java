@@ -20,6 +20,7 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
         db.execSQL(DataBaseManager.CREATE_TABLE_3);
         db.execSQL(DataBaseManager.CREATE_TABLE_4);
         db.execSQL(DataBaseManager.CREATE_TABLE_5);
+        db.execSQL(DataBaseManager.CREATE_TABLE_6);
     }
 
     @Override
@@ -29,10 +30,12 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+ DataBaseManager.TABLA_3);
         db.execSQL("DROP TABLE IF EXISTS "+ DataBaseManager.TABLA_4);
         db.execSQL("DROP TABLE IF EXISTS "+ DataBaseManager.TABLA_5);
+        db.execSQL("DROP TABLE IF EXISTS "+ DataBaseManager.TABLA_6);
         db.execSQL(DataBaseManager.CREATE_TABLE_1);
         db.execSQL(DataBaseManager.CREATE_TABLE_2);
         db.execSQL(DataBaseManager.CREATE_TABLE_3);
         db.execSQL(DataBaseManager.CREATE_TABLE_4);
         db.execSQL(DataBaseManager.CREATE_TABLE_5);
+        db.execSQL(DataBaseManager.CREATE_TABLE_6);
     }
 }
