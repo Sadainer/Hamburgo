@@ -35,10 +35,10 @@ public class DataBaseManager {
             + TABLA_1_CAMPO_1 + " text primary key not null, "
             + TABLA_1_CAMPO_2 + " text not null, "
             + TABLA_1_CAMPO_3 + " text not null, "
-            + TABLA_1_CAMPO_4 + " text,"
-            + TABLA_1_CAMPO_5 + " text,"
-            + TABLA_1_CAMPO_6 + " text,"
-            + TABLA_1_CAMPO_7 + " text not null);" ;
+            + TABLA_1_CAMPO_4 + " text, "
+            + TABLA_1_CAMPO_5 + " text, "
+            + TABLA_1_CAMPO_6 + " text, "
+            + TABLA_1_CAMPO_7 + " text not null); " ;
 
 //------------------------------------Tabla 2---------------------------------------------
 public static  final String TABLA_2="Productos"; // Nombre de la tabla
@@ -52,7 +52,7 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
             + TABLA_2_CAMPO_1 + " text primary key not null, "
             + TABLA_2_CAMPO_2 + " text not null, "
             + TABLA_2_CAMPO_3 + " text, "
-            + TABLA_2_CAMPO_4 + " text);" ; //integer
+            + TABLA_2_CAMPO_4 + " text); " ; //integer
 
     //----------------------------------TABLA 3----------------------------------------------
     public static  final String TABLA_3="Ventas"; // Nombre de la tabla
@@ -69,10 +69,10 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
             + TABLA_3_CAMPO_1 + " integer primary key autoincrement, "
             + TABLA_3_CAMPO_2 + " text not null, "
             + TABLA_3_CAMPO_3 + " text not null, "
-            + TABLA_3_CAMPO_4 + " text not null,"
-            + TABLA_3_CAMPO_5 + " text not null,"
-            + TABLA_3_CAMPO_6 + " integer not null,"
-            + TABLA_3_CAMPO_7 + " text,"
+            + TABLA_3_CAMPO_4 + " text not null, "
+            + TABLA_3_CAMPO_5 + " text not null, "
+            + TABLA_3_CAMPO_6 + " integer not null, "
+            + TABLA_3_CAMPO_7 + " text, "
             + "FOREIGN KEY(" + TABLA_3_CAMPO_3 + ") REFERENCES " + TABLA_1 + "(" + TABLA_1_CAMPO_1 + "))" ;
     //----------------------------------TABLA 1----------------------------------------------
     public static  final String TABLA_4="DetalleVenta"; // Nombre de la tabla
@@ -86,7 +86,7 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
             + TABLA_4_CAMPO_1 + " integer primary key autoincrement, "
             + TABLA_4_CAMPO_2 + " integer not null, "
             + TABLA_4_CAMPO_3 + " text not null, "
-            + TABLA_4_CAMPO_4 + " text);"
+            + TABLA_4_CAMPO_4 + " text); "
             + "FOREIGN KEY(" + TABLA_4_CAMPO_2 + ") REFERENCES " + TABLA_3 + "(" + TABLA_3_CAMPO_1 + "))" ;
     //----------------------------------TABLA 1----------------------------------------------
     public static  final String TABLA_5="Cartera"; // Nombre de la tabla
@@ -102,11 +102,26 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
             + TABLA_5_CAMPO_1 + " integer primary key autoincrement, "
             + TABLA_5_CAMPO_2 + " integer not null, "
             + TABLA_5_CAMPO_3 + " text not null, "
-            + TABLA_5_CAMPO_4 + " text not null,"
-            + TABLA_5_CAMPO_5 + " text not null,"
-            + TABLA_5_CAMPO_6 + " text);" ;
+            + TABLA_5_CAMPO_4 + " text not null, "
+            + TABLA_5_CAMPO_5 + " text not null, "
+            + TABLA_5_CAMPO_6 + " text); " ;
     //----------------------------------TABLA 1----------------------------------------------
+    public static  final String TABLA_6="Cuotas"; // Nombre de la tabla
 
+    public static  final String TABLA_6_CAMPO_1="NumeroCuota";
+    public static  final String TABLA_6_CAMPO_2="NumeroVenta";
+    public static  final String TABLA_6_CAMPO_3="FechaPago";
+    public static  final String TABLA_6_CAMPO_4="ValorCuota";
+    public static  final String TABLA_6_CAMPO_5="ValorDeuda";
+    public static  final String TABLA_6_CAMPO_6="Cancelado";
+
+    public static  final String CREATE_TABLE_6 = "create table " + TABLA_6 + " ("
+            + TABLA_6_CAMPO_1 + " integer primary key autoincrement, "
+            + TABLA_6_CAMPO_2 + " integer not null, "
+            + TABLA_6_CAMPO_3 + " text not null, "
+            + TABLA_6_CAMPO_4 + " integer not null, "
+            + TABLA_6_CAMPO_5 + " integer not null, "
+            + TABLA_6_CAMPO_6 + " integer);" ;
 
 
     public DataBaseManager(Context context) {
