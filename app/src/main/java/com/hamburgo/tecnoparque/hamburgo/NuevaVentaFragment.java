@@ -46,7 +46,7 @@ public class NuevaVentaFragment extends Fragment {
     AutoCompleteTextView AutCompleteClientes,AutCompleteProductos ;
     ListView ListProductos;
     TextView txtTotal;
-    EditText edtCuotas,edtCInicial,edtObservacion;
+    EditText edtObservacion;
 
     Button btnRegistrar;
 
@@ -87,13 +87,11 @@ public class NuevaVentaFragment extends Fragment {
         formato = new Formatos();
 
         txtTotal = (TextView)vista.findViewById(R.id.txtTotal);
-        edtCuotas = (EditText) vista.findViewById(R.id.edtCuota);
         edtObservacion = (EditText) vista.findViewById(R.id.edtObservacion);
         AutCompleteClientes = (AutoCompleteTextView)vista.findViewById(R.id.autoCompleteClientes);
         AutCompleteProductos = (AutoCompleteTextView)vista.findViewById(R.id.autoCompleteproductos);
         ListProductos = (ListView)vista.findViewById(R.id.listViewProductos);
         btnRegistrar = (Button)vista.findViewById(R.id.btnRegistrar);
-        edtCInicial = new EditText(getActivity());
 
 
         adaptadorProductosFinal = new AdaptadorListviewProductos(cnt, R.layout.layout_adaptador_productos, datosProductosFinal);
@@ -129,39 +127,39 @@ public class NuevaVentaFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (!AutCompleteClientes.getText().toString().equals("") && edtCuotas.getText() != null && ListProductos.getCount() > 0) {
+                if (!AutCompleteClientes.getText().toString().equals("")  && ListProductos.getCount() > 0) {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage("Cuota Inicial");
-                    builder.setTitle("Desea guardar la venta");
-                    edtCInicial.setText(formato.RedondearDouble(Total * 0.2));
-                    edtCInicial.setGravity(Gravity.RIGHT);
-                    edtCInicial.setInputType(InputType.TYPE_CLASS_NUMBER);
-
-                    edtCInicial.requestFocus();
-                    builder.setView(edtCInicial);
-
-                    getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
-                    builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            Integer CInicial = Integer.valueOf(edtCInicial.getText().toString());
-                            if(CInicial>0){
-                                GuardarVenta();
-                            }
-                        }
-                    });
-
-                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(cnt,"Cancel",Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    builder.show();
-
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                    builder.setMessage("Cuota Inicial");
+//                    builder.setTitle("Desea guardar la venta");
+//                    edtCInicial.setText(formato.RedondearDouble(Total * 0.2));
+//                    edtCInicial.setGravity(Gravity.RIGHT);
+//                    edtCInicial.setInputType(InputType.TYPE_CLASS_NUMBER);
+//
+//                    edtCInicial.requestFocus();
+//                    builder.setView(edtCInicial);
+//
+//                    getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+//
+//                    builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//
+//                            Integer CInicial = Integer.valueOf(edtCInicial.getText().toString());
+//                            if(CInicial>0){
+//                                GuardarVenta();
+//                            }
+//                        }
+//                    });
+//
+//                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            Toast.makeText(cnt,"Cancel",Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                    builder.show();
+                    GuardarVenta();
                 }else{
                     Toast.makeText(cnt,"Registre Campos necesarios",Toast.LENGTH_SHORT).show();
                 }
@@ -176,7 +174,7 @@ public class NuevaVentaFragment extends Fragment {
 
         venta.setIdVenderor("1065582510");
         venta.setIdCliente(AutCompleteClientes.getText().toString());
-        venta.setNumeroCuotas(Integer.valueOf(edtCuotas.getText().toString()));
+//        venta.setNumeroCuotas(Integer.valueOf(edtCuotas.getText().toString()));
         venta.setObservacion(edtObservacion.getText().toString());
         venta.setValorVenta(Total);
 
@@ -184,12 +182,11 @@ public class NuevaVentaFragment extends Fragment {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         venta.setFecha(df.format(c.getTime()));
 
-        CarteraDTO cartera = new CarteraDTO();
-        cartera.setFecha(venta.getFecha());
-        cartera.setIdCliente(venta.getIdCliente());
-        cartera.setIdVendedor(venta.getIdVenderor());
-        cartera.setValor(Integer.valueOf(edtCInicial.getText().toString()));
-        cartera.setObservacion("Cuota Inicial");
+//        CarteraDTO cartera = new CarteraDTO();
+//        cartera.setFecha(venta.getFecha());
+//        cartera.setIdCliente(venta.getIdCliente());
+//        cartera.setIdVendedor(venta.getIdVenderor());
+//        cartera.setObservacion("Cuota Inicial");
 
 
         ArrayList<DetalleVentaDTO> detalle = new ArrayList<DetalleVentaDTO>();
@@ -201,18 +198,19 @@ public class NuevaVentaFragment extends Fragment {
             d.setValorTotal(p.getPrecio());
             detalle.add(d);
         }
-        VentaDTO vta = manager.RegistrarVenta(venta, detalle, cartera);
-        if (vta != null) {
-            Toast.makeText(cnt, "Venta N° " + vta.getNumeroVenta().toString() + " Registrada", Toast.LENGTH_SHORT).show();
-            Fragment fragmento = new VentasFragment();
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragmento)
-                    .commit();
-
-        } else {
-            Toast.makeText(cnt, "Error al registrar venta", Toast.LENGTH_SHORT).show();
-        }
+        MostrarDialogVenta(venta,detalle);
+//        VentaDTO vta = manager.RegistrarVenta(venta, detalle, cartera);
+//        if (vta != null) {
+//            Toast.makeText(cnt, "Venta N° " + vta.getNumeroVenta().toString() + " Registrada", Toast.LENGTH_SHORT).show();
+//            Fragment fragmento = new VentasFragment();
+//            FragmentManager fragmentManager = getFragmentManager();
+//            fragmentManager.beginTransaction()
+//                    .replace(R.id.content_frame, fragmento)
+//                    .commit();
+//
+//        } else {
+//            Toast.makeText(cnt, "Error al registrar venta", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     private void MostrarDialog(ProductoDTO producto){
@@ -223,14 +221,16 @@ public class NuevaVentaFragment extends Fragment {
                 datosProductosFinal.add(p);
                 Total += p.getPrecio() * Integer.valueOf(p.getTipo());
                 txtTotal.setText("Total = " + formato.ConvertirMoneda(Total));
-                if (Total>=700000){
-                    edtCuotas.setText("3");
-                }else{
-                    edtCuotas.setText("2");
-                }
+
                 adaptadorProductosFinal.notifyDataSetChanged();
             }
         });
+        dialogFragment.show(fm, null);
+    }
+
+    private void MostrarDialogVenta(VentaDTO venta, ArrayList<DetalleVentaDTO> detalle){
+        FragmentManager fm = getFragmentManager();
+        NuevaVentaDialogFragment dialogFragment = new NuevaVentaDialogFragment(venta, detalle);
         dialogFragment.show(fm, null);
     }
 

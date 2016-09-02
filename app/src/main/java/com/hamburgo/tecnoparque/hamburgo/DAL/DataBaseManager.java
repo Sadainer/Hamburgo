@@ -15,6 +15,7 @@ import com.hamburgo.tecnoparque.hamburgo.DTO.VentaDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class DataBaseManager {
     private AdminSQLiteOpenHelper helper;
@@ -315,12 +316,19 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
     public VentaDTO RegistrarVenta (VentaDTO venta, ArrayList<DetalleVentaDTO> detalle, CarteraDTO cartera){
 
         if (InsertarVenta(venta)){
-            Integer max = MaxVenta();
-            for (DetalleVentaDTO d:detalle){
-                d.setNumeroVenta(max);
-                InsertarDetalleVenta(d);
+            try {
+                Integer max = MaxVenta();
+                for (DetalleVentaDTO d : detalle) {
+                    d.setNumeroVenta(max);
+                    InsertarDetalleVenta(d);
+                }
+                for (int i = 0 ; i<venta.getNumeroCuotas();i++){
+
+                }
+                InsertarCartera(cartera);
+            }catch (SQLiteAbortException e){
+                return null;
             }
-            InsertarCartera(cartera);
             return UltimaVenta();
         }else{
             return null;
