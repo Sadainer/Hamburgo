@@ -54,6 +54,7 @@ public class NuevaVentaDialogFragment extends DialogFragment {
 
 
 
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
