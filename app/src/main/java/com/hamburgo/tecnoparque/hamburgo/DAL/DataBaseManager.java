@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteAbortException;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import com.hamburgo.tecnoparque.hamburgo.DTO.CarteraDTO;
@@ -303,10 +305,12 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
 
         try {
             db.insert(TABLA_3, null, GenerarContentValuesVenta(m));
+        }catch (SQLiteException e){
+           return false;
+        }finally {
             return true;
-        }catch (SQLiteAbortException e){
-            return false;
         }
+
     }
 
 
@@ -328,7 +332,7 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         return m;
     }
 
-    public VentaDTO RegistrarVenta (VentaDTO venta, ArrayList<DetalleVentaDTO> detalle, CarteraDTO cartera){
+    public VentaDTO RegistrarVenta (VentaDTO venta, ArrayList<DetalleVentaDTO> detalle){
 
         if (InsertarVenta(venta)){
             try {
@@ -337,11 +341,8 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
                     d.setNumeroVenta(max);
                     InsertarDetalleVenta(d);
                 }
-                for (int i = 0 ; i<venta.getNumeroCuotas();i++){
 
-                }
-                InsertarCartera(cartera);
-            }catch (SQLiteAbortException e){
+            }catch (Exception e){
                 return null;
             }
             return UltimaVenta();

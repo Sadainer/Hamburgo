@@ -240,7 +240,7 @@ public class NuevaVentaFragment extends Fragment {
         datos = manager.getListaClientes();
         if (datos.size() > 0) {
             adaptador = new AdaptadorListviewClientes(cnt, R.layout.layout_adaptador_listview, datos);
-            AutCompleteClientes.setThreshold(3);
+            AutCompleteClientes.setThreshold(2);
             AutCompleteClientes.setAdapter(adaptador);
         }
     }
