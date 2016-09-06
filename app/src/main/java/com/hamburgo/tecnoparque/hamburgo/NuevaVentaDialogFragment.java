@@ -19,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
+import com.hamburgo.tecnoparque.hamburgo.DTO.CarteraDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.DetalleVentaDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.VentaDTO;
 
@@ -77,9 +78,11 @@ public class NuevaVentaDialogFragment extends DialogFragment {
 
                 if (!TextUtils.isEmpty(edtCInicial.getText().toString()) && !TextUtils.isEmpty(edtCuotas.getText().toString()) ){
                     Venta.setNumeroCuotas(Integer.valueOf(edtCuotas.getText().toString()));
-                    VentaDTO vta = manager.RegistrarVenta(Venta, Detalle);
+
+                    VentaDTO vta = manager.RegistrarVenta(Venta, Detalle, edtCInicial.getText().toString());
 
                     if (vta != null) {
+
                         Toast.makeText(cnt, "Venta N° " + vta.getNumeroVenta().toString() + " Registrada", Toast.LENGTH_SHORT).show();
                         Fragment fragmento = new VentasFragment();
                         FragmentManager fragmentManager = getFragmentManager();

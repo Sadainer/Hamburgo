@@ -332,8 +332,8 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         return m;
     }
 
-    public VentaDTO RegistrarVenta (VentaDTO venta, ArrayList<DetalleVentaDTO> detalle){
-
+    public VentaDTO RegistrarVenta (VentaDTO venta, ArrayList<DetalleVentaDTO> detalle, String CInicial){
+        db.beginTransaction();
         if (InsertarVenta(venta)){
             try {
                 Integer max = MaxVenta();
@@ -342,8 +342,18 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
                     InsertarDetalleVenta(d);
                 }
 
+                CarteraDTO cartera = new CarteraDTO();
+                cartera.setIdCliente(venta.getIdCliente());
+                cartera.setFecha(venta.getFecha());
+                cartera.setIdVendedor("1065582510");
+                cartera.setValor(Integer.valueOf(CInicial));
+                cartera.setObservacion("Cuota Inicial venta " + venta.getNumeroVenta().toString());
+                InsertarCartera(cartera);
+
             }catch (Exception e){
                 return null;
+            }finally {
+                db.endTransaction();
             }
             return UltimaVenta();
         }else{
