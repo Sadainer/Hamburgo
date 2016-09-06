@@ -5,25 +5,25 @@ package com.hamburgo.tecnoparque.hamburgo.DTO;
  */
 public class CuotasDTO {
 
-    private String NumeroCuota;
-    private String NumeroVenta;
+    private Integer NumeroCuota;
+    private Integer NumeroVenta;
     private String FechaPago;
     private Integer ValorCuota;
     private Integer Pagada;
 
-    public String getNumeroCuota() {
+    public Integer getNumeroCuota() {
         return NumeroCuota;
     }
 
-    public void setNumeroCuota(String numeroCuota) {
+    public void setNumeroCuota(Integer numeroCuota) {
         NumeroCuota = numeroCuota;
     }
 
-    public String getNumeroVenta() {
+    public Integer getNumeroVenta() {
         return NumeroVenta;
     }
 
-    public void setNumeroVenta(String numeroVenta) {
+    public void setNumeroVenta(Integer numeroVenta) {
         NumeroVenta = numeroVenta;
     }
 

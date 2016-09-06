@@ -11,11 +11,14 @@ import android.util.Log;
 
 import com.hamburgo.tecnoparque.hamburgo.DTO.CarteraDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
+import com.hamburgo.tecnoparque.hamburgo.DTO.CuotasDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.DetalleVentaDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ProductoDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.VentaDTO;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -332,7 +335,7 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         return m;
     }
 
-    public VentaDTO RegistrarVenta (VentaDTO venta, ArrayList<DetalleVentaDTO> detalle, String CInicial){
+    public VentaDTO RegistrarVenta (VentaDTO venta, ArrayList<DetalleVentaDTO> detalle, String CInicial, Boolean Mensual){
         db.beginTransaction();
         if (InsertarVenta(venta)){
             try {
@@ -349,6 +352,24 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
                 cartera.setValor(Integer.valueOf(CInicial));
                 cartera.setObservacion("Cuota Inicial venta " + venta.getNumeroVenta().toString());
                 InsertarCartera(cartera);
+
+                Integer VCuotas = (venta.getValorVenta() - cartera.getValor())/venta.getNumeroCuotas();
+
+                Calendar c = Calendar.getInstance();
+                c.getTime().getDay();
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                venta.setFecha(df.format(c.getTime()));
+
+                for (int i=0 ; i< venta.getNumeroCuotas(); i++){
+
+                    CuotasDTO cuota = new CuotasDTO();
+                    cuota.setNumeroVenta(max);
+                    cuota.setPagada(0);
+                    cuota.setValorCuota(VCuotas);
+
+                }
+
+
 
             }catch (Exception e){
                 return null;

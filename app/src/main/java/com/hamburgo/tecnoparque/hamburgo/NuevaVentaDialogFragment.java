@@ -79,7 +79,7 @@ public class NuevaVentaDialogFragment extends DialogFragment {
                 if (!TextUtils.isEmpty(edtCInicial.getText().toString()) && !TextUtils.isEmpty(edtCuotas.getText().toString()) ){
                     Venta.setNumeroCuotas(Integer.valueOf(edtCuotas.getText().toString()));
 
-                    VentaDTO vta = manager.RegistrarVenta(Venta, Detalle, edtCInicial.getText().toString());
+                    VentaDTO vta = manager.RegistrarVenta(Venta, Detalle, edtCInicial.getText().toString(), radMensual.isChecked());
 
                     if (vta != null) {
 
