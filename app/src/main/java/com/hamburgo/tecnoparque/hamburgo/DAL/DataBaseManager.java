@@ -19,6 +19,7 @@ import com.hamburgo.tecnoparque.hamburgo.DTO.VentaDTO;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -336,7 +337,15 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
     }
 
     public VentaDTO RegistrarVenta (VentaDTO venta, ArrayList<DetalleVentaDTO> detalle, String CInicial, Boolean Mensual){
-        db.beginTransaction();
+
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat fechaCompleta = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        final String Fecha = fechaCompleta.format(c.getTime());
+
+
+
+        venta.setFecha(Fecha);
+
         if (InsertarVenta(venta)){
             try {
                 Integer max = MaxVenta();
@@ -344,7 +353,6 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
                     d.setNumeroVenta(max);
                     InsertarDetalleVenta(d);
                 }
-
                 CarteraDTO cartera = new CarteraDTO();
                 cartera.setIdCliente(venta.getIdCliente());
                 cartera.setFecha(venta.getFecha());
@@ -355,11 +363,17 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
 
                 Integer VCuotas = (venta.getValorVenta() - cartera.getValor())/venta.getNumeroCuotas();
 
-                Calendar c = Calendar.getInstance();
-                c.getTime().getDay();
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                venta.setFecha(df.format(c.getTime()));
+                Calendar calendar = Calendar.getInstance();
+                Date fechaActual = calendar.getTime();
 
+
+
+                SimpleDateFormat diaMes = new SimpleDateFormat("dd");
+
+                if (Integer.valueOf(diaMes.format(fechaActual))<30){
+
+                }
+//
                 for (int i=0 ; i< venta.getNumeroCuotas(); i++){
 
                     CuotasDTO cuota = new CuotasDTO();
@@ -374,9 +388,9 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
             }catch (Exception e){
                 return null;
             }finally {
-                db.endTransaction();
+                return UltimaVenta();
             }
-            return UltimaVenta();
+
         }else{
             return null;
         }

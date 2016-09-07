@@ -178,9 +178,9 @@ public class NuevaVentaFragment extends Fragment {
         venta.setObservacion(edtObservacion.getText().toString());
         venta.setValorVenta(Total);
 
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        venta.setFecha(df.format(c.getTime()));
+//        Calendar c = Calendar.getInstance();
+//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        venta.setFecha(df.format(c.getTime()));
 
 //        CarteraDTO cartera = new CarteraDTO();
 //        cartera.setFecha(venta.getFecha());

@@ -83,7 +83,7 @@ public class NuevaVentaDialogFragment extends DialogFragment {
 
                     if (vta != null) {
 
-                        Toast.makeText(cnt, "Venta N° " + vta.getNumeroVenta().toString() + " Registrada", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(cnt, "Venta N° " + vta.getNumeroVenta().toString()  + vta.getIdCliente() + " Registrada", Toast.LENGTH_SHORT).show();
                         Fragment fragmento = new VentasFragment();
                         FragmentManager fragmentManager = getFragmentManager();
                         fragmentManager.beginTransaction()
