@@ -344,6 +344,7 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
 
 
 
+
         venta.setFecha(Fecha);
 
         if (InsertarVenta(venta)){
