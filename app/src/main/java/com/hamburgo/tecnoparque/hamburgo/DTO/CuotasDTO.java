@@ -9,6 +9,7 @@ public class CuotasDTO {
     private Integer NumeroVenta;
     private String FechaPago;
     private Integer ValorCuota;
+    private Integer ValorDeuda;
     private Integer Pagada;
 
     public Integer getNumeroCuota() {
@@ -41,6 +42,13 @@ public class CuotasDTO {
 
     public void setValorCuota(Integer valorCuota) {
         ValorCuota = valorCuota;
+    }
+    public Integer getValorDeuda() {
+        return ValorDeuda;
+    }
+
+    public void setValorDeuda(Integer valorDeuda) {
+        ValorDeuda = valorDeuda;
     }
 
     public Integer getPagada() {

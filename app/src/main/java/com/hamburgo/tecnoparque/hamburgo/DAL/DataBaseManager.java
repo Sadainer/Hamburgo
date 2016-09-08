@@ -338,12 +338,16 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
 
     public VentaDTO RegistrarVenta (VentaDTO venta, ArrayList<DetalleVentaDTO> detalle, String CInicial, Boolean Mensual){
 
-        Calendar c = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         SimpleDateFormat fechaCompleta = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        final String Fecha = fechaCompleta.format(c.getTime());
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+        SimpleDateFormat mesFormat = new SimpleDateFormat("MM");
+        SimpleDateFormat diaFormat = new SimpleDateFormat("dd");
 
-
-
+        String Fecha = fechaCompleta.format(calendar.getTime());
+        Integer year = Integer.valueOf(yearFormat.format(calendar.getTime()));
+        Integer mes = Integer.valueOf(mesFormat.format(calendar.getTime()));
+        Integer dia = Integer.valueOf(diaFormat.format(calendar.getTime()));
 
         venta.setFecha(Fecha);
 
@@ -364,24 +368,19 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
 
                 Integer VCuotas = (venta.getValorVenta() - cartera.getValor())/venta.getNumeroCuotas();
 
-                Calendar calendar = Calendar.getInstance();
-                Date fechaActual = calendar.getTime();
-
-
-
-                SimpleDateFormat diaMes = new SimpleDateFormat("dd");
-
-                if (Integer.valueOf(diaMes.format(fechaActual))<30){
-
-                }
-//
                 for (int i=0 ; i< venta.getNumeroCuotas(); i++){
 
                     CuotasDTO cuota = new CuotasDTO();
+                    cuota.setFechaPago(year.toString()+ "-" + mes.toString()+ "-30");
                     cuota.setNumeroVenta(max);
                     cuota.setPagada(0);
+                    cuota.setValorDeuda(VCuotas);
                     cuota.setValorCuota(VCuotas);
-
+                    InsertarCuotas(cuota);
+                    if (mes == 12) {
+                        mes = 1;
+                        year++;
+                    }
                 }
 
 
@@ -417,8 +416,8 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
     }
     //////////////////////////////////////////////////////////////////////////////////////////
     public ArrayList<ClienteDTO> getCartera() {
-        Cursor c = db.rawQuery(" SELECT " + TABLA_3_CAMPO_3 + " , sum(" + TABLA_3_CAMPO_5
-                + ") FROM " + TABLA_3 + " group by " + TABLA_3_CAMPO_3 , null);
+        Cursor c = db.rawQuery(" SELECT " + TABLA_6_CAMPO_2 + " , sum(" + TABLA_6_CAMPO_5
+                + ") FROM " + TABLA_6 + " group by " + TABLA_6_CAMPO_2 , null);
         ArrayList<ClienteDTO> Lista = new ArrayList<ClienteDTO>();
         while (c.moveToNext()) {
             ClienteDTO m = getUsuario(c.getString(0));
@@ -451,6 +450,22 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         valores.put(TABLA_5_CAMPO_4, m.getIdVendedor());
         valores.put(TABLA_5_CAMPO_5, m.getValor());
         valores.put(TABLA_5_CAMPO_6, m.getObservacion());
+        return valores;
+    }
+
+    //////////////////////////////////////////////////////////
+    public void InsertarCuotas(CuotasDTO m) {
+        db.insert(TABLA_6, null, GenerarContentValuesCuotas(m));
+    }
+
+    private ContentValues GenerarContentValuesCuotas(CuotasDTO m) {
+        ContentValues valores = new ContentValues();
+        valores.put(TABLA_6_CAMPO_1, m.getNumeroCuota());
+        valores.put(TABLA_6_CAMPO_2, m.getNumeroVenta());
+        valores.put(TABLA_6_CAMPO_3, m.getFechaPago());
+        valores.put(TABLA_6_CAMPO_4, m.getValorCuota());
+        valores.put(TABLA_6_CAMPO_5, m.getValorDeuda());
+        valores.put(TABLA_6_CAMPO_6, m.getPagada());
         return valores;
     }
 }
