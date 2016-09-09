@@ -3,11 +3,8 @@ package com.hamburgo.tecnoparque.hamburgo.DAL;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteAbortException;
-import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.util.Log;
 
 import com.hamburgo.tecnoparque.hamburgo.DTO.CarteraDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
@@ -338,6 +335,7 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
 
     public VentaDTO RegistrarVenta (VentaDTO venta, ArrayList<DetalleVentaDTO> detalle, String CInicial, Boolean Mensual){
 
+
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat fechaCompleta = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
@@ -352,32 +350,37 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         venta.setFecha(Fecha);
 
         if (InsertarVenta(venta)){
+
             try {
+
                 Integer max = MaxVenta();
                 for (DetalleVentaDTO d : detalle) {
+
                     d.setNumeroVenta(max);
                     InsertarDetalleVenta(d);
                 }
+
                 CarteraDTO cartera = new CarteraDTO();
                 cartera.setIdCliente(venta.getIdCliente());
                 cartera.setFecha(venta.getFecha());
                 cartera.setIdVendedor("1065582510");
                 cartera.setValor(Integer.valueOf(CInicial));
-                cartera.setObservacion("Cuota Inicial venta " + venta.getNumeroVenta().toString());
+                cartera.setObservacion("Cuota Inicial");
                 InsertarCartera(cartera);
-
                 Integer VCuotas = (venta.getValorVenta() - cartera.getValor())/venta.getNumeroCuotas();
 
                 for (int i=0 ; i< venta.getNumeroCuotas(); i++){
 
                     CuotasDTO cuota = new CuotasDTO();
                     cuota.setFechaPago(year.toString()+ "-" + mes.toString()+ "-30");
+
                     cuota.setNumeroVenta(max);
                     cuota.setPagada(0);
                     cuota.setValorDeuda(VCuotas);
                     cuota.setValorCuota(VCuotas);
                     InsertarCuotas(cuota);
-                    if (mes == 12) {
+                    mes++;
+                    if (mes == 13) {
                         mes = 1;
                         year++;
                     }
@@ -386,8 +389,10 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
 
 
             }catch (Exception e){
+
                 return null;
             }finally {
+
                 return UltimaVenta();
             }
 
@@ -416,12 +421,15 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
     }
     //////////////////////////////////////////////////////////////////////////////////////////
     public ArrayList<ClienteDTO> getCartera() {
-        Cursor c = db.rawQuery(" SELECT " + TABLA_6_CAMPO_2 + " , sum(" + TABLA_6_CAMPO_5
-                + ") FROM " + TABLA_6 + " group by " + TABLA_6_CAMPO_2 , null);
+        Cursor c = db.rawQuery(" SELECT "  + TABLA_3 + "." + TABLA_3_CAMPO_3 + "," + TABLA_6 + "." + TABLA_6_CAMPO_2
+                + " , sum(" + TABLA_6 + "." + TABLA_6_CAMPO_5 + ") FROM " + TABLA_6 + " INNER JOIN "
+                + TABLA_3 + " ON " + TABLA_3 + "." + TABLA_3_CAMPO_1 + " = " + TABLA_6 + "." + TABLA_6_CAMPO_2 + " group by "
+                + TABLA_3 + "." + TABLA_3_CAMPO_3 , null);
+
         ArrayList<ClienteDTO> Lista = new ArrayList<ClienteDTO>();
         while (c.moveToNext()) {
             ClienteDTO m = getUsuario(c.getString(0));
-            m.setCelular(c.getString(1));
+            m.setCelular(c.getString(2));
             Lista.add(m);
         }
         return Lista;
@@ -467,5 +475,26 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         valores.put(TABLA_6_CAMPO_5, m.getValorDeuda());
         valores.put(TABLA_6_CAMPO_6, m.getPagada());
         return valores;
+    }
+
+    public ArrayList<CuotasDTO> getCuotasVenta(Integer NumeroVenta){
+        Cursor c = db.rawQuery("SELECT " + TABLA_6_CAMPO_1 + " , "  + TABLA_6_CAMPO_2 + " , "+ TABLA_6_CAMPO_3 + " , "
+                + TABLA_6_CAMPO_4 + " , " + TABLA_6_CAMPO_5 + " , " + TABLA_6_CAMPO_6
+                + " FROM " + TABLA_6 + " WHERE " + TABLA_6_CAMPO_2 + " = " + NumeroVenta, null);
+
+        ArrayList<CuotasDTO> Lista = new ArrayList<CuotasDTO>();
+        while (c.moveToNext()){
+
+
+            CuotasDTO m = new CuotasDTO();
+            m.setNumeroCuota(c.getInt(0));
+            m.setNumeroVenta(c.getInt(1));
+            m.setFechaPago(c.getString(2));
+            m.setValorCuota(c.getInt(3));
+            m.setValorDeuda(c.getInt(4));
+            m.setPagada(c.getInt(5));
+            Lista.add(m);
+        }
+        return Lista;
     }
 }

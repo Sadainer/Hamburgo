@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewCartera;
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewVentas;
@@ -96,6 +97,19 @@ public class CarteraFragment extends Fragment {
         adaptador = new AdaptadorListviewCartera(cnt,R.layout.layout_adaptador_cartera,datos);
         listViewCartera.setAdapter(adaptador);
         registerForContextMenu(listViewCartera);
+
+        listViewCartera.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        TextView txtVenta = (TextView)view.findViewById(R.id.txtVenta) ;
+
+                        FragmentManager fm = getFragmentManager();
+                        CuotasFragment dialogFragment = new CuotasFragment(Integer.valueOf(txtVenta.getText().toString()));
+                        dialogFragment.show(fm, null);
+            }
+        });
+
         return vista;
     }
 

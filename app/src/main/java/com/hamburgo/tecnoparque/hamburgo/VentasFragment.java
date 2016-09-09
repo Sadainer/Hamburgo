@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewVentas;
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
@@ -50,6 +52,7 @@ public class VentasFragment extends Fragment {
         datos = manager.getListadoVentas();
         adaptador = new AdaptadorListviewVentas(cnt,R.layout.layout_adaptador_ventas,datos);
         listViewVentas.setAdapter(adaptador);
+
 
 
 
