@@ -53,6 +53,18 @@ public class VentasFragment extends Fragment {
         adaptador = new AdaptadorListviewVentas(cnt,R.layout.layout_adaptador_ventas,datos);
         listViewVentas.setAdapter(adaptador);
 
+        listViewVentas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView txtVenta = (TextView)view.findViewById(R.id.txtVenta);
+
+
+                FragmentManager fm = getFragmentManager();
+                CuotasFragment dialogFragment = new CuotasFragment(Integer.valueOf(txtVenta.getText().toString()));
+                dialogFragment.show(fm, null);
+            }
+        });
+
 
 
 

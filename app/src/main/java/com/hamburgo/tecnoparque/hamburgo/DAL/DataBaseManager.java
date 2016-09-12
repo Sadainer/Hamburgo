@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 import com.hamburgo.tecnoparque.hamburgo.DTO.CarteraDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
@@ -316,11 +317,15 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
 
 
     public VentaDTO UltimaVenta(){
+
         VentaDTO m = null;
         Cursor c = db.rawQuery(" SELECT " + TABLA_3_CAMPO_1 + " , "  + TABLA_3_CAMPO_2 + " , "+ TABLA_3_CAMPO_3 + " , "
                 + TABLA_3_CAMPO_4 + " , "+ TABLA_3_CAMPO_5 + " , "+ TABLA_3_CAMPO_6 + " , "+ TABLA_3_CAMPO_7
                 + " FROM " + TABLA_3 + " order by " + TABLA_3_CAMPO_1 + " desc limit 1" , null);
+        Log.e("Sadainer","14");
         if (c.moveToFirst()) {
+
+            Log.e("Sadainer","15");
             m = new VentaDTO();
             m.setNumeroVenta(c.getInt(0));
             m.setFecha(c.getString(1));
@@ -330,6 +335,7 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
             m.setNumeroCuotas(c.getInt(5));
             m.setObservacion(c.getString(6));
         }
+
         return m;
     }
 
@@ -347,27 +353,34 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         Integer mes = Integer.valueOf(mesFormat.format(calendar.getTime()));
         Integer dia = Integer.valueOf(diaFormat.format(calendar.getTime()));
 
+
+        Integer CuotaInicial = Integer.valueOf(CInicial);
+        Integer ValorCuotas = (venta.getValorVenta() - CuotaInicial)/venta.getNumeroCuotas();
+
         venta.setFecha(Fecha);
 
         if (InsertarVenta(venta)){
 
+            Log.e("Sadainer","1");
             try {
 
                 Integer max = MaxVenta();
+                Log.e("Sadainer","2");
                 for (DetalleVentaDTO d : detalle) {
-
                     d.setNumeroVenta(max);
+                    Log.e("Sadainer","3");
                     InsertarDetalleVenta(d);
                 }
+                Log.e("Sadainer","4");
 
-                CarteraDTO cartera = new CarteraDTO();
-                cartera.setIdCliente(venta.getIdCliente());
-                cartera.setFecha(venta.getFecha());
-                cartera.setIdVendedor("1065582510");
-                cartera.setValor(Integer.valueOf(CInicial));
-                cartera.setObservacion("Cuota Inicial");
-                InsertarCartera(cartera);
-                Integer VCuotas = (venta.getValorVenta() - cartera.getValor())/venta.getNumeroCuotas();
+                CuotasDTO cuotaInicialPago = new CuotasDTO();
+                cuotaInicialPago.setFechaPago(Fecha);
+                cuotaInicialPago.setNumeroVenta(max);
+                cuotaInicialPago.setPagada(1);
+                cuotaInicialPago.setValorDeuda(0);
+                cuotaInicialPago.setValorCuota(CuotaInicial);
+                InsertarCuotas(cuotaInicialPago);
+                Log.e("Sadainer","5");
 
                 for (int i=0 ; i< venta.getNumeroCuotas(); i++){
 
@@ -376,27 +389,40 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
 
                     cuota.setNumeroVenta(max);
                     cuota.setPagada(0);
-                    cuota.setValorDeuda(VCuotas);
-                    cuota.setValorCuota(VCuotas);
+                    cuota.setValorDeuda(ValorCuotas);
+                    cuota.setValorCuota(ValorCuotas);
                     InsertarCuotas(cuota);
+                    Log.e("Sadainer","6");
                     mes++;
                     if (mes == 13) {
                         mes = 1;
                         year++;
                     }
                 }
+                Log.e("Sadainer","7");
+
+                CarteraDTO cartera = new CarteraDTO();
+                cartera.setIdCliente(venta.getIdCliente());
+                cartera.setFecha(venta.getFecha());
+                cartera.setIdVendedor("1065582510");
+                cartera.setValor(CuotaInicial);
+                cartera.setObservacion("Cuota Inicial");
+                InsertarCartera(cartera);
+                Log.e("Sadainer","8");
 
 
 
             }catch (Exception e){
-
+                Log.e("Sadainer","9");
                 return null;
             }finally {
+                Log.e("Sadainer","10");
 
                 return UltimaVenta();
             }
 
         }else{
+            Log.e("Sadainer","11");
             return null;
         }
     }
@@ -484,7 +510,7 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
 
         ArrayList<CuotasDTO> Lista = new ArrayList<CuotasDTO>();
         while (c.moveToNext()){
-
+            Log.e("Sadainer","2");
 
             CuotasDTO m = new CuotasDTO();
             m.setNumeroCuota(c.getInt(0));
