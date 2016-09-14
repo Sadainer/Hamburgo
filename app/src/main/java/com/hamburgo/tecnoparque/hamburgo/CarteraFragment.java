@@ -5,11 +5,8 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,10 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewCartera;
-import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewVentas;
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
-import com.hamburgo.tecnoparque.hamburgo.DTO.VentaDTO;
 
 import java.util.ArrayList;
 
@@ -77,22 +72,22 @@ public class CarteraFragment extends Fragment {
         manager = new DataBaseManager(cnt);
         listViewCartera = (ListView)vista.findViewById(R.id.listView);
         datos = manager.getCartera();
-        ArrayList<ClienteDTO> pagos = manager.getPagosCartera();
+//        ArrayList<ClienteDTO> pagos = manager.getPagosCartera();
+//
 
-
-        for(ClienteDTO c : pagos){
-            for(ClienteDTO ct : datos){
-                if (c.getCedula().toString().equals(ct.getCedula().toString())){
-                    Integer Saldo = Integer.valueOf(ct.getCelular()) - Integer.valueOf(c.getCelular());
-                    if (Saldo==0){
-                        datos.remove(ct);
-                    }else{
-                        ct.setCelular(String.valueOf(Saldo));
-                    }
-                }
-                break;
-            }
-        }
+//        for(ClienteDTO c : pagos){
+//            for(ClienteDTO ct : datos){
+//                if (c.getCedula().toString().equals(ct.getCedula().toString())){
+//                    Integer Saldo = Integer.valueOf(ct.getCelular()) - Integer.valueOf(c.getCelular());
+//                    if (Saldo==0){
+//                        datos.remove(ct);
+//                    }else{
+//                        ct.setCelular(String.valueOf(Saldo));
+//                    }
+//                }
+//                break;
+//            }
+//        }
 
         adaptador = new AdaptadorListviewCartera(cnt,R.layout.layout_adaptador_cartera,datos);
         listViewCartera.setAdapter(adaptador);
@@ -102,10 +97,10 @@ public class CarteraFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                        TextView txtVenta = (TextView)view.findViewById(R.id.txtVenta) ;
+                        TextView txtCedula = (TextView)view.findViewById(R.id.txtCedula) ;
 
                         FragmentManager fm = getFragmentManager();
-                        CuotasFragment dialogFragment = new CuotasFragment(Integer.valueOf(txtVenta.getText().toString()));
+                        CuotasCarteraFragment dialogFragment = new CuotasCarteraFragment(txtCedula.getText().toString());
                         dialogFragment.show(fm, null);
             }
         });

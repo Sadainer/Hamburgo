@@ -6,9 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -60,7 +58,7 @@ public class VentasFragment extends Fragment {
 
 
                 FragmentManager fm = getFragmentManager();
-                CuotasFragment dialogFragment = new CuotasFragment(Integer.valueOf(txtVenta.getText().toString()));
+                CuotasVentaFragment dialogFragment = new CuotasVentaFragment(Integer.valueOf(txtVenta.getText().toString()));
                 dialogFragment.show(fm, null);
             }
         });

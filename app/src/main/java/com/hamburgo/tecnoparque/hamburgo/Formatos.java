@@ -28,6 +28,12 @@ public class Formatos {
         DecimalFormat decimalFormat = new DecimalFormat("#", symbols);
         return decimalFormat.format(valor);
     }
+    public String MesString (Integer mes){
+        if (mes<10){
+            return "0"+mes.toString();
+        }
+        return mes.toString();
+    }
 
 
 }

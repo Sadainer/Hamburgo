@@ -13,7 +13,9 @@ import com.hamburgo.tecnoparque.hamburgo.DTO.CuotasDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.DetalleVentaDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ProductoDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.VentaDTO;
+import com.hamburgo.tecnoparque.hamburgo.Formatos;
 
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,6 +26,7 @@ import java.util.concurrent.ExecutionException;
 public class DataBaseManager {
     private AdminSQLiteOpenHelper helper;
     private  SQLiteDatabase db;
+    Formatos format = new Formatos();
     //----------------------------------TABLA 1----------------------------------------------
     public static  final String TABLA_1="Clientes"; // Nombre de la tabla
 
@@ -391,7 +394,7 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
                 for (int i=0 ; i< venta.getNumeroCuotas(); i++){
 
                     CuotasDTO cuota = new CuotasDTO();
-                    cuota.setFechaPago(year.toString()+ "-" + mes.toString()+ "-30");
+                    cuota.setFechaPago(year.toString()+ "-" + format.MesString(mes) + "-30");
 
                     cuota.setNumeroVenta(max);
                     cuota.setPagada(0);
@@ -475,19 +478,31 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
 
     //////////////////////////////////////////////////////////////////////////////////////////
     public ArrayList<ClienteDTO> getCartera() {
-        Cursor c = db.rawQuery(" SELECT "  + TABLA_3 + "." + TABLA_3_CAMPO_3 + "," + TABLA_6 + "." + TABLA_6_CAMPO_2
-                + " , sum(" + TABLA_6 + "." + TABLA_6_CAMPO_5 + ") FROM " + TABLA_6 + " INNER JOIN "
-                + TABLA_3 + " ON " + TABLA_3 + "." + TABLA_3_CAMPO_1 + " = " + TABLA_6 + "." + TABLA_6_CAMPO_2 + " group by "
-                + TABLA_3 + "." + TABLA_3_CAMPO_3 , null);
+//        Cursor c = db.rawQuery(" SELECT "  + TABLA_3 + "." + TABLA_3_CAMPO_3 + "," + TABLA_6 + "." + TABLA_6_CAMPO_2
+//                + " , sum(" + TABLA_6 + "." + TABLA_6_CAMPO_5 + ") FROM " + TABLA_6 + " INNER JOIN "
+//                + TABLA_3 + " ON " + TABLA_3 + "." + TABLA_3_CAMPO_1 + " = " + TABLA_6 + "." + TABLA_6_CAMPO_2 + " group by "
+//                + TABLA_3 + "." + TABLA_3_CAMPO_3 , null);
 
+        Cursor c = db.rawQuery("SELECT " + TABLA_3 + "." + TABLA_3_CAMPO_3
+                + ", SUM(" + TABLA_6 + "." + TABLA_6_CAMPO_5 + ")"
+                + " FROM " + TABLA_6 + " INNER JOIN " + TABLA_3 + " ON " + TABLA_6 + "." + TABLA_6_CAMPO_2  + " = " + TABLA_3 + "." + TABLA_3_CAMPO_1
+                + " GROUP BY " + TABLA_3 + "." + TABLA_3_CAMPO_3 + " ORDER BY " + TABLA_3 + "." + TABLA_3_CAMPO_3 , null);
+
+
+        Log.e("Sadainer", "SELECT " + TABLA_3 + "." + TABLA_3_CAMPO_3
+                + ", SUM(" + TABLA_6 + "." + TABLA_6_CAMPO_5 + ")"
+                + " FROM " + TABLA_6 + " INNER JOIN " + TABLA_3 + " ON " + TABLA_6 + "." + TABLA_6_CAMPO_2  + " = " + TABLA_3 + "." + TABLA_3_CAMPO_1
+                + " GROUP BY " + TABLA_3 + "." + TABLA_3_CAMPO_3 + " ORDER BY " + TABLA_3 + "." + TABLA_3_CAMPO_3);
         ArrayList<ClienteDTO> Lista = new ArrayList<ClienteDTO>();
+
         while (c.moveToNext()) {
             ClienteDTO m = getUsuario(c.getString(0));
-            m.setCelular(c.getString(2));
+            m.setCelular(c.getString(1));
             Lista.add(m);
         }
         return Lista;
     }
+
     public ArrayList<ClienteDTO> getPagosCartera() {
         Cursor c = db.rawQuery(" SELECT " + TABLA_5_CAMPO_3 + " , sum(" + TABLA_5_CAMPO_5
                 + ") FROM " + TABLA_5 + " group by " + TABLA_5_CAMPO_3 , null);
@@ -535,6 +550,30 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         Cursor c = db.rawQuery("SELECT " + TABLA_6_CAMPO_1 + " , "  + TABLA_6_CAMPO_2 + " , "+ TABLA_6_CAMPO_3 + " , "
                 + TABLA_6_CAMPO_4 + " , " + TABLA_6_CAMPO_5 + " , " + TABLA_6_CAMPO_6
                 + " FROM " + TABLA_6 + " WHERE " + TABLA_6_CAMPO_2 + " = " + NumeroVenta, null);
+
+        ArrayList<CuotasDTO> Lista = new ArrayList<CuotasDTO>();
+        while (c.moveToNext()){
+            Log.e("Sadainer","2");
+
+            CuotasDTO m = new CuotasDTO();
+            m.setNumeroCuota(c.getInt(0));
+            m.setNumeroVenta(c.getInt(1));
+            m.setFechaPago(c.getString(2));
+            m.setValorCuota(c.getInt(3));
+            m.setValorDeuda(c.getInt(4));
+            m.setPagada(c.getInt(5));
+            Lista.add(m);
+        }
+        return Lista;
+    }
+
+    public ArrayList<CuotasDTO> getCuotasCartera(String Cedula){
+
+        Cursor c = db.rawQuery("SELECT " + TABLA_6 + "." + TABLA_6_CAMPO_1 + " , "  + TABLA_6 + "." + TABLA_6_CAMPO_2 + " , "+ TABLA_6 + "." + TABLA_6_CAMPO_3
+                + ",SUM(" + TABLA_6 + "." + TABLA_6_CAMPO_4 + "), SUM(" + TABLA_6 + "." + TABLA_6_CAMPO_5 + "), " + TABLA_6 + "." + TABLA_6_CAMPO_6
+                + " FROM " + TABLA_6 + " INNER JOIN " + TABLA_3 + " ON " + TABLA_6 + "." + TABLA_6_CAMPO_2  + " = " + TABLA_3 + "." + TABLA_3_CAMPO_1
+                + " WHERE " + TABLA_3_CAMPO_3 + " = " + Cedula + " AND " + TABLA_6 + "." + TABLA_6_CAMPO_5 + " > 0 "
+                + " GROUP BY " + TABLA_6 + "." + TABLA_6_CAMPO_3 + " ORDER BY " + TABLA_6 + "." + TABLA_6_CAMPO_1 , null);
 
         ArrayList<CuotasDTO> Lista = new ArrayList<CuotasDTO>();
         while (c.moveToNext()){
