@@ -1,6 +1,7 @@
 package com.hamburgo.tecnoparque.hamburgo.Adaptadores;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,8 @@ public class AdaptadorListviewCuotas extends ArrayAdapter<CuotasDTO> {
     private class ViewHolder {
         TextView txtFecha;
         TextView txtValor;
+        TextView txtDeuda;
+        TextView txtPagado;
     }
 
     @Override
@@ -58,14 +61,25 @@ public class AdaptadorListviewCuotas extends ArrayAdapter<CuotasDTO> {
             convertView = inflater.inflate(layout_list, null);
             holder = new ViewHolder();
             holder.txtFecha = (TextView) convertView.findViewById(R.id.txtNombre);
-            holder.txtValor = (TextView) convertView.findViewById(R.id.txtDeuda);
+            holder.txtDeuda = (TextView) convertView.findViewById(R.id.txtDeuda);
+            holder.txtValor = (TextView) convertView.findViewById(R.id.txtValor);
+            holder.txtPagado = (TextView) convertView.findViewById(R.id.txtPagado);
             convertView.setTag(holder);
         } else
 
             holder = (ViewHolder) convertView.getTag();
             holder.txtFecha.setText(rowItem.getFechaPago());
-            holder.txtValor .setText(rowItem.getValorDeuda().toString());
-            Log.e("Sadainer",rowItem.getFechaPago());
+            holder.txtDeuda .setText(format.ConvertirMoneda(rowItem.getValorDeuda().toString()));
+            holder.txtValor .setText(format.ConvertirMoneda(rowItem.getValorCuota().toString()));
+            if (rowItem.getPagada()==1) {
+                holder.txtPagado.setText("Pagada");
+                holder.txtPagado.setTextColor(Color.parseColor("#009688"));
+            }
+            else {
+                holder.txtPagado.setText("Sin pagar");
+                holder.txtPagado.setTextColor(Color.parseColor("#FFFA6175"));
+            }
+
 
             return convertView;
         }

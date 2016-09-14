@@ -71,7 +71,7 @@ public class CuotasFragment extends DialogFragment {
 
         listViewCuotas = (ListView)vista.findViewById(R.id.listView);
         datos = manager.getCuotasVenta(NumeroVenta);
-        adaptador = new AdaptadorListviewCuotas(cnt,R.layout.layout_adaptador_cartera,datos);
+        adaptador = new AdaptadorListviewCuotas(cnt,R.layout.layout_adaptador_cuotas,datos);
         listViewCuotas.setAdapter(adaptador);
 
         listViewDetalle = (ListView)vista.findViewById(R.id.listViewDetalle);
