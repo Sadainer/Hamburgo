@@ -195,7 +195,7 @@ public class NuevaVentaFragment extends Fragment {
             d.setNombre(p.getNombre());
             d.setValor(p.getPrecio());
             d.setCantidad(Integer.valueOf(p.getTipo()));
-            d.setValorTotal(p.getPrecio());
+            d.setValorTotal(p.getPrecio() * Integer.valueOf(p.getTipo()));
             detalle.add(d);
         }
         MostrarDialogVenta(venta,detalle);

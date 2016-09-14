@@ -85,12 +85,16 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
     public static  final String TABLA_4_CAMPO_2="NumeroVenta";
     public static  final String TABLA_4_CAMPO_3="Nombre";
     public static  final String TABLA_4_CAMPO_4="Valor";
+    public static  final String TABLA_4_CAMPO_5="Cantidad";
+    public static  final String TABLA_4_CAMPO_6="ValorTotal";
 
     public static  final String CREATE_TABLE_4 = "create table " + TABLA_4 + " ("
             + TABLA_4_CAMPO_1 + " integer primary key autoincrement, "
             + TABLA_4_CAMPO_2 + " integer not null, "
             + TABLA_4_CAMPO_3 + " text not null, "
-            + TABLA_4_CAMPO_4 + " text); "
+            + TABLA_4_CAMPO_4 + " text not null, "
+            + TABLA_4_CAMPO_5 + " text not null, "
+            + TABLA_4_CAMPO_6 + " text not null); "
             + "FOREIGN KEY(" + TABLA_4_CAMPO_2 + ") REFERENCES " + TABLA_3 + "(" + TABLA_3_CAMPO_1 + "))" ;
     //----------------------------------TABLA 1----------------------------------------------
     public static  final String TABLA_5="Cartera"; // Nombre de la tabla
@@ -289,6 +293,8 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         valores.put(TABLA_4_CAMPO_2, m.getNumeroVenta());
         valores.put(TABLA_4_CAMPO_3, m.getNombre());
         valores.put(TABLA_4_CAMPO_4, m.getValor());
+        valores.put(TABLA_4_CAMPO_5, m.getCantidad());
+        valores.put(TABLA_4_CAMPO_6, m.getValorTotal());
         return valores;
     }
 
@@ -445,6 +451,28 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         }
         return Lista;
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+
+    public ArrayList<ProductoDTO> getDetalleVenta(Integer NumeroVenta){
+        Cursor c = db.rawQuery("SELECT " + TABLA_4_CAMPO_1 + " , "  + TABLA_4_CAMPO_2 + " , "+ TABLA_4_CAMPO_3 + " , "
+                + TABLA_4_CAMPO_4 + " , " + TABLA_4_CAMPO_5 + " , " + TABLA_4_CAMPO_6
+                + " FROM " + TABLA_4 + " WHERE " + TABLA_4_CAMPO_2 + " = " + NumeroVenta, null);
+
+        ArrayList<ProductoDTO> Lista = new ArrayList<ProductoDTO>();
+        while (c.moveToNext()){
+            Log.e("Sadainer",c.getString(2));
+            ProductoDTO m = new ProductoDTO();
+            m.setNombre(c.getString(2));
+            m.setPrecio(c.getInt(3));
+            m.setTipo(c.getString(4));
+            Lista.add(m);
+        }
+        return Lista;
+    }
+
+
+
     //////////////////////////////////////////////////////////////////////////////////////////
     public ArrayList<ClienteDTO> getCartera() {
         Cursor c = db.rawQuery(" SELECT "  + TABLA_3 + "." + TABLA_3_CAMPO_3 + "," + TABLA_6 + "." + TABLA_6_CAMPO_2

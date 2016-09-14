@@ -2,36 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="5dp"
-    android:paddingTop="5dp"
     android:background="@drawable/fondo_degradado"
-    android:padding="@dimen/activity_vertical_margin"
+    android:padding="5dp"
     android:weightSum="1">
 
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/iconColor"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Nombre"
-            android:id="@+id/txtNombre" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/iconColor"
-
-            android:paddingLeft="5dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Apellido"
-            android:id="@+id/txtApellido" />
-    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -42,17 +16,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/iconColor"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="CC: "
-            android:id="@+id/textSubTitulo" />
+            android:text="Fecha: "
+            android:id="@+id/textView22" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/iconColor"
-            android:text="Cedula"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/txtCedula" />
+            android:text="Nombre"
+            android:id="@+id/txtNombre" />
 
         <TextView
             android:layout_width="match_parent"
@@ -64,6 +36,35 @@
             android:text="0"
             android:id="@+id/txtDeuda" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/iconColor"
+            android:text="Valor: "
+            android:id="@+id/textView19" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/iconColor"
+            android:text="0"
+            android:id="@+id/txtValor" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/iconColor"
+            android:gravity="right"
+            android:paddingLeft="5dp"
+            android:text="No"
+            android:id="@+id/txtPagado" />
     </LinearLayout>
 
 </LinearLayout>

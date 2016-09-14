@@ -15,9 +15,11 @@ import android.widget.ListView;
 
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewCartera;
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewCuotas;
+import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewProductos;
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
-import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.CuotasDTO;
+import com.hamburgo.tecnoparque.hamburgo.DTO.DetalleVentaDTO;
+import com.hamburgo.tecnoparque.hamburgo.DTO.ProductoDTO;
 
 import java.util.ArrayList;
 
@@ -28,15 +30,18 @@ import java.util.ArrayList;
 public class CuotasFragment extends DialogFragment {
 
     ListView listViewCuotas;
+    ListView listViewDetalle;
     DataBaseManager manager;
     AdaptadorListviewCuotas adaptador;
+    AdaptadorListviewProductos adaptadorProductos;
     ArrayList<CuotasDTO> datos;
+    ArrayList<ProductoDTO> datosVenta;
     Context cnt;
-    Integer NumeroCuota;
+    Integer NumeroVenta;
 
 
-    public CuotasFragment(Integer NumeroCuota) {
-        this.NumeroCuota=NumeroCuota;
+    public CuotasFragment(Integer Numero_Venta) {
+        this.NumeroVenta=Numero_Venta;
     }
 
 //
@@ -63,11 +68,16 @@ public class CuotasFragment extends DialogFragment {
 
         cnt = getActivity().getApplicationContext();
         manager = new DataBaseManager(cnt);
-        listViewCuotas = (ListView)vista.findViewById(R.id.listView);
-        datos = manager.getCuotasVenta(NumeroCuota);
 
+        listViewCuotas = (ListView)vista.findViewById(R.id.listView);
+        datos = manager.getCuotasVenta(NumeroVenta);
         adaptador = new AdaptadorListviewCuotas(cnt,R.layout.layout_adaptador_cartera,datos);
         listViewCuotas.setAdapter(adaptador);
+
+        listViewDetalle = (ListView)vista.findViewById(R.id.listViewDetalle);
+        datosVenta = manager.getDetalleVenta(NumeroVenta);
+        adaptadorProductos = new AdaptadorListviewProductos(cnt,R.layout.layout_adaptador_productos,datosVenta);
+        listViewDetalle.setAdapter(adaptadorProductos);
 
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
