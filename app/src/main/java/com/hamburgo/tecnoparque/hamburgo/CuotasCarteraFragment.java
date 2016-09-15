@@ -28,12 +28,9 @@ import java.util.ArrayList;
 public class CuotasCarteraFragment extends DialogFragment {
 
     ListView listViewCuotas;
-    ListView listViewDetalle;
     DataBaseManager manager;
     AdaptadorListviewCuotas adaptador;
-    AdaptadorListviewProductos adaptadorProductos;
     ArrayList<CuotasDTO> datos;
-    ArrayList<ProductoDTO> datosVenta;
     Context cnt;
     String Cedula;
 
@@ -54,6 +51,7 @@ public class CuotasCarteraFragment extends DialogFragment {
         datos = manager.getCuotasCartera(Cedula);
         adaptador = new AdaptadorListviewCuotas(cnt,R.layout.layout_adaptador_cuotas,datos);
         listViewCuotas.setAdapter(adaptador);
+
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {

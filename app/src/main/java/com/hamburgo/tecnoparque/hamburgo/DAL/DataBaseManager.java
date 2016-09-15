@@ -489,10 +489,6 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
                 + " GROUP BY " + TABLA_3 + "." + TABLA_3_CAMPO_3 + " ORDER BY " + TABLA_3 + "." + TABLA_3_CAMPO_3 , null);
 
 
-        Log.e("Sadainer", "SELECT " + TABLA_3 + "." + TABLA_3_CAMPO_3
-                + ", SUM(" + TABLA_6 + "." + TABLA_6_CAMPO_5 + ")"
-                + " FROM " + TABLA_6 + " INNER JOIN " + TABLA_3 + " ON " + TABLA_6 + "." + TABLA_6_CAMPO_2  + " = " + TABLA_3 + "." + TABLA_3_CAMPO_1
-                + " GROUP BY " + TABLA_3 + "." + TABLA_3_CAMPO_3 + " ORDER BY " + TABLA_3 + "." + TABLA_3_CAMPO_3);
         ArrayList<ClienteDTO> Lista = new ArrayList<ClienteDTO>();
 
         while (c.moveToNext()) {
@@ -573,7 +569,7 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
                 + ",SUM(" + TABLA_6 + "." + TABLA_6_CAMPO_4 + "), SUM(" + TABLA_6 + "." + TABLA_6_CAMPO_5 + "), " + TABLA_6 + "." + TABLA_6_CAMPO_6
                 + " FROM " + TABLA_6 + " INNER JOIN " + TABLA_3 + " ON " + TABLA_6 + "." + TABLA_6_CAMPO_2  + " = " + TABLA_3 + "." + TABLA_3_CAMPO_1
                 + " WHERE " + TABLA_3_CAMPO_3 + " = " + Cedula + " AND " + TABLA_6 + "." + TABLA_6_CAMPO_5 + " > 0 "
-                + " GROUP BY " + TABLA_6 + "." + TABLA_6_CAMPO_3 + " ORDER BY " + TABLA_6 + "." + TABLA_6_CAMPO_1 , null);
+                + " GROUP BY " + TABLA_6 + "." + TABLA_6_CAMPO_3 + " ORDER BY " + TABLA_6 + "." + TABLA_6_CAMPO_3 , null);
 
         ArrayList<CuotasDTO> Lista = new ArrayList<CuotasDTO>();
         while (c.moveToNext()){
