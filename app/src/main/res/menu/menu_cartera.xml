@@ -2,11 +2,11 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/add"
+    <item android:id="@+id/ver"
         android:icon="@android:drawable/ic_menu_search"
         android:title="Ver" />
 
-    <item android:id="@+id/edit"
+    <item android:id="@+id/pagar"
         android:icon="@android:drawable/ic_menu_manage"
         android:title="Registrar pago" />
 

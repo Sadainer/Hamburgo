@@ -50,11 +50,17 @@ public class CarteraFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
 
         switch(item.getItemId()) {
-            case R.id.add:
+            case R.id.ver:
                 // add stuff here
                 return true;
-            case R.id.edit:
-                // edit stuff here
+            case R.id.pagar:
+                Fragment fragmento= new PagarCarteraFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragmento)
+                        .commit();
+
                 return true;
 
             default:

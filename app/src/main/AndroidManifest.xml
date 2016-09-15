@@ -29,7 +29,6 @@
                 android:resource="@xml/searchable" />
 
         </activity>
-        <activity android:name=".NuevaVenta"></activity>
     </application>
 
 </manifest>
