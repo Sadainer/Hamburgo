@@ -1,6 +1,7 @@
 package com.hamburgo.tecnoparque.hamburgo.Adaptadores;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,8 @@ public class AdaptadorListviewClientes extends ArrayAdapter<ClienteDTO> {
         TextView txtApellido;
         TextView txtCedula;
         TextView txtCelular;
+        TextView txtSub;
+        TextView txtCeluView;
     }
 
     @Override
@@ -58,13 +61,25 @@ public class AdaptadorListviewClientes extends ArrayAdapter<ClienteDTO> {
             holder.txtApellido = (TextView) convertView.findViewById(R.id.txtApellido);
             holder.txtCedula = (TextView) convertView.findViewById(R.id.txtCedula);
             holder.txtCelular = (TextView) convertView.findViewById(R.id.txtCelular);
+            holder.txtSub = (TextView) convertView.findViewById(R.id.textSubTitulo);
+            holder.txtCeluView = (TextView) convertView.findViewById(R.id.txtCeluView);
             convertView.setTag(holder);
         } else
             holder = (ViewHolder) convertView.getTag();
+
             holder.txtNombre.setText(rowItem.getNombres());
             holder.txtApellido.setText(rowItem.getApellidos());
             holder.txtCedula.setText(String.valueOf(rowItem.getCedula()));
             holder.txtCelular.setText(String.valueOf(rowItem.getCelular()));
+
+            if (rowItem.getCedula().equals("Nuevo")) {
+                holder.txtNombre.setTypeface(null, Typeface.ITALIC);
+                holder.txtApellido.setTypeface(null, Typeface.ITALIC);
+                holder.txtCedula.setVisibility(View.GONE);
+                holder.txtCelular.setVisibility(View.GONE);
+                holder.txtSub.setVisibility(View.GONE);
+                holder.txtCeluView.setVisibility(View.GONE);
+            }
 
             return convertView;
         }
@@ -92,7 +107,6 @@ public class AdaptadorListviewClientes extends ArrayAdapter<ClienteDTO> {
                     if (datos.size()==0){
                         ClienteDTO ClienteNuevo = new ClienteDTO();
                         ClienteNuevo.setCedula("Nuevo");
-                        ClienteNuevo.setCelular("Nuevo");
                         ClienteNuevo.setNombres("Registrar");
                         ClienteNuevo.setApellidos("Nuevo Cliente");
                         datos.add(ClienteNuevo);

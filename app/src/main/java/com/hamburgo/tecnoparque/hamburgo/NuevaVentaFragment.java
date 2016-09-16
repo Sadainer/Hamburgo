@@ -106,6 +106,7 @@ public class NuevaVentaFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView cedula = (TextView)view.findViewById(R.id.txtCedula);
+
                 if (!cedula.getText().toString().equals("Nuevo")){
                     AutCompleteClientes.setText(cedula.getText().toString());
                 }else{

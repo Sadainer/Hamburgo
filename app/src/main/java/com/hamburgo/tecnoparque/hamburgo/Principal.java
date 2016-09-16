@@ -63,8 +63,6 @@ public class Principal extends AppCompatActivity
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, fragmento)
                     .commit();
-
-            drawer.closeDrawer(GravityCompat.START);
         }
     }
 
