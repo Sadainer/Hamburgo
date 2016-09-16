@@ -44,7 +44,7 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
 
 
     public interface ClienteReturn {
-        void processFinish();
+        void processFinish(ClienteDTO cliente);
     }
 
 
@@ -136,7 +136,7 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
                             manager.Actualizar(cliente, Cliente.getCedula().toString());
                         }
 
-                        delegate.processFinish();
+                        delegate.processFinish(cliente);
                 }else{
                     Toast.makeText(getActivity().getApplicationContext(),"Complete los campos obligatorios",Toast.LENGTH_SHORT).show();
                 }

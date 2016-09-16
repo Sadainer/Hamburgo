@@ -123,7 +123,7 @@ public class ClientesFragment extends Fragment {
         FragmentManager fm = getFragmentManager();
         NuevoClienteDialogFragment dialogFragment = new NuevoClienteDialogFragment(cnt,cliente,new NuevoClienteDialogFragment.ClienteReturn() {
             @Override
-            public void processFinish() {
+            public void processFinish(ClienteDTO cliente) {
                 ActualizarListaClientes();
             }
         });

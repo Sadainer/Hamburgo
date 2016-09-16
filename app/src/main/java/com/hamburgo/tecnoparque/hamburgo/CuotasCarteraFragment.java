@@ -61,6 +61,7 @@ public class CuotasCarteraFragment extends DialogFragment {
             }
         });
         builder.setView(vista);
+
         return builder.create();
     }
 

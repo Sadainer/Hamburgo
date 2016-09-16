@@ -106,7 +106,13 @@ public class NuevaVentaFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView cedula = (TextView)view.findViewById(R.id.txtCedula);
-                AutCompleteClientes.setText(cedula.getText().toString());
+                if (!cedula.getText().toString().equals("Nuevo")){
+                    AutCompleteClientes.setText(cedula.getText().toString());
+                }else{
+                    AutCompleteClientes.setText("");
+                    MostrarDialogCliente(null);
+                }
+
             }
         });
 
@@ -232,6 +238,18 @@ public class NuevaVentaFragment extends Fragment {
         FragmentManager fm = getFragmentManager();
         NuevaVentaDialogFragment dialogFragment = new NuevaVentaDialogFragment(venta, detalle);
         dialogFragment.show(fm, null);
+    }
+
+    private void MostrarDialogCliente(ClienteDTO cliente){
+        FragmentManager fm = getFragmentManager();
+        NuevoClienteDialogFragment dialogFragment = new NuevoClienteDialogFragment(cnt, cliente, new NuevoClienteDialogFragment.ClienteReturn() {
+            @Override
+            public void processFinish(ClienteDTO cliente) {
+                LlenarListaClientes ();
+                AutCompleteClientes.setText(cliente.getCedula().toString());
+            }
+        });
+        dialogFragment.show(fm, "Sample Fragment");
     }
 
 
