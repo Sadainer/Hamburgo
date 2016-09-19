@@ -108,7 +108,7 @@ public class AdaptadorListviewClientes extends ArrayAdapter<ClienteDTO> {
                         ClienteDTO ClienteNuevo = new ClienteDTO();
                         ClienteNuevo.setCedula("Nuevo");
                         ClienteNuevo.setNombres("Registrar");
-                        ClienteNuevo.setApellidos("Nuevo Cliente");
+                        ClienteNuevo.setApellidos("nuevo cliente");
                         datos.add(ClienteNuevo);
                     }
                     filterResults.values = datos;

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewCartera;
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
@@ -32,6 +33,7 @@ public class CarteraFragment extends Fragment {
     AdaptadorListviewCartera adaptador;
     ArrayList<ClienteDTO> datos;
     Context cnt;
+    ClienteDTO itemMenu;
 
     public CarteraFragment() {
         // Required empty public constructor
@@ -40,6 +42,8 @@ public class CarteraFragment extends Fragment {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        itemMenu = adaptador.getItem(info.position);
         if (v.getId()==R.id.listView) {
             MenuInflater inflater = getActivity().getMenuInflater();
             inflater.inflate(R.menu.menu_cartera, menu);
@@ -54,7 +58,9 @@ public class CarteraFragment extends Fragment {
                 // add stuff here
                 return true;
             case R.id.pagar:
-                Fragment fragmento= new PagarCarteraFragment();
+
+//                Toast.makeText(cnt,itemMenu.getCedula().toString(),Toast.LENGTH_SHORT).show();
+                Fragment fragmento= new PagarCarteraFragment(itemMenu);
                 FragmentManager fragmentManager = getFragmentManager();
 
                 fragmentManager.beginTransaction()
@@ -78,22 +84,7 @@ public class CarteraFragment extends Fragment {
         manager = new DataBaseManager(cnt);
         listViewCartera = (ListView)vista.findViewById(R.id.listView);
         datos = manager.getCartera();
-//        ArrayList<ClienteDTO> pagos = manager.getPagosCartera();
 //
-
-//        for(ClienteDTO c : pagos){
-//            for(ClienteDTO ct : datos){
-//                if (c.getCedula().toString().equals(ct.getCedula().toString())){
-//                    Integer Saldo = Integer.valueOf(ct.getCelular()) - Integer.valueOf(c.getCelular());
-//                    if (Saldo==0){
-//                        datos.remove(ct);
-//                    }else{
-//                        ct.setCelular(String.valueOf(Saldo));
-//                    }
-//                }
-//                break;
-//            }
-//        }
 
         adaptador = new AdaptadorListviewCartera(cnt,R.layout.layout_adaptador_cartera,datos);
         listViewCartera.setAdapter(adaptador);
