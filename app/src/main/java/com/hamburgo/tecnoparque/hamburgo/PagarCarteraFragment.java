@@ -4,15 +4,19 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewCuotas;
+import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewCuotasPago;
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.CuotasDTO;
@@ -28,7 +32,7 @@ public class PagarCarteraFragment extends Fragment {
     ArrayList<CuotasDTO> datos;
     DataBaseManager manager;
     Context cnt;
-    AdaptadorListviewCuotas adaptador;
+    AdaptadorListviewCuotasPago adaptador;
 
     ClienteDTO Cliente;
     public PagarCarteraFragment(ClienteDTO cliente) {
@@ -54,12 +58,18 @@ public class PagarCarteraFragment extends Fragment {
 
         listViewCuotas = (ListView)v.findViewById(R.id.listView);
         datos = manager.getCuotasCartera(Cliente.getCedula());
-        adaptador = new AdaptadorListviewCuotas(cnt,R.layout.layout_adaptador_cuotas_pago,datos);
+        adaptador = new AdaptadorListviewCuotasPago(cnt,R.layout.layout_adaptador_cuotas_pago,datos);
         listViewCuotas.setAdapter(adaptador);
         listViewCuotas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                CheckBox CPagado = (CheckBox)view.findViewById(R.id.checkBox);
+                CPagado.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        Log.e("PagarCartera", String.valueOf(isChecked));
+                    }
+                });
             }
         });
 
