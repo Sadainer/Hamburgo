@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,7 +24,6 @@ public class PagarCarteraFragment extends Fragment {
     TextView txtNombre;
     TextView txtApellido;
     TextView txtCedula;
-    TextView txtCelular;
     ListView listViewCuotas;
     ArrayList<CuotasDTO> datos;
     DataBaseManager manager;
@@ -47,17 +47,23 @@ public class PagarCarteraFragment extends Fragment {
         txtNombre = (TextView) v.findViewById(R.id.txtNombre);
         txtApellido = (TextView) v.findViewById(R.id.txtApellido);
         txtCedula = (TextView) v.findViewById(R.id.txtCedula);
-        txtCelular = (TextView) v.findViewById(R.id.txtCelular);
 
         txtNombre.setText(Cliente.getNombres());
         txtApellido.setText(Cliente.getApellidos());
-        txtCelular.setText(Cliente.getCelular());
         txtCedula.setText(Cliente.getCedula());
 
         listViewCuotas = (ListView)v.findViewById(R.id.listView);
         datos = manager.getCuotasCartera(Cliente.getCedula());
         adaptador = new AdaptadorListviewCuotas(cnt,R.layout.layout_adaptador_cuotas_pago,datos);
         listViewCuotas.setAdapter(adaptador);
+        listViewCuotas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+
+
         return v;
     }
 
