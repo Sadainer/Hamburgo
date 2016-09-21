@@ -41,7 +41,6 @@ public class AdaptadorListviewCuotasPago extends ArrayAdapter<CuotasDTO> {
         for (int i=0;i<datos.size();i++){
             CPagado[i]=false;
         }
-        Log.e("Arrancando", "si");
     }
 
     /*private view holder class*/

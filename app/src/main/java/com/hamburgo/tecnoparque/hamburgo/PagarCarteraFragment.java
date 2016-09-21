@@ -60,16 +60,18 @@ public class PagarCarteraFragment extends Fragment {
         datos = manager.getCuotasCartera(Cliente.getCedula());
         adaptador = new AdaptadorListviewCuotasPago(cnt,R.layout.layout_adaptador_cuotas_pago,datos);
         listViewCuotas.setAdapter(adaptador);
+
         listViewCuotas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CheckBox CPagado = (CheckBox)view.findViewById(R.id.checkBox);
-                CPagado.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        Log.e("PagarCartera", String.valueOf(isChecked));
-                    }
-                });
+                Log.e("Sadainer", "Funciona");
+//                CheckBox CPagado = (CheckBox)view.findViewById(R.id.checkBox);
+//                CPagado.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                    @Override
+//                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                        Log.e("PagarCartera", String.valueOf(isChecked));
+//                    }
+//                });
             }
         });
 
