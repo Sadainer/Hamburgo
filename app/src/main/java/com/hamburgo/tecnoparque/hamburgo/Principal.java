@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class Principal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -57,12 +58,18 @@ public class Principal extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            Fragment fragmento= new InicioFragment();
-            FragmentManager fragmentManager = getFragmentManager();
 
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragmento)
-                    .commit();
+            Fragment f = this.getFragmentManager().findFragmentById(R.id.content_frame);
+            Fragment fragmento= new InicioFragment();
+            if(!(f == fragmento)){
+                Toast.makeText(this,String.valueOf(f.getId()),Toast.LENGTH_SHORT).show();
+                FragmentManager fragmentManager = getFragmentManager();
+
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragmento)
+                        .commit();
+            }
+
         }
     }
 

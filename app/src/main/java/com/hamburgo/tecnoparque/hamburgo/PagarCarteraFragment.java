@@ -28,6 +28,7 @@ public class PagarCarteraFragment extends Fragment {
     TextView txtNombre;
     TextView txtApellido;
     TextView txtCedula;
+    EditText edtValor;
     ListView listViewCuotas;
     ArrayList<CuotasDTO> datos;
     DataBaseManager manager;
@@ -51,6 +52,7 @@ public class PagarCarteraFragment extends Fragment {
         txtNombre = (TextView) v.findViewById(R.id.txtNombre);
         txtApellido = (TextView) v.findViewById(R.id.txtApellido);
         txtCedula = (TextView) v.findViewById(R.id.txtCedula);
+        edtValor = (EditText)v.findViewById(R.id.edtValorPagar);
 
         txtNombre.setText(Cliente.getNombres());
         txtApellido.setText(Cliente.getApellidos());
@@ -58,24 +60,13 @@ public class PagarCarteraFragment extends Fragment {
 
         listViewCuotas = (ListView)v.findViewById(R.id.listView);
         datos = manager.getCuotasCartera(Cliente.getCedula());
-        adaptador = new AdaptadorListviewCuotasPago(cnt,R.layout.layout_adaptador_cuotas_pago,datos);
-        listViewCuotas.setAdapter(adaptador);
-
-        listViewCuotas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adaptador = new AdaptadorListviewCuotasPago(cnt, R.layout.layout_adaptador_cuotas_pago, datos, new AdaptadorListviewCuotasPago.ValorReturn() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("Sadainer", "Funciona");
-//                CheckBox CPagado = (CheckBox)view.findViewById(R.id.checkBox);
-//                CPagado.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                    @Override
-//                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                        Log.e("PagarCartera", String.valueOf(isChecked));
-//                    }
-//                });
+            public void processFinish(Integer valor) {
+                edtValor.setText(valor.toString());
             }
         });
-
-
+        listViewCuotas.setAdapter(adaptador);
         return v;
     }
 

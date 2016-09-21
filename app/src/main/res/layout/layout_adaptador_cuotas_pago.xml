@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:focusable="false"
-    android:descendantFocusability="blocksDescendants"
     android:padding="5dp"
     android:weightSum="1">
 

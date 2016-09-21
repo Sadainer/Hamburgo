@@ -75,8 +75,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
+        android:gravity="right"
+        android:textColor="@color/iconColor"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/edtValorPagar"
         android:layout_gravity="center_horizontal" />
 
     <Button

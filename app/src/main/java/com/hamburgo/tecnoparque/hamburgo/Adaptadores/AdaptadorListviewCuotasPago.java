@@ -12,6 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
+import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.CuotasDTO;
 import com.hamburgo.tecnoparque.hamburgo.Formatos;
 import com.hamburgo.tecnoparque.hamburgo.R;
@@ -29,10 +30,19 @@ public class AdaptadorListviewCuotasPago extends ArrayAdapter<CuotasDTO> {
     int layout_list;
     Formatos format;
     final Boolean[] CPagado;
+    Integer ValorPagar=0;
 
-    public AdaptadorListviewCuotasPago(Context context, int resource, List<CuotasDTO> objects) {
+    private ValorReturn delegate = null;
+
+    public interface ValorReturn {
+        void processFinish(Integer valor);
+    }
+
+    public AdaptadorListviewCuotasPago(Context context, int resource, List<CuotasDTO> objects, ValorReturn delegate) {
         super(context, resource, objects);
+
         datos=objects;
+        this.delegate = delegate;
         cnt=context;
         layout_list=resource;
         format = new Formatos();
@@ -56,7 +66,7 @@ public class AdaptadorListviewCuotasPago extends ArrayAdapter<CuotasDTO> {
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder = null;
-        CuotasDTO rowItem = getItem(position);
+        final CuotasDTO rowItem = getItem(position);
         LayoutInflater inflater = LayoutInflater.from(getContext());
 
 
@@ -89,6 +99,12 @@ public class AdaptadorListviewCuotasPago extends ArrayAdapter<CuotasDTO> {
                 public void onClick(View v) {
                     CheckBox cb = (CheckBox) v ;
                     CPagado[position]= cb.isChecked();
+                    if (cb.isChecked()){
+                        ValorPagar+=rowItem.getValorDeuda();
+                    }else{
+                        ValorPagar-=rowItem.getValorDeuda();
+                    }
+                    delegate.processFinish(ValorPagar);
                 }
             });
             return convertView;
