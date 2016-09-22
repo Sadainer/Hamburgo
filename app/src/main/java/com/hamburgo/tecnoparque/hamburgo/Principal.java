@@ -59,19 +59,21 @@ public class Principal extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-
-            Fragment myFragment = (Fragment)getFragmentManager().findFragmentByTag("InicioFragment");
-
-
-            if (myFragment != null && myFragment.isVisible()) {
-                Log.e("Sadainer",myFragment.getTag().toString());
+            int count = getFragmentManager().getBackStackEntryCount();
+            Log.e("Sadainer",String.valueOf(count));
+//            if (count == 0) {
+//                super.onBackPressed();
+//                //additional code
+//            } else {
 //                Fragment fragmento= new InicioFragment();
 //                FragmentManager fragmentManager = getFragmentManager();
 //
 //                fragmentManager.beginTransaction()
-//                            .replace(R.id.content_frame, fragmento)
-//                            .commit();
-           }
+//                        .replace(R.id.content_frame, fragmento)
+//                        .commit();
+//            }
+
+
         }
     }
 
