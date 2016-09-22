@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -44,7 +45,7 @@ public class Principal extends AppCompatActivity
         FragmentManager fragmentManager = getFragmentManager();
 
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragmento)
+                    .replace(R.id.content_frame, fragmento,"InicioFragment")
                     .commit();
 
         drawer.closeDrawer(GravityCompat.START);
@@ -59,17 +60,18 @@ public class Principal extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
 
-            Fragment f = this.getFragmentManager().findFragmentById(R.id.content_frame);
-            Fragment fragmento= new InicioFragment();
-            if(!(f == fragmento)){
-                Toast.makeText(this,String.valueOf(f.getId()),Toast.LENGTH_SHORT).show();
-                FragmentManager fragmentManager = getFragmentManager();
+            Fragment myFragment = (Fragment)getFragmentManager().findFragmentByTag("InicioFragment");
 
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragmento)
-                        .commit();
-            }
 
+            if (myFragment != null && myFragment.isVisible()) {
+                Log.e("Sadainer",myFragment.getTag().toString());
+//                Fragment fragmento= new InicioFragment();
+//                FragmentManager fragmentManager = getFragmentManager();
+//
+//                fragmentManager.beginTransaction()
+//                            .replace(R.id.content_frame, fragmento)
+//                            .commit();
+           }
         }
     }
 
@@ -103,23 +105,29 @@ public class Principal extends AppCompatActivity
         int id = item.getItemId();
         boolean fragmentTransaction = false;
         Fragment fragmento= null;
+        String Tag="InicioFragment";
         FragmentManager fragmentManager = getFragmentManager();
 
         if (id == R.id.nav_inicio) {
             fragmento = new InicioFragment();
             fragmentTransaction=true;
+            Tag="InicioFragment";
         } else if (id == R.id.nav_clientes) {
             fragmento = new ClientesFragment();
             fragmentTransaction=true;
+            Tag="ClientesFragment";
         } else if (id == R.id.nav_productos) {
             fragmento = new ProductosFragment();
             fragmentTransaction=true;
+            Tag="ProductosFragment";
         } else if (id == R.id.nav_vender) {
             fragmento = new VentasFragment();
             fragmentTransaction=true;
+            Tag="VentasFragment";
         } else if (id == R.id.nav_cartera) {
             fragmento = new CarteraFragment();
             fragmentTransaction=true;
+            Tag="CarteraFragment";
         } else if (id == R.id.nav_herramientas) {
 
         } else if (id == R.id.nav_ayuda) {
@@ -128,7 +136,7 @@ public class Principal extends AppCompatActivity
 
         if(fragmentTransaction) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragmento)
+                    .replace(R.id.content_frame, fragmento,Tag)
                     .commit();
 
             item.setChecked(true);
