@@ -562,6 +562,26 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         }
         return Lista;
     }
+//    public CuotasDTO PagarCuotasVenta(CuotasDTO Cuota, Integer ValorPagado){
+//        Cursor c = db.rawQuery("SELECT " + TABLA_6_CAMPO_1 + " , "  + TABLA_6_CAMPO_2 + " , "+ TABLA_6_CAMPO_3 + " , "
+//                + TABLA_6_CAMPO_4 + " , " + TABLA_6_CAMPO_5 + " , " + TABLA_6_CAMPO_6
+//                + " FROM " + TABLA_6 + " WHERE " + TABLA_6_CAMPO_2 + " = " + NumeroVenta, null);
+//
+//        ArrayList<CuotasDTO> Lista = new ArrayList<CuotasDTO>();
+//        while (c.moveToNext()){
+//            Log.e("Sadainer","2");
+//
+//            CuotasDTO m = new CuotasDTO();
+//            m.setNumeroCuota(c.getInt(0));
+//            m.setNumeroVenta(c.getInt(1));
+//            m.setFechaPago(c.getString(2));
+//            m.setValorCuota(c.getInt(3));
+//            m.setValorDeuda(c.getInt(4));
+//            m.setPagada(c.getInt(5));
+//            Lista.add(m);
+//        }
+//        return Lista;
+//    }
 
     public ArrayList<CuotasDTO> getCuotasCartera(String Cedula){
 

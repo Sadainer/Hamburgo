@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -28,6 +29,7 @@ public class PagarCarteraFragment extends Fragment {
     TextView txtNombre;
     TextView txtApellido;
     TextView txtCedula;
+    Button btnPagar;
     EditText edtValor;
     ListView listViewCuotas;
     ArrayList<CuotasDTO> datos;
@@ -53,6 +55,7 @@ public class PagarCarteraFragment extends Fragment {
         txtApellido = (TextView) v.findViewById(R.id.txtApellido);
         txtCedula = (TextView) v.findViewById(R.id.txtCedula);
         edtValor = (EditText)v.findViewById(R.id.edtValorPagar);
+        btnPagar = (Button)v.findViewById(R.id.btnRegistrar);
 
         txtNombre.setText(Cliente.getNombres());
         txtApellido.setText(Cliente.getApellidos());
@@ -67,6 +70,12 @@ public class PagarCarteraFragment extends Fragment {
             }
         });
         listViewCuotas.setAdapter(adaptador);
+        btnPagar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         return v;
     }
 
