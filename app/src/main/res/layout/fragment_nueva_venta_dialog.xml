@@ -60,6 +60,13 @@
                 android:text="Quincenal"
                 android:id="@+id/radQuincenal"
                 android:checked="false" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Diario"
+                android:id="@+id/radDiario"
+                android:checked="false" />
         </RadioGroup>
 
     </LinearLayout>

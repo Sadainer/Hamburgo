@@ -1,5 +1,6 @@
 package com.hamburgo.tecnoparque.hamburgo;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -78,8 +79,8 @@ public class PagarCarteraFragment extends Fragment {
                 Boolean BusquedaCorrecta = true;
                 Boolean Activado= false;
                 Boolean Bloqueado = false;
-                for (int i=0; i<datos.size();i++){
-                    ViewGroup row = (ViewGroup) listViewCuotas.getChildAt(i);
+                for (int i=0; i < listViewCuotas.getCount();i++){
+                    View row = listViewCuotas.getAdapter().getView(i, null, null);
                     CheckBox tvTest = (CheckBox) row.findViewById(R.id.checkBox);
                     if (tvTest.isChecked()) {
                         Bandera[i] = true;
@@ -95,10 +96,20 @@ public class PagarCarteraFragment extends Fragment {
                         }
                     }
                 }
-                if (Activado==false){
-                    Toast.makeText(cnt,"No selecciono ninguno",Toast.LENGTH_SHORT).show();
-                }else if(BusquedaCorrecta){
-                    Toast.makeText(cnt,"Seleccion incorrecta",Toast.LENGTH_SHORT).show();
+                if(!BusquedaCorrecta){
+                    Toast.makeText(cnt,"Selección incorrecta",Toast.LENGTH_SHORT).show();
+                }else{
+                    if(manager.PagarCuotasVenta(Cliente,Integer.valueOf(edtValor.getText().toString()))){
+                        Toast.makeText(cnt,"Registrado con exito",Toast.LENGTH_SHORT).show();
+                        Fragment fragmento = new CarteraFragment();
+                        FragmentManager fragmentManager = getFragmentManager();
+
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.content_frame, fragmento)
+                                .commit();
+                    }else{
+                        Toast.makeText(cnt,"Ocurrio un error al registrar la información",Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
