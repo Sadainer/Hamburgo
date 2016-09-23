@@ -15,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewCuotas;
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewCuotasPago;
@@ -73,7 +74,32 @@ public class PagarCarteraFragment extends Fragment {
         btnPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Boolean[] Bandera = new Boolean[datos.size()];
+                Boolean BusquedaCorrecta = true;
+                Boolean Activado= false;
+                Boolean Bloqueado = false;
+                for (int i=0; i<datos.size();i++){
+                    ViewGroup row = (ViewGroup) listViewCuotas.getChildAt(i);
+                    CheckBox tvTest = (CheckBox) row.findViewById(R.id.checkBox);
+                    if (tvTest.isChecked()) {
+                        Bandera[i] = true;
+                        Activado =true;
+                        if(Bloqueado==true){
+                            BusquedaCorrecta=false;
+                        }
+                    }
+                    else{
+                        Bandera[i]=false;
+                        if (Activado==true){
+                            Bloqueado=true;
+                        }
+                    }
+                }
+                if (Activado==false){
+                    Toast.makeText(cnt,"No selecciono ninguno",Toast.LENGTH_SHORT).show();
+                }else if(BusquedaCorrecta){
+                    Toast.makeText(cnt,"Seleccion incorrecta",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return v;

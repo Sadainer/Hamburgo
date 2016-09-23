@@ -369,18 +369,13 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         venta.setFecha(Fecha);
 
         if (InsertarVenta(venta)){
-
-            Log.e("Sadainer","1");
             try {
 
                 Integer max = MaxVenta();
-                Log.e("Sadainer","2");
                 for (DetalleVentaDTO d : detalle) {
                     d.setNumeroVenta(max);
-                    Log.e("Sadainer","3");
                     InsertarDetalleVenta(d);
                 }
-                Log.e("Sadainer","4");
 
                 CuotasDTO cuotaInicialPago = new CuotasDTO();
                 cuotaInicialPago.setFechaPago(Fecha);
@@ -389,7 +384,6 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
                 cuotaInicialPago.setValorDeuda(0);
                 cuotaInicialPago.setValorCuota(CuotaInicial);
                 InsertarCuotas(cuotaInicialPago);
-                Log.e("Sadainer","5");
 
                 for (int i=0 ; i< venta.getNumeroCuotas(); i++){
 
@@ -401,14 +395,12 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
                     cuota.setValorDeuda(ValorCuotas);
                     cuota.setValorCuota(ValorCuotas);
                     InsertarCuotas(cuota);
-                    Log.e("Sadainer","6");
                     mes++;
                     if (mes == 13) {
                         mes = 1;
                         year++;
                     }
                 }
-                Log.e("Sadainer","7");
 
                 CarteraDTO cartera = new CarteraDTO();
                 cartera.setIdCliente(venta.getIdCliente());
@@ -417,21 +409,14 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
                 cartera.setValor(CuotaInicial);
                 cartera.setObservacion("Cuota Inicial");
                 InsertarCartera(cartera);
-                Log.e("Sadainer","8");
-
-
-
             }catch (Exception e){
-                Log.e("Sadainer","9");
                 return null;
             }finally {
-                Log.e("Sadainer","10");
 
                 return UltimaVenta();
             }
 
         }else{
-            Log.e("Sadainer","11");
             return null;
         }
     }
@@ -562,26 +547,41 @@ public static  final String TABLA_2="Productos"; // Nombre de la tabla
         }
         return Lista;
     }
-//    public CuotasDTO PagarCuotasVenta(CuotasDTO Cuota, Integer ValorPagado){
-//        Cursor c = db.rawQuery("SELECT " + TABLA_6_CAMPO_1 + " , "  + TABLA_6_CAMPO_2 + " , "+ TABLA_6_CAMPO_3 + " , "
-//                + TABLA_6_CAMPO_4 + " , " + TABLA_6_CAMPO_5 + " , " + TABLA_6_CAMPO_6
-//                + " FROM " + TABLA_6 + " WHERE " + TABLA_6_CAMPO_2 + " = " + NumeroVenta, null);
-//
-//        ArrayList<CuotasDTO> Lista = new ArrayList<CuotasDTO>();
-//        while (c.moveToNext()){
-//            Log.e("Sadainer","2");
-//
-//            CuotasDTO m = new CuotasDTO();
-//            m.setNumeroCuota(c.getInt(0));
-//            m.setNumeroVenta(c.getInt(1));
-//            m.setFechaPago(c.getString(2));
-//            m.setValorCuota(c.getInt(3));
-//            m.setValorDeuda(c.getInt(4));
-//            m.setPagada(c.getInt(5));
-//            Lista.add(m);
-//        }
-//        return Lista;
-//    }
+    public CuotasDTO PagarCuotasVenta(ClienteDTO cliente, Integer ValorPagado){
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat fechaCompleta = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String Fecha = fechaCompleta.format(calendar.getTime());
+
+        CarteraDTO cartera = new CarteraDTO();
+        cartera.setIdCliente(cliente.getCedula());
+        cartera.setIdVendedor("1065582510");
+        cartera.setValor(ValorPagado);
+        cartera.setFecha(Fecha);
+        cartera.setObservacion("Nunguna");
+
+
+
+
+        Cursor c = db.rawQuery("SELECT " + TABLA_6_CAMPO_1 + " , "  + TABLA_6_CAMPO_2 + " , "+ TABLA_6_CAMPO_3 + " , "
+                + TABLA_6_CAMPO_4 + " , " + TABLA_6_CAMPO_5 + " , " + TABLA_6_CAMPO_6
+                + " FROM " + TABLA_6 + " WHERE " + TABLA_6_CAMPO_2 + " = " + NumeroVenta, null);
+
+        ArrayList<CuotasDTO> Lista = new ArrayList<CuotasDTO>();
+        while (c.moveToNext()){
+            Log.e("Sadainer","2");
+
+            CuotasDTO m = new CuotasDTO();
+            m.setNumeroCuota(c.getInt(0));
+            m.setNumeroVenta(c.getInt(1));
+            m.setFechaPago(c.getString(2));
+            m.setValorCuota(c.getInt(3));
+            m.setValorDeuda(c.getInt(4));
+            m.setPagada(c.getInt(5));
+            Lista.add(m);
+        }
+        return Lista;
+    }
 
     public ArrayList<CuotasDTO> getCuotasCartera(String Cedula){
 
