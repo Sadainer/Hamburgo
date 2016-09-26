@@ -1,7 +1,10 @@
 package com.hamburgo.tecnoparque.hamburgo;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -39,6 +42,7 @@ public class PagarCarteraFragment extends Fragment {
     ArrayList<CuotasDTO> datos;
     DataBaseManager manager;
     Context cnt;
+    Formatos formato;
     AdaptadorListviewCuotasPago adaptador;
 
     ClienteDTO Cliente;
@@ -65,6 +69,7 @@ public class PagarCarteraFragment extends Fragment {
         txtApellido.setText(Cliente.getApellidos());
         txtCedula.setText(Cliente.getCedula());
 
+        formato = new Formatos();
         listViewCuotas = (ListView)v.findViewById(R.id.listView);
         datos = manager.getCuotasCartera(Cliente.getCedula());
         adaptador = new AdaptadorListviewCuotasPago(cnt, R.layout.layout_adaptador_cuotas_pago, datos, new AdaptadorListviewCuotasPago.ValorReturn() {
@@ -79,11 +84,28 @@ public class PagarCarteraFragment extends Fragment {
             public void onClick(View v) {
 
                 if(Validarlista() && !TextUtils.isEmpty(edtValor.getText().toString())){
+                    FragmentManager fm = getFragmentManager();
+                    DialogFragment dialogFragment = new DialogFragment();
+                    dialogFragment.show(fm, "Sample Fragment");
+                }else{
+                    Toast.makeText(cnt,"Datos incorrectos",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        return v;
+    }
 
-
-
-
-
+    public class DialogFragment extends android.app.DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Registrar pago");
+            builder.setIcon(android.R.drawable.ic_dialog_info);
+            builder.setMessage("Está seguro de registrar pago por valor de " + formato.ConvertirMoneda(edtValor.getText().toString()));
+            builder.setPositiveButton("Registrar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
                     if(manager.PagarCuotasVenta(Cliente,Integer.valueOf(edtValor.getText().toString()))){
                         Toast.makeText(cnt,"Registrado con exito",Toast.LENGTH_SHORT).show();
                         Fragment fragmento = new CarteraFragment();
@@ -95,14 +117,19 @@ public class PagarCarteraFragment extends Fragment {
                     }else{
                         Toast.makeText(cnt,"Ocurrio un error al registrar la información",Toast.LENGTH_SHORT).show();
                     }
-                }else{
-
-                    Toast.makeText(cnt,"Datos incorrectos",Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-        return v;
+            });
+
+            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dismiss();
+                }
+            });
+            return builder.create();
+        }
     }
+
 
     private boolean Validarlista(){
         Boolean[] Bandera = new Boolean[datos.size()];
