@@ -55,7 +55,9 @@ public class CarteraFragment extends Fragment {
 
         switch(item.getItemId()) {
             case R.id.ver:
-                // add stuff here
+                FragmentManager fm = getFragmentManager();
+                CuotasCarteraFragment dialogFragment = new CuotasCarteraFragment(itemMenu.getCedula().toString());
+                dialogFragment.show(fm, null);
                 return true;
             case R.id.pagar:
 

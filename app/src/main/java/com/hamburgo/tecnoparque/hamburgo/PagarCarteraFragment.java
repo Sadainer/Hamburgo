@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.CuotasDTO;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 public class PagarCarteraFragment extends Fragment {
@@ -75,30 +77,13 @@ public class PagarCarteraFragment extends Fragment {
         btnPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Boolean[] Bandera = new Boolean[datos.size()];
-                Boolean BusquedaCorrecta = true;
-                Boolean Activado= false;
-                Boolean Bloqueado = false;
-                for (int i=0; i < listViewCuotas.getCount();i++){
-                    View row = listViewCuotas.getAdapter().getView(i, null, null);
-                    CheckBox tvTest = (CheckBox) row.findViewById(R.id.checkBox);
-                    if (tvTest.isChecked()) {
-                        Bandera[i] = true;
-                        Activado =true;
-                        if(Bloqueado==true){
-                            BusquedaCorrecta=false;
-                        }
-                    }
-                    else{
-                        Bandera[i]=false;
-                        if (Activado==true){
-                            Bloqueado=true;
-                        }
-                    }
-                }
-                if(!BusquedaCorrecta){
-                    Toast.makeText(cnt,"Selección incorrecta",Toast.LENGTH_SHORT).show();
-                }else{
+
+                if(Validarlista() && !TextUtils.isEmpty(edtValor.getText().toString())){
+
+
+
+
+
                     if(manager.PagarCuotasVenta(Cliente,Integer.valueOf(edtValor.getText().toString()))){
                         Toast.makeText(cnt,"Registrado con exito",Toast.LENGTH_SHORT).show();
                         Fragment fragmento = new CarteraFragment();
@@ -110,11 +95,38 @@ public class PagarCarteraFragment extends Fragment {
                     }else{
                         Toast.makeText(cnt,"Ocurrio un error al registrar la información",Toast.LENGTH_SHORT).show();
                     }
+                }else{
+
+                    Toast.makeText(cnt,"Datos incorrectos",Toast.LENGTH_SHORT).show();
                 }
             }
         });
         return v;
     }
 
+    private boolean Validarlista(){
+        Boolean[] Bandera = new Boolean[datos.size()];
+        Boolean BusquedaCorrecta = true;
+        Boolean Activado= false;
+        Boolean Bloqueado = false;
+        for (int i=0; i < listViewCuotas.getCount();i++){
+            View row = listViewCuotas.getAdapter().getView(i, null, null);
+            CheckBox tvTest = (CheckBox) row.findViewById(R.id.checkBox);
+            if (tvTest.isChecked()) {
+                Bandera[i] = true;
+                Activado =true;
+                if(Bloqueado==true){
+                    BusquedaCorrecta=false;
+                }
+            }
+            else{
+                Bandera[i]=false;
+                if (Activado==true){
+                    Bloqueado=true;
+                }
+            }
+        }
+        return BusquedaCorrecta;
+    }
 
 }
