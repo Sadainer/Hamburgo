@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
@@ -32,11 +33,15 @@ import java.util.ArrayList;
 public class NuevaVentaDialogFragment extends DialogFragment {
 
     EditText edtCInicial, edtCuotas;
-    RadioButton radMensual, radQuincenal;
+    RadioButton radMensual, radQuincenal,radDiario;
+    RadioGroup radGroup;
     VentaDTO Venta;
     ArrayList<DetalleVentaDTO> Detalle;
     Formatos formato;
     Context cnt;
+    Integer NumeroCuotas;
+    Integer Base;
+    Integer PeriodoPago=1;
     DataBaseManager manager;
 
 
@@ -56,19 +61,42 @@ public class NuevaVentaDialogFragment extends DialogFragment {
 
         edtCInicial = (EditText)v.findViewById(R.id.edtCInicial);
         edtCuotas = (EditText)v.findViewById(R.id.edtCuotas);
-        radMensual = (RadioButton)v.findViewById(R.id.radMensual);
-        radQuincenal = (RadioButton)v.findViewById(R.id.radQuincenal);
 
-        if (Venta.getValorVenta() >= 700000){
-            edtCuotas.setText("3");
-        }else{
-            edtCuotas.setText("2");
-        }
-        edtCInicial.setText(formato.RedondearDouble(Venta.getValorVenta() * 0.20));
-
+        radGroup= (RadioGroup)v.findViewById(R.id.radGroup);
+//        radMensual = (RadioButton)v.findViewById(R.id.radMensual);
+//        radQuincenal = (RadioButton)v.findViewById(R.id.radQuincenal);
+//        radDiario = (RadioButton)v.findViewById(R.id.radDiario);
 
         cnt = getActivity().getApplicationContext();
         manager = new DataBaseManager(cnt);
+
+        if (Venta.getValorVenta() >= 700000){
+            Base=3;
+        }else{
+            Base=2;
+        }
+
+        NumeroCuotas=Base;
+        edtCuotas.setText(NumeroCuotas.toString());
+        edtCInicial.setText(formato.RedondearDouble(Venta.getValorVenta() * 0.20));
+
+        radGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId==R.id.radMensual){
+                    NumeroCuotas = Base;
+                    PeriodoPago=1;
+                }else if (checkedId==R.id.radQuincenal){
+                    NumeroCuotas = Base * 2;
+                    PeriodoPago=2;
+                }else if (checkedId==R.id.radDiario){
+                    NumeroCuotas = 45;
+                    PeriodoPago=3;
+                }
+                edtCuotas.setText(NumeroCuotas.toString());
+            }
+        });
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
@@ -79,7 +107,7 @@ public class NuevaVentaDialogFragment extends DialogFragment {
                 if (!TextUtils.isEmpty(edtCInicial.getText().toString()) && !TextUtils.isEmpty(edtCuotas.getText().toString()) ){
                     Venta.setNumeroCuotas(Integer.valueOf(edtCuotas.getText().toString()));
 
-                    VentaDTO vta = manager.RegistrarVenta(Venta, Detalle, edtCInicial.getText().toString(), radMensual.isChecked());
+                    VentaDTO vta = manager.RegistrarVenta(Venta, Detalle, edtCInicial.getText().toString(), PeriodoPago);
 
                     if (vta != null) {
 
