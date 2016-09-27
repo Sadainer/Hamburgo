@@ -2,6 +2,7 @@ package com.hamburgo.tecnoparque.hamburgo;
 
 
 import android.app.ActivityOptions;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +11,14 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.transition.Explode;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -39,8 +42,9 @@ public class InicioFragment extends Fragment {
     Context cnt;
     DataBaseManager manager;
     ListView listViewRecaudo;
-    AdaptadorListviewCartera adaptador;
-    ArrayList<ClienteDTO> datos;
+    ClienteDTO itemMenu;
+    AdaptadorListviewCartera adaptadorLista;
+    ArrayList<ClienteDTO> datosRecaudo;
     String URI = "http://190.109.185.138:8024/api/arboles";
 
     public InicioFragment() {
@@ -54,6 +58,43 @@ public class InicioFragment extends Fragment {
     }
 
     @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        itemMenu = adaptadorLista.getItem(info.position);
+        if (v.getId()==R.id.listView) {
+            MenuInflater inflater = getActivity().getMenuInflater();
+            inflater.inflate(R.menu.menu_cartera, menu);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        switch(item.getItemId()) {
+            case R.id.ver:
+                FragmentManager fm = getFragmentManager();
+                CuotasCarteraFragment dialogFragment = new CuotasCarteraFragment(itemMenu.getCedula().toString());
+                dialogFragment.show(fm, null);
+                return true;
+            case R.id.pagar:
+
+//                Toast.makeText(cnt,itemMenu.getCedula().toString(),Toast.LENGTH_SHORT).show();
+                Fragment fragmento= new PagarCarteraFragment(itemMenu);
+                FragmentManager fragmentManager = getFragmentManager();
+
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragmento)
+                        .commit();
+
+                return true;
+
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -64,17 +105,19 @@ public class InicioFragment extends Fragment {
         manager = new DataBaseManager(cnt);
         listViewRecaudo = (ListView)vista.findViewById(R.id.listView);
 
+
         final String[] datos =new String[]{"Recaudo mensual","Recaudo quincenal","Recaudo diario"};
 
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(cnt,R.layout.layout_adaptador_spinner,R.id.textItem, datos);
         spiLista.setAdapter(adaptador);
 
 
-        datos = manager.getCartera();
+        datosRecaudo = manager.getCarteraDia("2016-10-31");
 //
 
-        adaptador = new AdaptadorListviewCartera(cnt,R.layout.layout_adaptador_cartera,datos);
-        listViewCartera.setAdapter(adaptador);
+        adaptadorLista = new AdaptadorListviewCartera(cnt,R.layout.layout_adaptador_cartera,datosRecaudo);
+        listViewRecaudo.setAdapter(adaptadorLista);
+        registerForContextMenu(listViewRecaudo);
 
 //        cnt = getActivity();
 //        boton = (Button)vista.findViewById(R.id.button);
