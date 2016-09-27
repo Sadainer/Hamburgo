@@ -502,15 +502,28 @@ public class DataBaseManager {
 
     //////////////////////////////////////////////////////////////////////////////////////////
     public ArrayList<ClienteDTO> getCartera() {
-//        Cursor c = db.rawQuery(" SELECT "  + TABLA_3 + "." + TABLA_3_CAMPO_3 + "," + TABLA_6 + "." + TABLA_6_CAMPO_2
-//                + " , sum(" + TABLA_6 + "." + TABLA_6_CAMPO_5 + ") FROM " + TABLA_6 + " INNER JOIN "
-//                + TABLA_3 + " ON " + TABLA_3 + "." + TABLA_3_CAMPO_1 + " = " + TABLA_6 + "." + TABLA_6_CAMPO_2 + " group by "
-//                + TABLA_3 + "." + TABLA_3_CAMPO_3 , null);
-
         Cursor c = db.rawQuery("SELECT " + TABLA_3 + "." + TABLA_3_CAMPO_3
                 + ", SUM(" + TABLA_6 + "." + TABLA_6_CAMPO_5 + ")"
                 + " FROM " + TABLA_6 + " INNER JOIN " + TABLA_3 + " ON " + TABLA_6 + "." + TABLA_6_CAMPO_2 + " = " + TABLA_3 + "." + TABLA_3_CAMPO_1
                 + " WHERE " + TABLA_6 + "." + TABLA_6_CAMPO_5 + ">0 "
+                + " GROUP BY " + TABLA_3 + "." + TABLA_3_CAMPO_3 + " ORDER BY " + TABLA_3 + "." + TABLA_3_CAMPO_3, null);
+
+
+        ArrayList<ClienteDTO> Lista = new ArrayList<ClienteDTO>();
+
+        while (c.moveToNext()) {
+            ClienteDTO m = getUsuario(c.getString(0));
+            m.setCelular(c.getString(1));
+            Lista.add(m);
+        }
+        return Lista;
+    }
+
+    public ArrayList<ClienteDTO> getCarteraDia(String Fecha) {
+        Cursor c = db.rawQuery("SELECT " + TABLA_3 + "." + TABLA_3_CAMPO_3
+                + ", SUM(" + TABLA_6 + "." + TABLA_6_CAMPO_5 + ")"
+                + " FROM " + TABLA_6 + " INNER JOIN " + TABLA_3 + " ON " + TABLA_6 + "." + TABLA_6_CAMPO_2 + " = " + TABLA_3 + "." + TABLA_3_CAMPO_1
+                + " WHERE " + TABLA_6 + "." + TABLA_6_CAMPO_5 + ">0 AND " + TABLA_6_CAMPO_3 + " <= " + Fecha
                 + " GROUP BY " + TABLA_3 + "." + TABLA_3_CAMPO_3 + " ORDER BY " + TABLA_3 + "." + TABLA_3_CAMPO_3, null);
 
 

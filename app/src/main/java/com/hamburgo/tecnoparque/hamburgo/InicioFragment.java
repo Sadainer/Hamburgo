@@ -16,10 +16,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewCartera;
 import com.hamburgo.tecnoparque.hamburgo.ClasesAsincronas.GetAsyncrona;
+import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
+import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
+
+import java.util.ArrayList;
 
 
 /**
@@ -27,8 +35,12 @@ import com.hamburgo.tecnoparque.hamburgo.ClasesAsincronas.GetAsyncrona;
  */
 public class InicioFragment extends Fragment {
 
-    Button boton ;
+    Spinner spiLista ;
     Context cnt;
+    DataBaseManager manager;
+    ListView listViewRecaudo;
+    AdaptadorListviewCartera adaptador;
+    ArrayList<ClienteDTO> datos;
     String URI = "http://190.109.185.138:8024/api/arboles";
 
     public InicioFragment() {
@@ -46,6 +58,23 @@ public class InicioFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_inicio, container, false);
+
+        cnt= getActivity().getApplicationContext();
+        spiLista = (Spinner)vista.findViewById(R.id.spiLista);
+        manager = new DataBaseManager(cnt);
+        listViewRecaudo = (ListView)vista.findViewById(R.id.listView);
+
+        final String[] datos =new String[]{"Recaudo mensual","Recaudo quincenal","Recaudo diario"};
+
+        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(cnt,R.layout.layout_adaptador_spinner,R.id.textItem, datos);
+        spiLista.setAdapter(adaptador);
+
+
+        datos = manager.getCartera();
+//
+
+        adaptador = new AdaptadorListviewCartera(cnt,R.layout.layout_adaptador_cartera,datos);
+        listViewCartera.setAdapter(adaptador);
 
 //        cnt = getActivity();
 //        boton = (Button)vista.findViewById(R.id.button);
