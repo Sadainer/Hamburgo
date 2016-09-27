@@ -47,25 +47,25 @@ public class InicioFragment extends Fragment {
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_inicio, container, false);
 
-        cnt = getActivity();
-        boton = (Button)vista.findViewById(R.id.button);
-        boton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GetAsyncrona getAsyncrona = (GetAsyncrona) new GetAsyncrona(cnt, new GetAsyncrona.AsyncResponse() {
-                    @Override
-                    public void processFinish(String output) {
-
-                        if (!output.equals("")){
-                            Toast.makeText(cnt,output.toString(),Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(cnt,"Respuesta no contiene datos",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }).execute(URI);
-
-            }
-        });
+//        cnt = getActivity();
+//        boton = (Button)vista.findViewById(R.id.button);
+//        boton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                GetAsyncrona getAsyncrona = (GetAsyncrona) new GetAsyncrona(cnt, new GetAsyncrona.AsyncResponse() {
+//                    @Override
+//                    public void processFinish(String output) {
+//
+//                        if (!output.equals("")){
+//                            Toast.makeText(cnt,output.toString(),Toast.LENGTH_SHORT).show();
+//                        }else{
+//                            Toast.makeText(cnt,"Respuesta no contiene datos",Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                }).execute(URI);
+//
+//            }
+//        });
 
         return vista;
     }

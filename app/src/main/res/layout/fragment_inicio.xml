@@ -5,75 +5,92 @@
     android:padding="@dimen/activity_horizontal_margin"
     tools:context="com.hamburgo.tecnoparque.hamburgo.InicioFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-
-    <TableLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_height="match_parent">
 
-        <TableRow
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner" />
+
+        <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:stretchColumns="2">
+            android:id="@+id/listView"
+            android:layout_gravity="center" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/fab_margin"
-                android:layout_margin="@dimen/activity_horizontal_margin"
-                android:background="@drawable/selector_boton_normal"
-                android:drawableTop="@drawable/commerce"
-                android:layout_weight="1"
-                android:textColor="@color/iconColor"
-                android:text="Vender"
-                android:elevation="50dp"
-                android:id="@+id/button"/>
+    </LinearLayout>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/fab_margin"
-                android:layout_margin="@dimen/activity_horizontal_margin"
-                android:background="@drawable/selector_boton_normal"
-                android:drawableTop="@drawable/commerce"
-                android:layout_weight="1"
-                android:textColor="@color/iconColor"
-                android:text="Vender"
-                android:elevation="50dp"
-                android:id="@+id/button2" />
-        </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <!--<TableLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center">-->
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/fab_margin"
-                android:layout_margin="@dimen/activity_horizontal_margin"
-                android:background="@drawable/selector_boton_normal"
-                android:drawableTop="@drawable/commerce"
-                android:layout_weight="1"
-                android:textColor="@color/iconColor"
-                android:text="Vender"
-                android:id="@+id/button3" />
+        <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:stretchColumns="2">-->
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/fab_margin"
-                android:layout_margin="@dimen/activity_horizontal_margin"
-                android:background="@drawable/selector_boton_normal"
-                android:drawableTop="@drawable/commerce"
-                android:layout_weight="1"
-                android:textColor="@color/iconColor"
-                android:text="Vender"
-                android:id="@+id/button4" />
-        </TableRow>
-    </TableLayout>
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="@dimen/fab_margin"-->
+                <!--android:layout_margin="@dimen/activity_horizontal_margin"-->
+                <!--android:background="@drawable/selector_boton_normal"-->
+                <!--android:drawableTop="@drawable/commerce"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textColor="@color/iconColor"-->
+                <!--android:text="Vender"-->
+                <!--android:elevation="50dp"-->
+                <!--android:id="@+id/button"/>-->
+
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="@dimen/fab_margin"-->
+                <!--android:layout_margin="@dimen/activity_horizontal_margin"-->
+                <!--android:background="@drawable/selector_boton_normal"-->
+                <!--android:drawableTop="@drawable/commerce"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textColor="@color/iconColor"-->
+                <!--android:text="Vender"-->
+                <!--android:elevation="50dp"-->
+                <!--android:id="@+id/button2" />-->
+        <!--</TableRow>-->
+
+        <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="@dimen/fab_margin"-->
+                <!--android:layout_margin="@dimen/activity_horizontal_margin"-->
+                <!--android:background="@drawable/selector_boton_normal"-->
+                <!--android:drawableTop="@drawable/commerce"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textColor="@color/iconColor"-->
+                <!--android:text="Vender"-->
+                <!--android:id="@+id/button3" />-->
+
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="@dimen/fab_margin"-->
+                <!--android:layout_margin="@dimen/activity_horizontal_margin"-->
+                <!--android:background="@drawable/selector_boton_normal"-->
+                <!--android:drawableTop="@drawable/commerce"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textColor="@color/iconColor"-->
+                <!--android:text="Vender"-->
+                <!--android:id="@+id/button4" />-->
+        <!--</TableRow>-->
+    <!--</TableLayout>-->
 
 
 </FrameLayout>
