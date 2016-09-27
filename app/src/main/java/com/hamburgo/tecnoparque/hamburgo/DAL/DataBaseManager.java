@@ -357,14 +357,7 @@ public class DataBaseManager {
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat fechaCompleta = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
-        SimpleDateFormat mesFormat = new SimpleDateFormat("MM");
-        SimpleDateFormat diaFormat = new SimpleDateFormat("dd");
-
         String Fecha = fechaCompleta.format(calendar.getTime());
-        Integer Year, Mes, Dia, UltimoDia;
-
-
         Integer CuotaInicial = Integer.valueOf(CInicial);
         Integer ValorCuotas = (venta.getValorVenta() - CuotaInicial) / venta.getNumeroCuotas();
 
@@ -387,72 +380,8 @@ public class DataBaseManager {
                 cuotaInicialPago.setValorCuota(CuotaInicial);
                 InsertarCuotas(cuotaInicialPago);
 
-                Calendar FechaGuardar = calendar;
-                Boolean BanderaQuincena = false;
-                Boolean BanPrimeraCuota = true;
-                for (int i = 0; i < venta.getNumeroCuotas(); i++) {
+                RegistrarCuotas(max,ValorCuotas,venta.getNumeroCuotas(),calendar,Periodo);
 
-                    Dia = Integer.valueOf(diaFormat.format(FechaGuardar.getTime()));
-                    if (BanPrimeraCuota) {
-
-                        if (Dia >= 15) {
-                            if (Periodo == 2) {
-                                BanderaQuincena = true;
-                            }
-                            FechaGuardar.add(Calendar.MONTH, 1);
-                        }
-//                            CuotasDTO cuota = new CuotasDTO();
-//                            cuota.setNumeroVenta(max);
-//                            cuota.setPagada(0);
-//                            cuota.setValorDeuda(ValorCuotas);
-//                            cuota.setValorCuota(ValorCuotas);
-//                            if (Dia <= 15) {
-//                                cuota.setFechaPago(Year.toString() + "-" + format.MesString(Mes) + "-" + UltimoDia.toString());
-//                                FechaGuardar.add(Calendar.MONTH, 1);
-//                                if(Periodo==2)
-//                                    BanderaQuincena=true;
-//                            }else{
-//                                if(Periodo==2)
-//                                    BanderaQuincena=true;
-//                                FechaGuardar.add(Calendar.MONTH, 1);
-//                                Mes = Integer.valueOf(mesFormat.format(FechaGuardar.getTime()));
-//                                UltimoDia = FechaGuardar.getActualMaximum(Calendar.DAY_OF_MONTH );
-//                                if(BanderaQuincena){
-//                                    cuota.setFechaPago(Year.toString() + "-" + format.MesString(Mes) + "-15");
-//                                    BanderaQuincena=false;
-//                                }
-//                                else{
-//                                    cuota.setFechaPago(Year.toString() + "-" + format.MesString(Mes) + "-" + UltimoDia.toString());
-//                                    FechaGuardar.add(Calendar.MONTH, 1);
-//                                    if(Periodo==2)
-//                                        BanderaQuincena=true;
-//                                }
-//
-//                            }
-//                            InsertarCuotas(cuota);
-                        BanPrimeraCuota = false;
-                    }
-                    UltimoDia = FechaGuardar.getActualMaximum(Calendar.DAY_OF_MONTH);
-                    Mes = Integer.valueOf(mesFormat.format(FechaGuardar.getTime()));
-                    Year = Integer.valueOf(yearFormat.format(FechaGuardar.getTime()));
-
-                    CuotasDTO cuota = new CuotasDTO();
-                    cuota.setNumeroVenta(max);
-                    cuota.setPagada(0);
-                    cuota.setValorDeuda(ValorCuotas);
-                    cuota.setValorCuota(ValorCuotas);
-                    if (BanderaQuincena) {
-                        cuota.setFechaPago(Year.toString() + "-" + format.MesString(Mes) + "-15");
-                        BanderaQuincena = false;
-                    } else {
-                        cuota.setFechaPago(Year.toString() + "-" + format.MesString(Mes) + "-" + UltimoDia.toString());
-                        FechaGuardar.add(Calendar.MONTH, 1);
-                        if (Periodo == 2)
-                            BanderaQuincena = true;
-
-                    }
-                    InsertarCuotas(cuota);
-                }
 
                 CarteraDTO cartera = new CarteraDTO();
                 cartera.setIdCliente(venta.getIdCliente());
@@ -470,6 +399,51 @@ public class DataBaseManager {
 
         } else {
             return null;
+        }
+    }
+
+    private void RegistrarCuotas(Integer NumeroVenta, Integer ValorCuotas, Integer NumeroCuotas, Calendar FechaGuardar, Integer Periodo ){
+        Boolean BanderaQuincena = false;
+        Boolean BanPrimeraCuota = true;
+        Integer Year, Mes, Dia, UltimoDia;
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+        SimpleDateFormat mesFormat = new SimpleDateFormat("MM");
+        SimpleDateFormat diaFormat = new SimpleDateFormat("dd");
+
+        for (int i = 0; i < NumeroCuotas; i++) {
+
+            Dia = Integer.valueOf(diaFormat.format(FechaGuardar.getTime()));
+            if (BanPrimeraCuota) {
+
+                if (Dia >= 15) {
+                    if (Periodo == 2) {
+                        BanderaQuincena = true;
+                    }
+                    FechaGuardar.add(Calendar.MONTH, 1);
+                }
+
+                BanPrimeraCuota = false;
+            }
+            UltimoDia = FechaGuardar.getActualMaximum(Calendar.DAY_OF_MONTH);
+            Mes = Integer.valueOf(mesFormat.format(FechaGuardar.getTime()));
+            Year = Integer.valueOf(yearFormat.format(FechaGuardar.getTime()));
+
+            CuotasDTO cuota = new CuotasDTO();
+            cuota.setNumeroVenta(NumeroVenta);
+            cuota.setPagada(0);
+            cuota.setValorDeuda(ValorCuotas);
+            cuota.setValorCuota(ValorCuotas);
+            if (BanderaQuincena) {
+                cuota.setFechaPago(Year.toString() + "-" + format.MesString(Mes) + "-15");
+                BanderaQuincena = false;
+            } else {
+                cuota.setFechaPago(Year.toString() + "-" + format.MesString(Mes) + "-" + UltimoDia.toString());
+                FechaGuardar.add(Calendar.MONTH, 1);
+                if (Periodo == 2)
+                    BanderaQuincena = true;
+
+            }
+            InsertarCuotas(cuota);
         }
     }
 
