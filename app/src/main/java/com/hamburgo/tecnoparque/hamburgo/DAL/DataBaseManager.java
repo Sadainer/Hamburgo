@@ -422,7 +422,7 @@ public class DataBaseManager {
                 cuota.setPagada(0);
                 cuota.setValorDeuda(ValorCuotas);
                 cuota.setValorCuota(ValorCuotas);
-                cuota.setFechaPago(Year.toString() + "-" + format.MesString(Mes) + "-" + Dia.toString());
+                cuota.setFechaPago(Year.toString() + "-" + format.MesString(Mes) + "-" + format.MesString(Dia));
                 InsertarCuotas(cuota);
             }else{
 

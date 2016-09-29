@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.transition.Explode;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -23,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewCartera;
@@ -30,7 +32,9 @@ import com.hamburgo.tecnoparque.hamburgo.ClasesAsincronas.GetAsyncrona;
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 /**
@@ -38,13 +42,15 @@ import java.util.ArrayList;
  */
 public class InicioFragment extends Fragment {
 
-    Spinner spiLista ;
+//    Spinner spiLista ;
+    TextView txtFecha;
     Context cnt;
     DataBaseManager manager;
     ListView listViewRecaudo;
     ClienteDTO itemMenu;
     AdaptadorListviewCartera adaptadorLista;
     ArrayList<ClienteDTO> datosRecaudo;
+    static String FechaCorte;
     String URI = "http://190.109.185.138:8024/api/arboles";
 
     public InicioFragment() {
@@ -101,24 +107,35 @@ public class InicioFragment extends Fragment {
         View vista = inflater.inflate(R.layout.fragment_inicio, container, false);
 
         cnt= getActivity().getApplicationContext();
-        spiLista = (Spinner)vista.findViewById(R.id.spiLista);
+//        spiLista = (Spinner)vista.findViewById(R.id.spiLista);
         manager = new DataBaseManager(cnt);
         listViewRecaudo = (ListView)vista.findViewById(R.id.listView);
+        txtFecha = (TextView)vista.findViewById(R.id.txtFechaCorte);
 
+        final Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat fechaCompleta = new SimpleDateFormat("yyyy-MM-dd");
 
-        final String[] datos =new String[]{"Recaudo mensual","Recaudo quincenal","Recaudo diario"};
+        if(TextUtils.isEmpty(FechaCorte))
+        FechaCorte = fechaCompleta.format(calendar.getTime());
 
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(cnt,R.layout.layout_adaptador_spinner,R.id.textItem, datos);
-        spiLista.setAdapter(adaptador);
+        txtFecha.setText(FechaCorte);
+        CargarLista(FechaCorte);
 
-
-        datosRecaudo = manager.getCarteraDia("2016-10-31");
-//
-
-        adaptadorLista = new AdaptadorListviewCartera(cnt,R.layout.layout_adaptador_cartera,datosRecaudo);
-        listViewRecaudo.setAdapter(adaptadorLista);
-        registerForContextMenu(listViewRecaudo);
-
+        txtFecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getFragmentManager();
+                SeleccionFechaFragment dialogFragment = new SeleccionFechaFragment(calendar, new SeleccionFechaFragment.FechaReturn() {
+                    @Override
+                    public void processFinish(String fecha) {
+                        FechaCorte=fecha;
+                        txtFecha.setText(FechaCorte);
+                        CargarLista(FechaCorte);
+                    }
+                });
+                dialogFragment.show(fm, "Sample Fragment");
+            }
+        });
 //        cnt = getActivity();
 //        boton = (Button)vista.findViewById(R.id.button);
 //        boton.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +159,12 @@ public class InicioFragment extends Fragment {
         return vista;
     }
 
+    private void CargarLista(String fecha){
+        datosRecaudo = manager.getCarteraDia(fecha);
 
+        adaptadorLista = new AdaptadorListviewCartera(cnt,R.layout.layout_adaptador_cartera,datosRecaudo);
+        listViewRecaudo.setAdapter(adaptadorLista);
+        registerForContextMenu(listViewRecaudo);
+    }
 
 }

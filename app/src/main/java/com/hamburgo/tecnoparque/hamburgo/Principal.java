@@ -21,7 +21,7 @@ public class Principal extends AppCompatActivity
 
     LlenarBaseDatosPrueba llenar;
     Context cnt;
-    Boolean FragmentoInicial=true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,15 +60,16 @@ public class Principal extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-           if (!FragmentoInicial) {
+            Fragment f = getFragmentManager().findFragmentById(R.id.content_frame);
+            if (!(f instanceof InicioFragment)){
                Fragment fragmento = new InicioFragment();
                FragmentManager fragmentManager = getFragmentManager();
 
                fragmentManager.beginTransaction()
                        .replace(R.id.content_frame, fragmento)
                        .commit();
-               FragmentoInicial=true;
-           }else{
+           }
+                else{
                super.onBackPressed();
            }
 
@@ -111,23 +112,18 @@ public class Principal extends AppCompatActivity
         if (id == R.id.nav_inicio) {
             fragmento = new InicioFragment();
             fragmentTransaction=true;
-            FragmentoInicial=true;
         } else if (id == R.id.nav_clientes) {
             fragmento = new ClientesFragment();
             fragmentTransaction=true;
-            FragmentoInicial=false;
         } else if (id == R.id.nav_productos) {
             fragmento = new ProductosFragment();
             fragmentTransaction=true;
-            FragmentoInicial=false;
         } else if (id == R.id.nav_vender) {
             fragmento = new VentasFragment();
             fragmentTransaction=true;
-            FragmentoInicial=false;
         } else if (id == R.id.nav_cartera) {
             fragmento = new CarteraFragment();
             fragmentTransaction=true;
-            FragmentoInicial=false;
         } else if (id == R.id.nav_herramientas) {
 
         } else if (id == R.id.nav_ayuda) {
