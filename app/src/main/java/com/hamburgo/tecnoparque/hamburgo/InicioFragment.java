@@ -50,7 +50,9 @@ public class InicioFragment extends Fragment {
     ClienteDTO itemMenu;
     AdaptadorListviewCartera adaptadorLista;
     ArrayList<ClienteDTO> datosRecaudo;
-    static String FechaCorte;
+    static String FechaCorte = null;
+    static Integer Year, Mes, Dia;
+    Formatos format;
     String URI = "http://190.109.185.138:8024/api/arboles";
 
     public InicioFragment() {
@@ -111,12 +113,22 @@ public class InicioFragment extends Fragment {
         manager = new DataBaseManager(cnt);
         listViewRecaudo = (ListView)vista.findViewById(R.id.listView);
         txtFecha = (TextView)vista.findViewById(R.id.txtFechaCorte);
+        format = new Formatos();
 
         final Calendar calendar = Calendar.getInstance();
         SimpleDateFormat fechaCompleta = new SimpleDateFormat("yyyy-MM-dd");
 
-        if(TextUtils.isEmpty(FechaCorte))
-        FechaCorte = fechaCompleta.format(calendar.getTime());
+        if(TextUtils.isEmpty(FechaCorte)){
+            FechaCorte = fechaCompleta.format(calendar.getTime());
+
+            SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+            SimpleDateFormat mesFormat = new SimpleDateFormat("MM");
+            SimpleDateFormat diaFormat = new SimpleDateFormat("dd");
+
+            Mes = Integer.valueOf(mesFormat.format(calendar.getTime()));
+            Year = Integer.valueOf(yearFormat.format(calendar.getTime()));
+            Dia = Integer.valueOf(diaFormat.format(calendar.getTime()));
+        }
 
         txtFecha.setText(FechaCorte);
         CargarLista(FechaCorte);
@@ -125,37 +137,22 @@ public class InicioFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getFragmentManager();
-                SeleccionFechaFragment dialogFragment = new SeleccionFechaFragment(calendar, new SeleccionFechaFragment.FechaReturn() {
+                SeleccionFechaFragment dialogFragment = new SeleccionFechaFragment(Year,Mes,Dia, new SeleccionFechaFragment.FechaReturn() {
                     @Override
-                    public void processFinish(String fecha) {
+                    public void processFinish(Integer year,Integer mes, Integer dia) {
+                        Mes=mes;
+                        Year=year;
+                        Dia=dia;
+
+                        String fecha= year.toString() + "-" + format.MesString(mes) + "-" + format.MesString(dia);
                         FechaCorte=fecha;
                         txtFecha.setText(FechaCorte);
                         CargarLista(FechaCorte);
                     }
                 });
-                dialogFragment.show(fm, "Sample Fragment");
+                dialogFragment.show(fm, "");
             }
         });
-//        cnt = getActivity();
-//        boton = (Button)vista.findViewById(R.id.button);
-//        boton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                GetAsyncrona getAsyncrona = (GetAsyncrona) new GetAsyncrona(cnt, new GetAsyncrona.AsyncResponse() {
-//                    @Override
-//                    public void processFinish(String output) {
-//
-//                        if (!output.equals("")){
-//                            Toast.makeText(cnt,output.toString(),Toast.LENGTH_SHORT).show();
-//                        }else{
-//                            Toast.makeText(cnt,"Respuesta no contiene datos",Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                }).execute(URI);
-//
-//            }
-//        });
-
         return vista;
     }
 
