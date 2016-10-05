@@ -504,7 +504,8 @@ public class DataBaseManager {
     public ArrayList<ClienteDTO> getCartera() {
         Cursor c = db.rawQuery("SELECT " + TABLA_3 + "." + TABLA_3_CAMPO_3
                 + ", SUM(" + TABLA_6 + "." + TABLA_6_CAMPO_5 + ")"
-                + " FROM " + TABLA_6 + " INNER JOIN " + TABLA_3 + " ON " + TABLA_6 + "." + TABLA_6_CAMPO_2 + " = " + TABLA_3 + "." + TABLA_3_CAMPO_1
+                + " FROM " + TABLA_6 + " INNER JOIN " + TABLA_3 + " ON " + TABLA_6 + "."
+                + TABLA_6_CAMPO_2 + " = " + TABLA_3 + "." + TABLA_3_CAMPO_1
                 + " WHERE " + TABLA_6 + "." + TABLA_6_CAMPO_5 + ">0 "
                 + " GROUP BY " + TABLA_3 + "." + TABLA_3_CAMPO_3 + " ORDER BY " + TABLA_3 + "." + TABLA_3_CAMPO_3, null);
 

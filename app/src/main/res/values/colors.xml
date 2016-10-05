@@ -8,5 +8,6 @@
     <color name="ligthPrimaryColor">#CFD8DC</color>
     <color name="iconColor">#FFFFFF</color>
     <color name="dividerColor">#B6B6B6</color>
+    <color name="primary_darker">#01645b</color>
 
 </resources>
