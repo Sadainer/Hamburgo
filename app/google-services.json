@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "27889637162",
+    "firebase_url": "https://hamburgo-47f62.firebaseio.com",
+    "project_id": "hamburgo-47f62",
+    "storage_bucket": "hamburgo-47f62.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27889637162:android:5d533ff12acdae6d",
+        "android_client_info": {
+          "package_name": "com.hamburgo.tecnoparque.hamburgo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "27889637162-nbeup5pj8pst0p07v806kk2mr2adtvfh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhwRGGUlmZrdffmsgbxu4Qj20j4s_o4d0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
