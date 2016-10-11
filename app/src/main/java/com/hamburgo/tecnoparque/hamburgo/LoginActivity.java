@@ -179,7 +179,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("Ingrese en 4 y 10 caracteres");
+            _passwordText.setError("Ingrese entre 4 y 10 caracteres");
             valid = false;
         } else {
             _passwordText.setError(null);
