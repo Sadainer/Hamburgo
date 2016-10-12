@@ -1,8 +1,12 @@
 package com.hamburgo.tecnoparque.hamburgo.DTO;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 /**
  * Created by YOLIMA on 13/07/2016.
  */
+
+@IgnoreExtraProperties
 public class ClienteDTO {
 
     private String Cedula;

@@ -1,7 +1,9 @@
 package com.hamburgo.tecnoparque.hamburgo;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.inject(this);
 
         mAuth = FirebaseAuth.getInstance();
+
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -129,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
         moveTaskToBack(true);
     }
 
-    public void onLoginSuccess(String email, String password) {
+    public void onLoginSuccess(final String email, String password) {
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -145,6 +148,13 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Email y/o contraseña incorrecta",
                                     Toast.LENGTH_SHORT).show();
                         }else{
+
+
+                            SharedPreferences preferencias = getSharedPreferences("MisPreferencias",Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferencias.edit();
+                            editor.putString("email", email);
+                            editor.commit();
+
                             Intent intent = new Intent(LoginActivity.this, Principal.class);
                             startActivity(intent);
                             finish();
@@ -187,10 +197,6 @@ public class LoginActivity extends AppCompatActivity {
 
         return valid;
     }
-
-
-
-
 
 
     @Override

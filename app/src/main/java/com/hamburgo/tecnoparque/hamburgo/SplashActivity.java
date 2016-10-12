@@ -1,6 +1,8 @@
 package com.hamburgo.tecnoparque.hamburgo;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -12,9 +14,13 @@ import java.util.TimerTask;
 
 public class SplashActivity extends AppCompatActivity {
 
+    SharedPreferences preferencias;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        preferencias = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+
         setContentView(R.layout.activity_splash);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -24,8 +30,15 @@ public class SplashActivity extends AppCompatActivity {
 
         new Handler().postDelayed(new Runnable(){
             public void run(){
+
+                String correo = preferencias.getString("email", "vacio");
                 // Cuando pasen los 3 segundos, pasamos a la actividad principal de la aplicación
-                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                Intent intent;
+//                if (correo.equals("vacio"))
+//                    intent = new Intent(SplashActivity.this, LoginActivity.class);
+//                else
+//                    intent = new Intent(SplashActivity.this, Principal.class);
+                intent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             };

@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 
@@ -41,6 +43,8 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
     private ClienteReturn delegate = null;
     private ClienteDTO Cliente;
     private DataBaseManager manager;
+
+    private DatabaseReference mDatabase;
 
 
     public interface ClienteReturn {
@@ -67,6 +71,8 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
         edtDireccion = (EditText)v.findViewById(R.id.edtDireccion);
         edtEmpleo = (EditText)v.findViewById(R.id.edtEmpleo);
         edtEmpresa = (EditText)v.findViewById(R.id.edtEmpresa);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
         if (Cliente!= null){
@@ -130,12 +136,12 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
                         Log.e("Sadainer",edtCelular.getText().toString());
                         Log.e("Sadainer",String.valueOf(cliente.getCelular()));
 
-                        if (Cliente==null){
-                            manager.Insertar(cliente);
-                        }else{
-                            manager.Actualizar(cliente, Cliente.getCedula().toString());
-                        }
+//                        if (Cliente==null)
+//                            manager.Insertar(cliente);
+//                        else
+//                            manager.Actualizar(cliente, Cliente.getCedula().toString());
 
+                        mDatabase.child("Clientes").child(cliente.getCedula()).setValue(cliente);
                         delegate.processFinish(cliente);
                 }else{
                     Toast.makeText(getActivity().getApplicationContext(),"Complete los campos obligatorios",Toast.LENGTH_SHORT).show();

@@ -22,6 +22,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewClientes;
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
@@ -43,6 +48,8 @@ public class ClientesFragment extends Fragment {
     ArrayList<ClienteDTO> datos;
     AdaptadorListviewClientes adaptador;
     private DataBaseManager manager;
+
+    private DatabaseReference mDatabase ;
 
     public ClientesFragment() {
         // Required empty public constructor
@@ -80,6 +87,9 @@ public class ClientesFragment extends Fragment {
         // Inflate the layout for this fragment
         View Vista = inflater.inflate(R.layout.fragment_clientes, container, false);
 
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         datos= new ArrayList<ClienteDTO>();
         cnt= getActivity().getApplicationContext();
         manager = new DataBaseManager(cnt);
@@ -112,7 +122,21 @@ public class ClientesFragment extends Fragment {
 
     private void ActualizarListaClientes () {
         datos.clear();
-        datos = manager.getListaClientes();
+
+        mDatabase.child("Clientes").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ClienteDTO dato = dataSnapshot.getValue(ClienteDTO.class);
+                Log.e("Sadainer",dato.getNombres());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+//        datos = manager.getListaClientes();
         if (datos.size() > 0) {
             adaptador = new AdaptadorListviewClientes(cnt, R.layout.layout_adaptador_listview, datos);
             listItemClientes.setAdapter(adaptador);
