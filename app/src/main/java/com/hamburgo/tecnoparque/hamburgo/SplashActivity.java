@@ -34,11 +34,11 @@ public class SplashActivity extends AppCompatActivity {
                 String correo = preferencias.getString("email", "vacio");
                 // Cuando pasen los 3 segundos, pasamos a la actividad principal de la aplicación
                 Intent intent;
-//                if (correo.equals("vacio"))
-//                    intent = new Intent(SplashActivity.this, LoginActivity.class);
-//                else
-//                    intent = new Intent(SplashActivity.this, Principal.class);
-                intent = new Intent(SplashActivity.this, LoginActivity.class);
+                if (correo.equals("vacio"))
+                    intent = new Intent(SplashActivity.this, LoginActivity.class);
+                else
+                    intent = new Intent(SplashActivity.this, Principal.class);
+
                 startActivity(intent);
                 finish();
             };

@@ -48,6 +48,7 @@ public class ClientesFragment extends Fragment {
     ArrayList<ClienteDTO> datos;
     AdaptadorListviewClientes adaptador;
     private DataBaseManager manager;
+    ProgressDialog progressDialog;
 
     private DatabaseReference mDatabase ;
 
@@ -91,7 +92,7 @@ public class ClientesFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         datos= new ArrayList<ClienteDTO>();
-        cnt= getActivity().getApplicationContext();
+        cnt= getActivity();
         manager = new DataBaseManager(cnt);
         adaptador = new AdaptadorListviewClientes(cnt, R.layout.layout_adaptador_listview, datos);
 
@@ -121,13 +122,26 @@ public class ClientesFragment extends Fragment {
     }
 
     private void ActualizarListaClientes () {
-        datos.clear();
+
+        progressDialog = new ProgressDialog(cnt,R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Cargando...");
+        progressDialog.show();
 
         mDatabase.child("Clientes").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ClienteDTO dato = dataSnapshot.getValue(ClienteDTO.class);
-                Log.e("Sadainer",dato.getNombres());
+                datos.clear();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    ClienteDTO cm = postSnapshot.getValue(ClienteDTO.class);
+                    Log.e("Sadaaaaaaainer",cm.getNombres());
+                    datos.add(cm);
+                }
+                if (datos.size() > 0) {
+                    adaptador = new AdaptadorListviewClientes(cnt, R.layout.layout_adaptador_listview, datos);
+                    listItemClientes.setAdapter(adaptador);
+                }
+                progressDialog.dismiss();
             }
 
             @Override
@@ -137,10 +151,7 @@ public class ClientesFragment extends Fragment {
         });
 
 //        datos = manager.getListaClientes();
-        if (datos.size() > 0) {
-            adaptador = new AdaptadorListviewClientes(cnt, R.layout.layout_adaptador_listview, datos);
-            listItemClientes.setAdapter(adaptador);
-        }
+
     }
 
     private void MostrarDialog(ClienteDTO cliente){
@@ -148,7 +159,7 @@ public class ClientesFragment extends Fragment {
         NuevoClienteDialogFragment dialogFragment = new NuevoClienteDialogFragment(cnt,cliente,new NuevoClienteDialogFragment.ClienteReturn() {
             @Override
             public void processFinish(ClienteDTO cliente) {
-                ActualizarListaClientes();
+//                ActualizarListaClientes();
             }
         });
         dialogFragment.show(fm, "Sample Fragment");
