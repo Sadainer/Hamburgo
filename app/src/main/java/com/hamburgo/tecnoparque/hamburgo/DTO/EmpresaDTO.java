@@ -13,9 +13,18 @@ public class EmpresaDTO {
     private String Nombres;
     private String Apellidos;
     private String Direccion;
-    private String Empleo;
     private String Empresa;
     private String Celular;
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
+    }
+
+    private String Email;
 
     public String getCedula() {
         return Cedula;
@@ -49,13 +58,7 @@ public class EmpresaDTO {
         Direccion = direccion;
     }
 
-    public String getEmpleo() {
-        return Empleo;
-    }
 
-    public void setEmpleo(String empleo) {
-        Empleo = empleo;
-    }
 
     public String getEmpresa() {
         return Empresa;

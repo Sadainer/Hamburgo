@@ -17,6 +17,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.hamburgo.tecnoparque.hamburgo.DTO.EmpresaDTO;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -26,10 +29,16 @@ public class SignupActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     ProgressDialog progressDialog;
+    private DatabaseReference mDatabase;
 
 
     @InjectView(R.id.input_name) EditText _nameText;
     @InjectView(R.id.input_email) EditText _emailText;
+    @InjectView(R.id.input_cedula) EditText _cedulaText;
+    @InjectView(R.id.input_entidad) EditText _entidadText;
+    @InjectView(R.id.input_apellido) EditText _apellidoText;
+    @InjectView(R.id.input_celular) EditText _celularText;
+    @InjectView(R.id.input_direccion) EditText _direccionText;
     @InjectView(R.id.input_password) EditText _passwordText;
     @InjectView(R.id.btn_signup) Button _signupButton;
     @InjectView(R.id.link_login) TextView _loginLink;
@@ -40,6 +49,7 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
         ButterKnife.inject(this);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -80,6 +90,7 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
+        Log.e("Sadainer","Funciona1");
         _signupButton.setEnabled(false);
 
         progressDialog = new ProgressDialog(SignupActivity.this,
@@ -88,9 +99,16 @@ public class SignupActivity extends AppCompatActivity {
         progressDialog.setMessage("Creando Cuenta...");
         progressDialog.show();
 
-        String name = _nameText.getText().toString();
+        final String Nombre = _nameText.getText().toString();
         final String email = _emailText.getText().toString();
         final String password = _passwordText.getText().toString();
+        final String Cedula = _cedulaText.getText().toString();
+        final String Apellido = _apellidoText.getText().toString();
+        final String Empresa = _entidadText.getText().toString();
+        final String Celular = _celularText.getText().toString();
+        final String Direccion = _direccionText.getText().toString();
+
+
 
         // TODO: Implement your own signup logic here.
 
@@ -99,7 +117,16 @@ public class SignupActivity extends AppCompatActivity {
                     public void run() {
                         // On complete call either onSignupSuccess or onSignupFailed
                         // depending on success
-                        onSignupSuccess(email,password);
+                        EmpresaDTO empresa = new EmpresaDTO();
+                        empresa.setCedula(Cedula);
+                        empresa.setNombres(Nombre);
+                        empresa.setEmpresa(Empresa);
+                        empresa.setApellidos(Apellido);
+                        empresa.setCelular(Celular);
+                        empresa.setDireccion(Direccion);
+                        empresa.setEmail(email);
+
+                        onSignupSuccess(empresa, password);
                         // onSignupFailed();
 
                     }
@@ -107,11 +134,11 @@ public class SignupActivity extends AppCompatActivity {
     }
 
 
-    public void onSignupSuccess(String email, String password) {
+    public void onSignupSuccess(final EmpresaDTO empresa, String password) {
 
+        Log.e("Sadainer","Funciona");
 
-
-        mAuth.createUserWithEmailAndPassword(email, password)
+        mAuth.createUserWithEmailAndPassword(empresa.getEmail().toString(), password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -124,6 +151,9 @@ public class SignupActivity extends AppCompatActivity {
                             Toast.makeText(SignupActivity.this, "Error al crear cuenta",
                                     Toast.LENGTH_SHORT).show();
                         }else{
+
+                            mDatabase.child("Empresa").child(empresa.getCedula()).setValue(empresa);
+
                             Toast.makeText(getBaseContext(), "Cuenta creada con éxito", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                             startActivity(intent);

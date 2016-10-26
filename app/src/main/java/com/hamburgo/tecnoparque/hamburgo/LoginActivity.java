@@ -153,6 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferences preferencias = getSharedPreferences("MisPreferencias",Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferencias.edit();
                             editor.putString("email", email);
+                            editor.putString("email", email);
                             editor.commit();
 
                             Intent intent = new Intent(LoginActivity.this, Principal.class);

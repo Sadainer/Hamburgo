@@ -23,6 +23,9 @@
         <item android:id="@+id/nav_ayuda"
             android:icon="@drawable/round"
             android:title="Acerca de" />
+        <item android:id="@+id/Salir"
+            android:icon="@drawable/common_google_signin_btn_icon_light"
+            android:title="Salir" />
     </group>
 
 

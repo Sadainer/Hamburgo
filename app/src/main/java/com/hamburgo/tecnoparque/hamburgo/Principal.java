@@ -1,9 +1,13 @@
 package com.hamburgo.tecnoparque.hamburgo;
 
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -128,6 +132,27 @@ public class Principal extends AppCompatActivity
 
         } else if (id == R.id.nav_ayuda) {
 
+        } else if (id == R.id.Salir) {
+
+            new AlertDialog.Builder(cnt)
+                    .setTitle("Cerrar Sesión")
+                    .setMessage("¿Está seguro de salir?")
+                    .setPositiveButton("Salir", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue with delete
+                        }
+                    })
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+
+
+
         }
 
         if(fragmentTransaction) {
@@ -141,5 +166,16 @@ public class Principal extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void CerrarSesion(){
+
+        SharedPreferences preferencias = getSharedPreferences("MisPreferencias",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferencias.edit();
+        editor.remove("email").commit();
+
+        Intent intent = new Intent(Principal.this, Principal.class);
+        startActivity(intent);
+        finish();
     }
 }
