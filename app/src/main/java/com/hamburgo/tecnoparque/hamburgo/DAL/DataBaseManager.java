@@ -2,6 +2,7 @@ package com.hamburgo.tecnoparque.hamburgo.DAL;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -382,11 +383,9 @@ public class DataBaseManager {
 
                 RegistrarCuotas(max,ValorCuotas,venta.getNumeroCuotas(),calendar,Periodo);
 
-
                 CarteraDTO cartera = new CarteraDTO();
                 cartera.setIdCliente(venta.getIdCliente());
                 cartera.setFecha(venta.getFecha());
-                cartera.setIdVendedor("1065582510");
                 cartera.setValor(CuotaInicial);
                 cartera.setObservacion("Cuota Inicial");
                 InsertarCartera(cartera);

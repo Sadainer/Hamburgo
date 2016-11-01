@@ -7,6 +7,7 @@ import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.text.TextUtils;
@@ -40,6 +41,7 @@ public class NuevaVentaDialogFragment extends DialogFragment {
     Formatos formato;
     Context cnt;
     Integer NumeroCuotas;
+    SharedPreferences preferencias;
     Integer Base;
     Integer PeriodoPago=1;
     DataBaseManager manager;
@@ -66,6 +68,7 @@ public class NuevaVentaDialogFragment extends DialogFragment {
 //        radMensual = (RadioButton)v.findViewById(R.id.radMensual);
 //        radQuincenal = (RadioButton)v.findViewById(R.id.radQuincenal);
 //        radDiario = (RadioButton)v.findViewById(R.id.radDiario);
+
 
         cnt = getActivity().getApplicationContext();
         manager = new DataBaseManager(cnt);
@@ -105,6 +108,11 @@ public class NuevaVentaDialogFragment extends DialogFragment {
 
 
                 if (!TextUtils.isEmpty(edtCInicial.getText().toString()) && !TextUtils.isEmpty(edtCuotas.getText().toString()) ){
+
+                    preferencias = cnt.getSharedPreferences("MisPreferencias",Context.MODE_PRIVATE);
+                    String cedula = preferencias.getString("cedula", "0");
+
+                    Venta.setIdVenderor(cedula);
                     Venta.setNumeroCuotas(Integer.valueOf(edtCuotas.getText().toString()));
 
                     VentaDTO vta = manager.RegistrarVenta(Venta, Detalle, edtCInicial.getText().toString(), PeriodoPago);

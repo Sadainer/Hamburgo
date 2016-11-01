@@ -19,6 +19,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.hamburgo.tecnoparque.hamburgo.DTO.EmpresaDTO;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -30,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     ProgressDialog progressDialog;
+    private DatabaseReference mDatabase;
 
     @InjectView(R.id.input_email) EditText _emailText;
     @InjectView(R.id.input_password) EditText _passwordText;
@@ -43,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.inject(this);
 
         mAuth = FirebaseAuth.getInstance();
-
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -134,6 +141,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess(final String email, String password) {
 
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -149,12 +157,27 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }else{
 
+                            mDatabase.child("users").child(email).addListenerForSingleValueEvent(
+                                    new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            // Get user value
+                                            EmpresaDTO user = dataSnapshot.getValue(EmpresaDTO.class);
+                                            SharedPreferences preferencias = getSharedPreferences("MisPreferencias",Context.MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = preferencias.edit();
+                                            editor.putString("email", email);
+                                            editor.putString("cedula", user.getCedula());
+                                            editor.commit();
+                                            // ...
+                                        }
 
-                            SharedPreferences preferencias = getSharedPreferences("MisPreferencias",Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = preferencias.edit();
-                            editor.putString("email", email);
-                            editor.putString("email", email);
-                            editor.commit();
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                                            // ...
+                                        }
+                                    });
+
 
                             Intent intent = new Intent(LoginActivity.this, Principal.class);
                             startActivity(intent);
