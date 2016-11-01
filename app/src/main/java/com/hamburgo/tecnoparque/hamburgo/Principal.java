@@ -140,6 +140,7 @@ public class Principal extends AppCompatActivity
                     .setPositiveButton("Salir", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // continue with delete
+                            CerrarSesion();
                         }
                     })
                     .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -147,10 +148,7 @@ public class Principal extends AppCompatActivity
                             // do nothing
                         }
                     })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
-
-
 
 
         }
@@ -174,7 +172,7 @@ public class Principal extends AppCompatActivity
         SharedPreferences.Editor editor = preferencias.edit();
         editor.remove("email").commit();
 
-        Intent intent = new Intent(Principal.this, Principal.class);
+        Intent intent = new Intent(Principal.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

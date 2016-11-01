@@ -24,6 +24,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hamburgo.tecnoparque.hamburgo.Adaptadores.AdaptadorListviewClientes;
+import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.EmpresaDTO;
 
 import butterknife.ButterKnife;
@@ -36,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     ProgressDialog progressDialog;
+    Context cnt;
     private DatabaseReference mDatabase;
 
     @InjectView(R.id.input_email) EditText _emailText;
@@ -51,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
+        cnt = this;
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -141,7 +144,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess(final String email, String password) {
 
-
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -157,26 +159,29 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }else{
 
-                            mDatabase.child("users").child(email).addListenerForSingleValueEvent(
-                                    new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                            // Get user value
-                                            EmpresaDTO user = dataSnapshot.getValue(EmpresaDTO.class);
+                            mDatabase.child("Empresa").addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                                        EmpresaDTO cm = postSnapshot.getValue(EmpresaDTO.class);
+                                        if (cm.getEmail().toString().equals(email)){
                                             SharedPreferences preferencias = getSharedPreferences("MisPreferencias",Context.MODE_PRIVATE);
                                             SharedPreferences.Editor editor = preferencias.edit();
                                             editor.putString("email", email);
-                                            editor.putString("cedula", user.getCedula());
+                                            editor.putString("cedula", cm.getCedula());
+                                            Toast.makeText(cnt,cm.getCedula(),Toast.LENGTH_SHORT).show();
                                             editor.commit();
-                                            // ...
                                         }
+                                    }
 
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-                                            Log.w(TAG, "getUser:onCancelled", databaseError.toException());
-                                            // ...
-                                        }
-                                    });
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
 
 
                             Intent intent = new Intent(LoginActivity.this, Principal.class);
