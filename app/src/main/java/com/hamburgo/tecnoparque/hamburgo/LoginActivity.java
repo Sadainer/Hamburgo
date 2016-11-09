@@ -170,6 +170,10 @@ public class LoginActivity extends AppCompatActivity {
                                             SharedPreferences.Editor editor = preferencias.edit();
                                             editor.putString("email", email);
                                             editor.putString("cedula", cm.getCedula());
+                                            editor.putString("empresa", cm.getEmpresa());
+                                            editor.putString("nombre", cm.getNombres());
+                                            editor.putString("apellido", cm.getApellidos());
+                                            editor.putString("celular", cm.getCelular());
                                             Toast.makeText(cnt,cm.getCedula(),Toast.LENGTH_SHORT).show();
                                             editor.commit();
                                         }

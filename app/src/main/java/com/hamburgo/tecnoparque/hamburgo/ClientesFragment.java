@@ -128,29 +128,28 @@ public class ClientesFragment extends Fragment {
         progressDialog.setMessage("Cargando...");
         progressDialog.show();
 
-        mDatabase.child("Clientes").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                datos.clear();
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    ClienteDTO cm = postSnapshot.getValue(ClienteDTO.class);
-                    Log.e("Sadaaaaaaainer",cm.getNombres());
-                    datos.add(cm);
-                }
-                if (datos.size() > 0) {
-                    adaptador = new AdaptadorListviewClientes(cnt, R.layout.layout_adaptador_listview, datos);
-                    listItemClientes.setAdapter(adaptador);
-                }
-                progressDialog.dismiss();
-            }
+//        mDatabase.child("Clientes").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                datos.clear();
+//                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+//                    ClienteDTO cm = postSnapshot.getValue(ClienteDTO.class);
+//                    datos.add(cm);
+//                }
+//                if (datos.size() > 0) {
+//                    adaptador = new AdaptadorListviewClientes(cnt, R.layout.layout_adaptador_listview, datos);
+//                    listItemClientes.setAdapter(adaptador);
+//                }
+//                progressDialog.dismiss();
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-//        datos = manager.getListaClientes();
+        datos = manager.getListaClientes();
 
     }
 
@@ -159,7 +158,7 @@ public class ClientesFragment extends Fragment {
         NuevoClienteDialogFragment dialogFragment = new NuevoClienteDialogFragment(cnt,cliente,new NuevoClienteDialogFragment.ClienteReturn() {
             @Override
             public void processFinish(ClienteDTO cliente) {
-//                ActualizarListaClientes();
+                ActualizarListaClientes();
             }
         });
         dialogFragment.show(fm, "Sample Fragment");

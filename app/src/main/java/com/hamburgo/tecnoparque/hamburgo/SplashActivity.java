@@ -7,17 +7,34 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 
 import java.util.TimerTask;
 
 public class SplashActivity extends AppCompatActivity {
 
     SharedPreferences preferencias;
+    Button btnRegistrar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
+
+        btnRegistrar = (Button) findViewById(R.id.btnPrueba);
+        btnRegistrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                GenerarPDF generar = new GenerarPDF(getApplicationContext());
+//                generar.CrearPDF();
+            }
+        });
+
+
+
+
 
         preferencias = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
 

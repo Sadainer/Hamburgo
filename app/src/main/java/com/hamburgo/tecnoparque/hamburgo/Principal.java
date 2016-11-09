@@ -170,7 +170,13 @@ public class Principal extends AppCompatActivity
 
         SharedPreferences preferencias = getSharedPreferences("MisPreferencias",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferencias.edit();
-        editor.remove("email").commit();
+        editor.remove("email");
+        editor.remove("cedula");
+        editor.remove("nombre");
+        editor.remove("apellido");
+        editor.remove("empresa");
+        editor.remove("celular");
+        editor.commit();
 
         Intent intent = new Intent(Principal.this, LoginActivity.class);
         startActivity(intent);

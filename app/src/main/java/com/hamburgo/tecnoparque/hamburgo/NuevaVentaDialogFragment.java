@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.CarteraDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.DetalleVentaDTO;
+import com.hamburgo.tecnoparque.hamburgo.DTO.EmpresaDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.VentaDTO;
 
 import java.util.ArrayList;
@@ -109,15 +110,20 @@ public class NuevaVentaDialogFragment extends DialogFragment {
 
                 if (!TextUtils.isEmpty(edtCInicial.getText().toString()) && !TextUtils.isEmpty(edtCuotas.getText().toString()) ){
 
+                    EmpresaDTO empresa = new EmpresaDTO();
                     preferencias = cnt.getSharedPreferences("MisPreferencias",Context.MODE_PRIVATE);
-                    String cedula = preferencias.getString("cedula", "0");
+                    empresa.setCedula(preferencias.getString("cedula", "0"));
 
-                    Venta.setIdVenderor(cedula);
+                    Venta.setIdVenderor(empresa.getCedula());
                     Venta.setNumeroCuotas(Integer.valueOf(edtCuotas.getText().toString()));
 
                     VentaDTO vta = manager.RegistrarVenta(Venta, Detalle, edtCInicial.getText().toString(), PeriodoPago);
 
                     if (vta != null) {
+
+                        GenerarPDF generar = new GenerarPDF(cnt,vta);
+                        generar.CrearPDF();
+
 
                         Toast.makeText(cnt, "Venta N° " + vta.getNumeroVenta().toString() + " Registrada", Toast.LENGTH_SHORT).show();
                         Fragment fragmento = new VentasFragment();

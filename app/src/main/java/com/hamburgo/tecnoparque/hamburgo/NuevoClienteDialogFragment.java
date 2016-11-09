@@ -136,13 +136,13 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
                         Log.e("Sadainer",edtCelular.getText().toString());
                         Log.e("Sadainer",String.valueOf(cliente.getCelular()));
 
-//                        if (Cliente==null)
-//                            manager.Insertar(cliente);
-//                        else
-//                            manager.Actualizar(cliente, Cliente.getCedula().toString());
+                        if (Cliente==null)
+                            manager.Insertar(cliente);
+                        else
+                            manager.Actualizar(cliente, Cliente.getCedula().toString());
 
-                        mDatabase.child("Clientes").child(cliente.getCedula()).setValue(cliente);
-                        delegate.processFinish(cliente);
+//                        mDatabase.child("Clientes").child(cliente.getCedula()).setValue(cliente);
+//                        delegate.processFinish(cliente);
                 }else{
                     Toast.makeText(getActivity().getApplicationContext(),"Complete los campos obligatorios",Toast.LENGTH_SHORT).show();
                 }
