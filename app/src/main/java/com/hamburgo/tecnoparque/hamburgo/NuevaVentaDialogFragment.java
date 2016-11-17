@@ -114,6 +114,8 @@ public class NuevaVentaDialogFragment extends DialogFragment {
                     preferencias = cnt.getSharedPreferences("MisPreferencias",Context.MODE_PRIVATE);
                     empresa.setCedula(preferencias.getString("cedula", "0"));
 
+                    Log.e("Login",empresa.getCedula());
+
                     Venta.setIdVenderor(empresa.getCedula());
                     Venta.setNumeroCuotas(Integer.valueOf(edtCuotas.getText().toString()));
 

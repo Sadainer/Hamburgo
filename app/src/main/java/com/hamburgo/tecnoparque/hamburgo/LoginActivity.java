@@ -166,6 +166,7 @@ public class LoginActivity extends AppCompatActivity {
                                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                                         EmpresaDTO cm = postSnapshot.getValue(EmpresaDTO.class);
                                         if (cm.getEmail().toString().equals(email)){
+
                                             SharedPreferences preferencias = getSharedPreferences("MisPreferencias",Context.MODE_PRIVATE);
                                             SharedPreferences.Editor editor = preferencias.edit();
                                             editor.putString("email", email);

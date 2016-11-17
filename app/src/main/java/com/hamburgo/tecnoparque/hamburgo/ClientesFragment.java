@@ -150,7 +150,11 @@ public class ClientesFragment extends Fragment {
 //        });
 
         datos = manager.getListaClientes();
-
+        if (datos.size() > 0) {
+            adaptador = new AdaptadorListviewClientes(cnt, R.layout.layout_adaptador_listview, datos);
+            listItemClientes.setAdapter(adaptador);
+        }
+        progressDialog.dismiss();
     }
 
     private void MostrarDialog(ClienteDTO cliente){

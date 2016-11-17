@@ -387,6 +387,7 @@ public class DataBaseManager {
                 cartera.setIdCliente(venta.getIdCliente());
                 cartera.setFecha(venta.getFecha());
                 cartera.setValor(CuotaInicial);
+                cartera.setIdVendedor(venta.getIdVenderor());
                 cartera.setObservacion("Cuota Inicial");
                 InsertarCartera(cartera);
             } catch (Exception e) {

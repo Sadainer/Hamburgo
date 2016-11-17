@@ -95,8 +95,9 @@ public class GenerarPDF {
 
         try {
             // Creamos el fichero con el nombre que deseemos.
-            File f = crearFichero(venta.getNumeroVenta().toString() + ".pdf");
-
+            File f = crearFichero("sadainer.pdf");
+            Font fontTitulo = FontFactory.getFont(FontFactory.HELVETICA,18,Font.BOLD, BaseColor.BLACK);
+            Font fontTituloGrande = FontFactory.getFont(FontFactory.HELVETICA,24,Font.BOLD, BaseColor.BLACK);
             // Creamos el flujo de datos de salida para el fichero donde
             // guardaremos el pdf.
             FileOutputStream ficheroPdf = new FileOutputStream(
@@ -112,12 +113,16 @@ public class GenerarPDF {
             documento.open();
 
             // Añadimos un título con la fuente por defecto.
-            documento.add(new Paragraph("Título 1"));
+            documento.add(new Paragraph("Detalle Venta",fontTituloGrande));
+            documento.add(new Paragraph( empresa.getEmpresa(),fontTitulo));
+            documento.add(new Paragraph("" + empresa.getNombres() + " " + empresa.getApellidos()));
+            documento.add(new Paragraph("" + empresa.getDireccion()));
+            documento.add(new Paragraph("" + empresa.getCelular()));
+            documento.add(new Paragraph("" + empresa.getEmail()));
 
             // Añadimos un título con una fuente personalizada.
-            Font font = FontFactory.getFont(FontFactory.HELVETICA,28,Font.BOLD, BaseColor.BLACK);
 
-            documento.add(new Paragraph("Título personalizado", font));
+            documento.add(new Paragraph("Venta N° " + venta.getNumeroVenta(), fontTitulo));
 
             // Insertamos una imagen que se encuentra en los recursos de la
             // aplicación.
@@ -126,7 +131,7 @@ public class GenerarPDF {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
             Image imagen = Image.getInstance(stream.toByteArray());
-            documento.add(imagen);
+//            documento.add(imagen);
             Log.e("Sadainer","Enttra");
             // Insertamos una tabla.
             PdfPTable tabla = new PdfPTable(5);
@@ -136,11 +141,11 @@ public class GenerarPDF {
             documento.add(tabla);
 
             // Agregar marca de agua
-            font = FontFactory.getFont(FontFactory.HELVETICA,28,Font.BOLD, BaseColor.BLACK);
-            ColumnText.showTextAligned(writer.getDirectContentUnder(),
-                    Element.ALIGN_CENTER, new Paragraph(
-                            "amatellanes.wordpress.com", font), 297.5f, 421,
-                    writer.getPageNumber() % 2 == 1 ? 45 : -45);
+//            font = FontFactory.getFont(FontFactory.HELVETICA,28,Font.BOLD, BaseColor.BLACK);
+//            ColumnText.showTextAligned(writer.getDirectContentUnder(),
+//                    Element.ALIGN_CENTER, new Paragraph(
+//                            "amatellanes.wordpress.com", font), 297.5f, 421,
+//                    writer.getPageNumber() % 2 == 1 ? 45 : -45);
 
         } catch (DocumentException e) {
             Log.e("Sadainer","Enttra");
