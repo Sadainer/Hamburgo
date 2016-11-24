@@ -12,7 +12,7 @@ public class ClienteDTO {
     private String Cedula;
     private String Nombres;
     private String Apellidos;
-    private String Direccion;
+    private String Email;
     private String Empleo;
     private String Empresa;
     private String Celular;
@@ -41,12 +41,12 @@ public class ClienteDTO {
         Apellidos = apellidos;
     }
 
-    public String getDireccion() {
-        return Direccion;
+    public String getEmail() {
+        return Email;
     }
 
-    public void setDireccion(String direccion) {
-        Direccion = direccion;
+    public void setEmail(String direccion) {
+        Email = direccion;
     }
 
     public String getEmpleo() {

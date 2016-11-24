@@ -68,7 +68,7 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
         edtNombres = (EditText)v.findViewById(R.id.edtNombres);
         edtApellidos = (EditText)v.findViewById(R.id.edtApellido);
         edtCelular = (EditText)v.findViewById(R.id.edtCelular);
-        edtDireccion = (EditText)v.findViewById(R.id.edtDireccion);
+        edtDireccion = (EditText)v.findViewById(R.id.edtEmail);
         edtEmpleo = (EditText)v.findViewById(R.id.edtEmpleo);
         edtEmpresa = (EditText)v.findViewById(R.id.edtEmpresa);
 
@@ -80,7 +80,7 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
             edtApellidos.setText(Cliente.getApellidos());
             edtCelular.setText(Cliente.getCelular());
             edtCedula.setText(Cliente.getCedula());
-            edtDireccion.setText(Cliente.getDireccion());
+            edtDireccion.setText(Cliente.getEmail());
             edtEmpleo.setText(Cliente.getEmpleo());
             edtEmpresa.setText(Cliente.getEmpresa());
         }
@@ -130,7 +130,7 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
                         cliente.setCelular(edtCelular.getText().toString());
                         cliente.setNombres(edtNombres.getText().toString());
                         cliente.setApellidos(edtApellidos.getText().toString());
-                        cliente.setDireccion(edtDireccion.getText().toString());
+                        cliente.setEmail(edtDireccion.getText().toString());
                         cliente.setEmpresa(edtEmpresa.getText().toString());
                         cliente.setEmpleo(edtEmpleo.getText().toString());
                         Log.e("Sadainer",edtCelular.getText().toString());

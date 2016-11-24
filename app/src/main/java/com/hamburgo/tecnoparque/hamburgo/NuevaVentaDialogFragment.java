@@ -123,8 +123,13 @@ public class NuevaVentaDialogFragment extends DialogFragment {
 
                     if (vta != null) {
 
-                        GenerarPDF generar = new GenerarPDF(cnt,vta);
-                        generar.CrearPDF();
+                        try {
+                            GenerarPDF generar = new GenerarPDF(cnt,vta);
+                            generar.CrearPDF();
+                        }catch (Exception e){
+                            Toast.makeText(cnt,e.getMessage().toString(),Toast.LENGTH_LONG).show();
+                        }
+
 
 
                         Toast.makeText(cnt, "Venta N° " + vta.getNumeroVenta().toString() + " Registrada", Toast.LENGTH_SHORT).show();

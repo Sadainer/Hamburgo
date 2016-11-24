@@ -8,7 +8,11 @@ import android.graphics.Color;
 import android.os.Environment;
 import android.util.Log;
 
+import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
+import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
+import com.hamburgo.tecnoparque.hamburgo.DTO.DetalleVentaDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.EmpresaDTO;
+import com.hamburgo.tecnoparque.hamburgo.DTO.ProductoDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.VentaDTO;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -28,6 +32,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by Admin_Sena on 03/11/2016.
@@ -37,10 +42,14 @@ public class GenerarPDF {
 
     Context cnt;
     VentaDTO venta;
+    ClienteDTO cliente;
+    ArrayList<ProductoDTO> detalleVenta;
+    DataBaseManager manager;
 
     public GenerarPDF(Context context, VentaDTO venta) {
         this.venta=venta;
         cnt=context;
+        manager = new DataBaseManager(cnt);
     }
 
     private final static String NOMBRE_DIRECTORIO = "MiPdf";
@@ -93,9 +102,12 @@ public class GenerarPDF {
         empresa.setEmail(preferencias.getString("email", ""));
         empresa.setCelular(preferencias.getString("celular", ""));
 
+        cliente = manager.getUsuario(venta.getIdCliente());
+        detalleVenta = manager.getDetalleVenta(venta.getNumeroVenta());
+
         try {
             // Creamos el fichero con el nombre que deseemos.
-            File f = crearFichero("sadainer.pdf");
+            File f = crearFichero("VentaHamburgo.pdf");
             Font fontTitulo = FontFactory.getFont(FontFactory.HELVETICA,18,Font.BOLD, BaseColor.BLACK);
             Font fontTituloGrande = FontFactory.getFont(FontFactory.HELVETICA,24,Font.BOLD, BaseColor.BLACK);
             // Creamos el flujo de datos de salida para el fichero donde
@@ -113,30 +125,43 @@ public class GenerarPDF {
             documento.open();
 
             // Añadimos un título con la fuente por defecto.
-            documento.add(new Paragraph("Detalle Venta",fontTituloGrande));
+            Paragraph titulo = new Paragraph("Detalle Venta",fontTitulo);
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            documento.add(titulo);
             documento.add(new Paragraph( empresa.getEmpresa(),fontTitulo));
-            documento.add(new Paragraph("" + empresa.getNombres() + " " + empresa.getApellidos()));
-            documento.add(new Paragraph("" + empresa.getDireccion()));
-            documento.add(new Paragraph("" + empresa.getCelular()));
-            documento.add(new Paragraph("" + empresa.getEmail()));
+            documento.add(new Paragraph("Propietario: " + empresa.getNombres() + " " + empresa.getApellidos()));
+            documento.add(new Paragraph("Dirección: " + empresa.getDireccion()));
+            documento.add(new Paragraph("Celular: " + empresa.getCelular()));
+            documento.add(new Paragraph("E-Mail: " + empresa.getEmail()));
+
+            documento.add(new Paragraph());
+            documento.add(new Paragraph("Datos del cliente",fontTitulo));
+            documento.add(new Paragraph("Cédula: " + cliente.getCedula()));
+            documento.add(new Paragraph("Nombres: " + cliente.getNombres() + " " + cliente.getApellidos()));
+            documento.add(new Paragraph("E-Mail: " + cliente.getEmail()));
+            documento.add(new Paragraph("Celular: " + cliente.getCelular()));
 
             // Añadimos un título con una fuente personalizada.
-
+            documento.add(new Paragraph());
             documento.add(new Paragraph("Venta N° " + venta.getNumeroVenta(), fontTitulo));
 
             // Insertamos una imagen que se encuentra en los recursos de la
             // aplicación.
-            Bitmap bitmap = BitmapFactory.decodeResource(cnt.getResources(),
-                    R.drawable.logo);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            Image imagen = Image.getInstance(stream.toByteArray());
+//            Bitmap bitmap = BitmapFactory.decodeResource(cnt.getResources(),
+//                    R.drawable.logo);
+//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+//            Image imagen = Image.getInstance(stream.toByteArray());
 //            documento.add(imagen);
-            Log.e("Sadainer","Enttra");
+            documento.add(new Paragraph());
+
             // Insertamos una tabla.
-            PdfPTable tabla = new PdfPTable(5);
-            for (int i = 0; i < 15; i++) {
-                tabla.addCell("Celda " + i);
+            PdfPTable tabla = new PdfPTable(detalleVenta.size() + 1);
+
+            for (int i = 0; i < detalleVenta.size() + 1 ; i++) {
+                tabla.addCell(detalleVenta.get(i).getNombre());
+                tabla.addCell(detalleVenta.get(i).getPrecio().toString());
+                tabla.addCell(detalleVenta.get(i).getTipo());
             }
             documento.add(tabla);
 

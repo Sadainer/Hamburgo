@@ -147,7 +147,7 @@ public class DataBaseManager {
         valores.put(TABLA_1_CAMPO_1, m.getCedula());
         valores.put(TABLA_1_CAMPO_2, m.getNombres());
         valores.put(TABLA_1_CAMPO_3, m.getApellidos());
-        valores.put(TABLA_1_CAMPO_4, m.getDireccion());
+        valores.put(TABLA_1_CAMPO_4, m.getEmail());
         valores.put(TABLA_1_CAMPO_5, m.getEmpleo());
         valores.put(TABLA_1_CAMPO_6, m.getEmpresa());
         valores.put(TABLA_1_CAMPO_7, m.getCelular());
@@ -163,7 +163,7 @@ public class DataBaseManager {
         valores.put(TABLA_1_CAMPO_1, c.getCedula());
         valores.put(TABLA_1_CAMPO_2, c.getNombres());
         valores.put(TABLA_1_CAMPO_3, c.getApellidos());
-        valores.put(TABLA_1_CAMPO_4, c.getDireccion());
+        valores.put(TABLA_1_CAMPO_4, c.getEmail());
         valores.put(TABLA_1_CAMPO_5, c.getEmpleo());
         valores.put(TABLA_1_CAMPO_6, c.getEmpresa());
         valores.put(TABLA_1_CAMPO_7, c.getCelular());
@@ -185,7 +185,7 @@ public class DataBaseManager {
             m.setCedula(c.getString(0));
             m.setNombres(c.getString(1));
             m.setApellidos(c.getString(2));
-            m.setDireccion(c.getString(3));
+            m.setEmail(c.getString(3));
             m.setEmpleo(c.getString(4));
             m.setEmpresa(c.getString(5));
             m.setCelular(c.getString(6));
@@ -203,7 +203,7 @@ public class DataBaseManager {
             m.setCedula(c.getString(0));
             m.setNombres(c.getString(1));
             m.setApellidos(c.getString(2));
-            m.setDireccion(c.getString(3));
+            m.setEmail(c.getString(3));
             m.setEmpleo(c.getString(4));
             m.setEmpresa(c.getString(5));
             m.setCelular(c.getString(6));
@@ -308,6 +308,8 @@ public class DataBaseManager {
     private void InsertarDetalleVenta(DetalleVentaDTO m) {
         db.insert(TABLA_4, null, GenerarContentValuesDetalleVenta(m));
     }
+
+
 
     private Integer MaxVenta() {
         Cursor c = db.rawQuery(" SELECT Max(" + TABLA_3_CAMPO_1 + ") FROM " + TABLA_3, null);
