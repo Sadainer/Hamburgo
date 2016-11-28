@@ -23,14 +23,14 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        btnRegistrar = (Button) findViewById(R.id.btnPrueba);
-        btnRegistrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                GenerarPDF generar = new GenerarPDF(getApplicationContext());
-//                generar.CrearPDF();
-            }
-        });
+//        btnRegistrar = (Button) findViewById(R.id.btnPrueba);
+//        btnRegistrar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                GenerarPDF generar = new GenerarPDF(getApplicationContext());
+////                generar.CrearPDF();
+//            }
+//        });
 
 
 

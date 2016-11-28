@@ -1,15 +1,19 @@
 package com.hamburgo.tecnoparque.hamburgo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
+import com.hamburgo.tecnoparque.hamburgo.DTO.CuotasDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.DetalleVentaDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.EmpresaDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.ProductoDTO;
@@ -25,6 +29,7 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.ColumnText;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -44,6 +49,7 @@ public class GenerarPDF {
     VentaDTO venta;
     ClienteDTO cliente;
     ArrayList<ProductoDTO> detalleVenta;
+    ArrayList<CuotasDTO> cuotasVenta;
     DataBaseManager manager;
 
     public GenerarPDF(Context context, VentaDTO venta) {
@@ -104,6 +110,7 @@ public class GenerarPDF {
 
         cliente = manager.getUsuario(venta.getIdCliente());
         detalleVenta = manager.getDetalleVenta(venta.getNumeroVenta());
+       cuotasVenta = manager.getCuotasVenta(venta.getNumeroVenta());
 
         try {
             // Creamos el fichero con el nombre que deseemos.
@@ -143,7 +150,9 @@ public class GenerarPDF {
 
             // Añadimos un título con una fuente personalizada.
             documento.add(new Paragraph());
-            documento.add(new Paragraph("Venta N° " + venta.getNumeroVenta(), fontTitulo));
+            Paragraph preface = new Paragraph("Venta N° " + venta.getNumeroVenta(), fontTitulo);
+            preface.setAlignment(Element.ALIGN_CENTER);
+            documento.add(preface);
 
             // Insertamos una imagen que se encuentra en los recursos de la
             // aplicación.
@@ -154,16 +163,89 @@ public class GenerarPDF {
 //            Image imagen = Image.getInstance(stream.toByteArray());
 //            documento.add(imagen);
             documento.add(new Paragraph());
+            documento.add(new Paragraph());
+            documento.add(new Paragraph());
+            documento.add(new Paragraph());
+            documento.add(new Paragraph());
+            documento.add(new Paragraph());
 
             // Insertamos una tabla.
-            PdfPTable tabla = new PdfPTable(detalleVenta.size() + 1);
+            PdfPTable tabla = new PdfPTable(4);
+            PdfPCell cell = new PdfPCell();
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setBorderColor(BaseColor.BLUE);
+            cell.setPhrase(new Phrase("Nombre"));
+            tabla.addCell(cell);
+            cell.setPhrase(new Phrase("Precio"));
+            tabla.addCell(cell);
+            cell.setPhrase(new Phrase("Cantidad"));
+            tabla.addCell(cell);
+            cell.setPhrase(new Phrase("Valor Total"));
+            tabla.addCell(cell);
 
-            for (int i = 0; i < detalleVenta.size() + 1 ; i++) {
+            for (int i = 0; i < detalleVenta.size() ; i++) {
                 tabla.addCell(detalleVenta.get(i).getNombre());
-                tabla.addCell(detalleVenta.get(i).getPrecio().toString());
-                tabla.addCell(detalleVenta.get(i).getTipo());
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                cell.setBorderColor(BaseColor.BLUE);
+                cell.setPhrase(new Phrase(detalleVenta.get(i).getPrecio().toString()));
+                tabla.addCell(cell);
+                cell.setPhrase(new Phrase(detalleVenta.get(i).getTipo()));
+                tabla.addCell(cell);
+                Integer Valor = detalleVenta.get(i).getPrecio() * Integer.valueOf(detalleVenta.get(i).getTipo());
+                cell.setPhrase(new Phrase(String.valueOf(Valor)));
+                tabla.addCell(cell);
+
             }
             documento.add(tabla);
+            documento.add(new Paragraph());
+            Paragraph Vtotal = new Paragraph("Total " + venta.getValorVenta(), fontTitulo);
+            Vtotal.setAlignment(Element.ALIGN_RIGHT);
+            documento.add(Vtotal);
+
+
+            documento.add(new Paragraph());
+            documento.add(new Paragraph());
+
+
+            Paragraph prefaceCuota = new Paragraph("Cuotas", fontTitulo);
+            prefaceCuota.setAlignment(Element.ALIGN_CENTER);
+            documento.add(prefaceCuota);
+
+
+            documento.add(new Paragraph());
+            documento.add(new Paragraph());
+
+
+            PdfPTable tablaCuota = new PdfPTable(4);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setPhrase(new Phrase("Fecha"));
+            tablaCuota.addCell(cell);
+            cell.setPhrase(new Phrase("Valor"));
+            tablaCuota.addCell(cell);
+            cell.setPhrase(new Phrase("Valor Pagado"));
+            tablaCuota.addCell(cell);
+            cell.setPhrase(new Phrase("Cancelado"));
+            tablaCuota.addCell(cell);
+
+            for (int i = 0; i < cuotasVenta.size() ; i++) {
+                tablaCuota.addCell(cuotasVenta.get(i).getFechaPago());
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                cell.setBorderColor(BaseColor.BLUE);
+                cell.setPhrase(new Phrase(cuotasVenta.get(i).getValorCuota().toString()));
+                tablaCuota.addCell(cell);
+                cell.setPhrase(new Phrase(cuotasVenta.get(i).getValorDeuda().toString()));
+                tablaCuota.addCell(cell);
+                cell.setPhrase(new Phrase(cuotasVenta.get(i).getPagada().toString()));
+                tablaCuota.addCell(cell);
+
+            }
+            documento.add(tablaCuota);
+//            documento.add(new Paragraph());
+//            Paragraph CInicial = new Paragraph("Cuota Inicial ");
+//            CInicial.setAlignment(Element.ALIGN_LEFT);
+//            documento.add(Vtotal);
+
+
 
             // Agregar marca de agua
 //            font = FontFactory.getFont(FontFactory.HELVETICA,28,Font.BOLD, BaseColor.BLACK);
@@ -181,10 +263,42 @@ public class GenerarPDF {
             Log.e(ETIQUETA_ERROR, e.getMessage());
 
         } finally {
-            Log.e("Sadainer","Funciona");
+            Log.e("Sadainer","Funciooooooona");
 
             // Cerramos el documento.
             documento.close();
+
+            sendEmail();
+        }
+    }
+
+    protected void sendEmail() {
+        Log.e("Sadainer", "Send email");
+        String[] TO = {cliente.getEmail().toString()};
+        String[] CC = {""};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+        String filename="VentaHamburgo.pdf";
+        File filelocation = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),NOMBRE_DIRECTORIO + "/" + filename);
+        Uri path = Uri.fromFile(filelocation);
+
+        emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_CC, CC);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
+        emailIntent.putExtra(Intent.EXTRA_STREAM, path);
+
+        try {
+            cnt.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+
+            Log.e("v", "Finished sending email...");
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(cnt, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+            Log.e("Sadainer",ex.getMessage().toString());
         }
     }
 }

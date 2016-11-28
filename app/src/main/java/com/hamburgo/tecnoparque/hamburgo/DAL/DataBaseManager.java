@@ -404,6 +404,8 @@ public class DataBaseManager {
         }
     }
 
+
+
     private void RegistrarCuotas(Integer NumeroVenta, Integer ValorCuotas, Integer NumeroCuotas, Calendar FechaGuardar, Integer Periodo ){
         Boolean BanderaQuincena = false;
         Boolean BanPrimeraCuota = true;

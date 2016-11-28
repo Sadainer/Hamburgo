@@ -142,7 +142,7 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
                             manager.Actualizar(cliente, Cliente.getCedula().toString());
 
 //                        mDatabase.child("Clientes").child(cliente.getCedula()).setValue(cliente);
-//                        delegate.processFinish(cliente);
+                            delegate.processFinish(cliente);
                 }else{
                     Toast.makeText(getActivity().getApplicationContext(),"Complete los campos obligatorios",Toast.LENGTH_SHORT).show();
                 }
