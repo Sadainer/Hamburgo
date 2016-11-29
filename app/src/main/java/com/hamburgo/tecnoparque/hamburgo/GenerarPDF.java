@@ -285,7 +285,7 @@ public class GenerarPDF {
         emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         emailIntent.setData(Uri.parse("mailto:"));
-        emailIntent.setType("text/plain");
+        emailIntent.setType("message/rfc822");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
         emailIntent.putExtra(Intent.EXTRA_CC, CC);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");

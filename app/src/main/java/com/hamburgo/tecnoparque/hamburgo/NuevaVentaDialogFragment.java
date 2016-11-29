@@ -71,7 +71,7 @@ public class NuevaVentaDialogFragment extends DialogFragment {
 //        radDiario = (RadioButton)v.findViewById(R.id.radDiario);
 
 
-        cnt = getActivity().getApplicationContext();
+        cnt = getActivity();
         manager = new DataBaseManager(cnt);
 
         if (Venta.getValorVenta() >= 700000){
