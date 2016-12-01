@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.hamburgo.tecnoparque.hamburgo.DAL.DataBaseManager;
 import com.hamburgo.tecnoparque.hamburgo.DTO.CarteraDTO;
+import com.hamburgo.tecnoparque.hamburgo.DTO.ClienteDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.DetalleVentaDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.EmpresaDTO;
 import com.hamburgo.tecnoparque.hamburgo.DTO.VentaDTO;
@@ -125,7 +126,11 @@ public class NuevaVentaDialogFragment extends DialogFragment {
 
                         try {
                             GenerarPDF generar = new GenerarPDF(cnt,vta);
-                            generar.CrearPDF();
+                            ClienteDTO cliente = manager.getUsuario(vta.getIdCliente());
+                            if (TextUtils.isEmpty(cliente.getEmail()))
+                                Toast.makeText(cnt,"El cliente no tiene e-mail registrado",Toast.LENGTH_SHORT);
+                            else
+                                generar.CrearPDF();
                         }catch (Exception e){
                             Toast.makeText(cnt,e.getMessage().toString(),Toast.LENGTH_LONG).show();
                         }

@@ -132,6 +132,7 @@ public class GenerarPDF {
             documento.open();
 
             // Añadimos un título con la fuente por defecto.
+            documento.add(new Paragraph("Fecha: " + venta.getFecha()));
             Paragraph titulo = new Paragraph("Detalle Venta",fontTitulo);
             titulo.setAlignment(Element.ALIGN_CENTER);
             documento.add(titulo);
@@ -288,12 +289,12 @@ public class GenerarPDF {
         emailIntent.setType("message/rfc822");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
         emailIntent.putExtra(Intent.EXTRA_CC, CC);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Compra Hamburgo Sale");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Gracias por su compra, Adjunto encontrará el documento con el detalle de la compra y fechas de pago");
         emailIntent.putExtra(Intent.EXTRA_STREAM, path);
 
         try {
-            cnt.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            cnt.startActivity(Intent.createChooser(emailIntent, "Enviando Correo..."));
 
             Log.e("v", "Finished sending email...");
         } catch (android.content.ActivityNotFoundException ex) {
