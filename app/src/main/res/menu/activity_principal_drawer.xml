@@ -19,7 +19,7 @@
             android:title="Cartera" />
         <item android:id="@+id/nav_herramientas"
             android:icon="@drawable/cogwhee"
-            android:title="Herramientas" />
+            android:title="Backup" />
         <item android:id="@+id/nav_ayuda"
             android:icon="@drawable/round"
             android:title="Acerca de" />
