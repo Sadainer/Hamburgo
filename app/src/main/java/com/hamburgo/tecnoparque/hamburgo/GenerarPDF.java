@@ -280,26 +280,35 @@ public class GenerarPDF {
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
         String filename="VentaHamburgo.pdf";
-        File filelocation = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),NOMBRE_DIRECTORIO + "/" + filename);
-        Uri path = Uri.fromFile(filelocation);
 
-        emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        File docsFolder = new File(Environment.getExternalStorageDirectory() + "/Documents");
+        boolean isPresent = true;
+        if (!docsFolder.exists()) {
+            isPresent = docsFolder.mkdir();
+        }
 
-        emailIntent.setData(Uri.parse("mailto:"));
-        emailIntent.setType("message/rfc822");
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-        emailIntent.putExtra(Intent.EXTRA_CC, CC);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Compra Hamburgo Sale");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Gracias por su compra, Adjunto encontrará el documento con el detalle de la compra y fechas de pago");
-        emailIntent.putExtra(Intent.EXTRA_STREAM, path);
+        if (isPresent) {
+            File filelocation = new File(Environment.getExternalStorageDirectory(), NOMBRE_DIRECTORIO + "/" + filename);
+            Uri path = Uri.fromFile(filelocation);
 
-        try {
-            cnt.startActivity(Intent.createChooser(emailIntent, "Enviando Correo..."));
+            emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            Log.e("v", "Finished sending email...");
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(cnt, "There is no email client installed.", Toast.LENGTH_SHORT).show();
-            Log.e("Sadainer",ex.getMessage().toString());
+            emailIntent.setData(Uri.parse("mailto:"));
+            emailIntent.setType("message/rfc822");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+            emailIntent.putExtra(Intent.EXTRA_CC, CC);
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Compra Hamburgo Sale");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Gracias por su compra, Adjunto encontrará el documento con el detalle de la compra y fechas de pago");
+            emailIntent.putExtra(Intent.EXTRA_STREAM, path);
+
+            try {
+                cnt.startActivity(Intent.createChooser(emailIntent, "Enviando Correo..."));
+
+                Log.e("v", "Finished sending email...");
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(cnt, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+                Log.e("Sadainer", ex.getMessage().toString());
+            }
         }
     }
 }

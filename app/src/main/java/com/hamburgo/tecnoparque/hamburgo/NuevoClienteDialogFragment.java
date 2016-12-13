@@ -114,6 +114,8 @@ public class NuevoClienteDialogFragment extends android.app.DialogFragment  {
         {
             Button positiveButton = (Button) dialog.getButton(Dialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(new View.OnClickListener()
+
+
             {
                 @Override
                 public void onClick(View v)
