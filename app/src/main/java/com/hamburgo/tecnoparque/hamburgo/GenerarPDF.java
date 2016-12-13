@@ -80,7 +80,7 @@ public class GenerarPDF {
                 .getExternalStorageState())) {
             ruta = new File(
                     Environment
-                            .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
+                            .getExternalStorageDirectory(),
                     NOMBRE_DIRECTORIO);
 
             if (ruta != null) {
@@ -297,7 +297,7 @@ public class GenerarPDF {
             emailIntent.setType("message/rfc822");
             emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
             emailIntent.putExtra(Intent.EXTRA_CC, CC);
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Compra Hamburgo Sale");
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Compra Hamburgo Sale - Venta N° " + venta.getNumeroVenta());
             emailIntent.putExtra(Intent.EXTRA_TEXT, "Gracias por su compra, Adjunto encontrará el documento con el detalle de la compra y fechas de pago");
             emailIntent.putExtra(Intent.EXTRA_STREAM, path);
 
@@ -306,7 +306,7 @@ public class GenerarPDF {
 
                 Log.e("v", "Finished sending email...");
             } catch (android.content.ActivityNotFoundException ex) {
-                Toast.makeText(cnt, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(cnt, "No hay cliente de correo instalado", Toast.LENGTH_SHORT).show();
                 Log.e("Sadainer", ex.getMessage().toString());
             }
         }
