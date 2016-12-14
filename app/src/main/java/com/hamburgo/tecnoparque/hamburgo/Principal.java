@@ -35,6 +35,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class Principal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -207,6 +209,10 @@ public class Principal extends AppCompatActivity
         progressDialog.setMessage("Realizando Backup");
         progressDialog.show();
 
+        SharedPreferences preferencias = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+        String empresa = preferencias.getString("empresa", "vacio");
+        // Cuando pasen los 3 segundos, pasamos a la actividad principal de la aplicación
+
 
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -217,7 +223,13 @@ public class Principal extends AppCompatActivity
         Uri file = Uri.fromFile(currentDB);
 
 
-        StorageReference storageRef = storage.getReference().child(currentDB.getAbsolutePath());
+        Calendar c = Calendar.getInstance();
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        String formattedDate = df.format(c.getTime());
+
+
+        StorageReference storageRef = storage.getReference().child("/" + empresa + "/" + empresa + "_" + formattedDate);
         UploadTask uploadTask = storageRef.putFile(file);
 
 
